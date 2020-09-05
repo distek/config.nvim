@@ -6,10 +6,8 @@
 "
 "                            distek
 "
-execute "set t_8f=\e[38;2;%lu;%lu;%lum"
-execute "set t_8b=\e[48;2;%lu;%lu;%lum"
 
-"" VIMPlug: {{{
+"" VIMPlug init: {{{
 let vimplug_exists=expand('~/.vim/autoload/plug.vim')
 
 " For a new system
@@ -27,7 +25,9 @@ if !filereadable(vimplug_exists)
 endif
 
 call plug#begin(expand('~/.config/nvim/plugged'))
+" }}}
 
+" VIMPlug Plugins {{{
 " Modes and Aesthetics
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
@@ -37,7 +37,8 @@ Plug 'simeji/winresizer'
 Plug 'vim-scripts/CSApprox' " gvim theme resolver for console Vim
 Plug 'Yggdroot/indentLine' " indent visualizer
 Plug 'sheerun/vim-polyglot' " syntax highlighting
-Plug 'franbach/miramare'
+Plug 'dylanaraps/wal.vim'
+Plug 'sainnhe/gruvbox-material'
 
 
 " Autocomplete Goodness
@@ -72,7 +73,15 @@ Plug 'davidhalter/jedi-vim'
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
 " perl
 Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
-
+" Arduino
+Plug 'stevearc/vim-arduino'
+" Openscad
+Plug 'sirtaj/vim-openscad'
+" csv
+Plug 'chrisbra/csv.vim'
+" rust
+Plug 'rust-lang/rust.vim'
+Plug 'fidian/hexmode'
 
 call plug#end()
 
@@ -81,10 +90,16 @@ call plug#end()
 let mapleader=' '
 
 "changing one thing
-colorscheme miramare
+colorscheme gruvbox-material
+" execute "set t_8f=\e[38;2;%lu;%lu;%lum"
+" execute "set t_8b=\e[48;2;%lu;%lu;%lum"
+hi Pmenu ctermbg=2
 syntax on
 filetype off
+filetype plugin on
 filetype plugin indent on
+set mouse=a
+set background=dark
 set foldmethod=marker
 set updatetime=300
 set cmdheight=2
@@ -104,14 +119,20 @@ set fileformats=unix,dos,mac
 set ruler
 set number
 let no_buffers_menu=1
-set t_Co=256
+" set t_Co=256
 set scrolloff=10
 set laststatus=2
 set modeline
 set modelines=10
 set showbreak=↪\
 set linebreak
-set mouse=a
+set termguicolors
+
+" Correct RGB escape codes for vim inside tmux
+if !has('nvim') && $TERM ==# 'screen-256color'
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
 
 " Ensure undodir exists and has been created
 let undodir=expand('~/.cache/nvim/undodir')
@@ -147,6 +168,16 @@ tnoremap <Esc> <C-\><C-n>
 " }}}
 "" Plugin_configs: {{{
 
+" csv
+if exists("did_load_csvfiletype")
+  finish
+endif
+let did_load_csvfiletype=1
+
+augroup filetypedetect
+  au! BufRead,BufNewFile *.csv,*.dat	setfiletype csv
+augroup END
+
 " winresizer
 let g:winresizer_enable = 1
 let g:winresizer_finish_with_escape = 1
@@ -164,7 +195,7 @@ let g:indentLine_char = '┆'
 let g:indentLine_faster = 1
 
 " vim-airline
-let g:airline_theme = 'term'
+let g:airline_theme = 'gruvbox_material'
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#coc#enabled = 1
@@ -215,6 +246,9 @@ let g:NERDTreeShowBookmarks=1
 let g:NERDTreeWinSize=30
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 let g:nerdtree_tabs_focus_on_files=1
+
+" Gruvbox-material
+let g:gruvbox_material_background='hard'
 
 " fzf.vim
 set wildmode=list:longest,list:full
@@ -278,6 +312,17 @@ let python_highlight_all = 1
     \"go": ['golint', 'go vet'], })
 " }}}
 "" QOL_Func_Autos: {{{
+
+let g:LanguageClient_serverCommands = {
+    \ 'sh': ['bash-language-server', 'start']
+    \ }
+
+" Mail stuff
+au filetype mail set spell
+au filetype mail set colorcolumn=88
+au filetype mail highlight ColorColumn ctermbg=0 guibg=blue
+au filetype mail set wrap!
+au filetype mail set textwidth=0
 
 autocmd TermOpen * setlocal scrolloff=0
 
@@ -384,9 +429,30 @@ function! s:build_go_files()
     call go#cmd#Build(0)
   endif
 endfunction
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
 " }}}
 " Mappings: {{{
 nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+"" git
+"git related
+nnoremap <leader>gfi :GFiles<CR>
+nnoremap <leader>ga :Gwrite<CR>
+nnoremap <leader>gc :Gcommit<CR>
+nnoremap <leader>gsh :Gpush<CR>
+nnoremap <leader>gll :Gpull<CR>
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gb :Gblame<CR>
+nnoremap <leader>gd :Gvdiff<CR>
+nnoremap <leader>gr :Gremove<CR>
+nnoremap <leader>o :.Gbrowse<CR> ""Open current line fuGITive
+nmap <leader>gj :diffget //3<CR>
+nmap <leader>gf :diffget //2<CR>
 
 " Coc restart
 nnoremap <leader>cr :CocRestart<CR>
@@ -471,6 +537,10 @@ vnoremap <F9> zf
 " nohl
 nnoremap <silent> <leader>nh :nohl<CR>
 
+" splits
+nnoremap <leader>ss :split
+nnoremap <leader>sv :vsplit
+
 "" Fancy shit
 "FzfFiles 
 nnoremap <leader>pf :Files<CR>
@@ -481,6 +551,7 @@ nnoremap <leader>ph :wincmd s <bar> :Files<CR>
 nnoremap <leader>d :delmark
 
 " Go
+autocmd CursorHold * call CocActionAsync('doHover')
 nmap <leader>gd <Plug>(coc-definition)
 nmap <leader>gy <Plug>(coc-type-definition)
 nmap <leader>gi <Plug>(coc-implementation)
@@ -492,6 +563,13 @@ nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
 nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
 nnoremap <leader>cr :CocRestart <CR>
 
+inoremap <silent><expr> <TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
+
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr> <C-space> coc#refresh()
 "Kwbd
 "https://vim.fandom.com/wiki/Deleting_a_buffer_without_closing_the_window
 function s:Kwbd(kwbdStage)
