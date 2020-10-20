@@ -31,8 +31,11 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 " Modes and Aesthetics
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
-Plug 'vim-airline/vim-airline' " vim aesthetic-goodness
-Plug 'vim-airline/vim-airline-themes'
+Plug 'wfxr/minimap.vim'
+" Plug 'vim-airline/vim-airline' " vim aesthetic-goodness
+" Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+Plug 'mengelbrecht/lightline-bufferline'
 Plug 'simeji/winresizer'
 Plug 'vim-scripts/CSApprox' " gvim theme resolver for console Vim
 Plug 'Yggdroot/indentLine' " indent visualizer
@@ -40,9 +43,15 @@ Plug 'sheerun/vim-polyglot' " syntax highlighting
 Plug 'dylanaraps/wal.vim'
 Plug 'sainnhe/gruvbox-material'
 
+Plug '~/.config/nvim/plugged-lock/iceberg.vim'
+
 
 " Autocomplete Goodness
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neovim/nvim-lspconfig'
+" Plug 'nvim-lua/completion-nvim'
+" Plug 'tjdevries/nlua.nvim'
+" Plug 'tjdevries/lsp_extensions.nvim'
 
 " QOL Improvements
 Plug 'vuciv/vim-bujo'
@@ -89,8 +98,8 @@ call plug#end()
 "" Defaults: {{{
 let mapleader=' '
 
-"changing one thing
-colorscheme gruvbox-material
+colorscheme iceberg
+set background=dark
 " execute "set t_8f=\e[38;2;%lu;%lu;%lum"
 " execute "set t_8b=\e[48;2;%lu;%lu;%lum"
 hi Pmenu ctermbg=2
@@ -99,7 +108,7 @@ filetype off
 filetype plugin on
 filetype plugin indent on
 set mouse=a
-set background=dark
+set showtabline=2
 set foldmethod=marker
 set updatetime=300
 set cmdheight=2
@@ -194,49 +203,68 @@ let g:indentLine_concealcursor = 0
 let g:indentLine_char = '┆'
 let g:indentLine_faster = 1
 
-" vim-airline
-let g:airline_theme = 'gruvbox_material'
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#ale#enabled = 1
-let g:airline#extensions#coc#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tagbar#enabled = 1
-let g:airline_skip_empty_sections = 1
+" vim-lightline
+let g:lightline = {
+      \ 'colorscheme': 'ayu_dark',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'tabline': {
+      \   'left': [ ['buffers', " "] ],
+      \   'right': [ ['close'] ]
+      \ },
+      \ 'component_expand': {
+      \   'buffers': 'lightline#bufferline#buffers'
+      \ },
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '', 'right': '' },
+      \ 'component_type': {
+      \   'buffers': 'tabsel'
+      \ }
+      \ }
+" " vim-airline
+" let g:airline_theme = 'gruvbox_material'
+" let g:airline#extensions#branch#enabled = 1
+" let g:airline#extensions#ale#enabled = 1
+" let g:airline#extensions#coc#enabled = 1
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tagbar#enabled = 1
+" let g:airline_skip_empty_sections = 1
 
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
+" if !exists('g:airline_symbols')
+"   let g:airline_symbols = {}
+" endif
 
-if !exists('g:airline_powerline_fonts')
-  let g:airline#extensions#tabline#left_sep = ' '
-  let g:airline#extensions#tabline#left_alt_sep = '|'
-  let g:airline_left_sep          = ''
-  let g:airline_left_alt_sep      = ''
-  let g:airline_right_sep         = ''
-  let g:airline_right_alt_sep     = ''
-  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
-  let g:airline#extensions#readonly#symbol   = '⊘'
-  let g:airline#extensions#linecolumn#prefix = '¶'
-  let g:airline#extensions#paste#symbol      = 'ρ'
-  let g:airline_symbols.linenr    = '␊'
-  let g:airline_symbols.branch    = '⎇'
-  let g:airline_symbols.paste     = 'ρ'
-  let g:airline_symbols.paste     = 'Þ'
-  let g:airline_symbols.paste     = '∥'
-  let g:airline_symbols.whitespace = 'Ξ'
-else
-  let g:airline#extensions#tabline#left_sep = ''
-  let g:airline#extensions#tabline#left_alt_sep = ''
+" if !exists('g:airline_powerline_fonts')
+"   let g:airline#extensions#tabline#left_sep = ' '
+"   let g:airline#extensions#tabline#left_alt_sep = '|'
+"   let g:airline_left_sep          = ''
+"   let g:airline_left_alt_sep      = ''
+"   let g:airline_right_sep         = ''
+"   let g:airline_right_alt_sep     = ''
+"   let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+"   let g:airline#extensions#readonly#symbol   = '⊘'
+"   let g:airline#extensions#linecolumn#prefix = '¶'
+"   let g:airline#extensions#paste#symbol      = 'ρ'
+"   let g:airline_symbols.linenr    = '␊'
+"   let g:airline_symbols.branch    = '⎇'
+"   let g:airline_symbols.paste     = 'ρ'
+"   let g:airline_symbols.paste     = 'Þ'
+"   let g:airline_symbols.paste     = '∥'
+"   let g:airline_symbols.whitespace = 'Ξ'
+" else
+"   let g:airline#extensions#tabline#left_sep = ''
+"   let g:airline#extensions#tabline#left_alt_sep = ''
 
-  " powerline symbols
-  let g:airline_left_sep = ''
-  let g:airline_left_alt_sep = ''
-  let g:airline_right_sep = ''
-  let g:airline_right_alt_sep = ''
-  let g:airline_symbols.branch = ''
-  let g:airline_symbols.readonly = ''
-  let g:airline_symbols.linenr = ''
-endif
+"   " powerline symbols
+"   let g:airline_left_sep = ''
+"   let g:airline_left_alt_sep = ''
+"   let g:airline_right_sep = ''
+"   let g:airline_right_alt_sep = ''
+"   let g:airline_symbols.branch = ''
+"   let g:airline_symbols.readonly = ''
+"   let g:airline_symbols.linenr = ''
+" endif
 
 " NERDTree configuration
 let g:NERDTreeChDirMode=2
@@ -305,7 +333,6 @@ let g:airline#extensions#virtualenv#enabled = 1
 
 " Syntax highlight
 " Default highlight is better than polyglot
-let g:polyglot_disabled = ['python']
 let python_highlight_all = 1
 
 :call extend(g:ale_linters, {
@@ -437,7 +464,7 @@ endfunction
 
 " }}}
 " Mappings: {{{
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+" nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 "" git
 "git related
@@ -456,6 +483,7 @@ nmap <leader>gf :diffget //2<CR>
 
 " Coc restart
 nnoremap <leader>cr :CocRestart<CR>
+
 " Move visual selection
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
@@ -551,7 +579,8 @@ nnoremap <leader>ph :wincmd s <bar> :Files<CR>
 nnoremap <leader>d :delmark
 
 " Go
-autocmd CursorHold * call CocActionAsync('doHover')
+autocmd CursorHold * call CocAction('doHover')
+autocmd CursorMoved * call CocActionAsync('highlight')
 nmap <leader>gd <Plug>(coc-definition)
 nmap <leader>gy <Plug>(coc-type-definition)
 nmap <leader>gi <Plug>(coc-implementation)
@@ -570,6 +599,7 @@ inoremap <silent><expr> <TAB>
 
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 inoremap <silent><expr> <C-space> coc#refresh()
+
 "Kwbd
 "https://vim.fandom.com/wiki/Deleting_a_buffer_without_closing_the_window
 function s:Kwbd(kwbdStage)

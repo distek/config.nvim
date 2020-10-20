@@ -1,7 +1,9 @@
 {
   "coc.preferences.useQuickfixForLocations": true,
+  "coc.preferences.currentFunctionSymbolAutoUpdate": true,
   "coc.preferences.snippets.enable": true,
   "coc.preferences.extensionUpdateCheck": "never",
+  "coc.preferences.messageLevel": "error",
   "suggest.disableMenu": false,
   "suggest.snippetIndicator": "",
   "languageserver": {
