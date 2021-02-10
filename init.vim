@@ -1,11 +1,14 @@
-"  _       _ _         _
-" (_)_ __ (_) |___   _(_)_ __ ___
-" | | '_ \| | __\ \ / / | '_ ` _ \
-" | | | | | | |_ \ V /| | | | | | |
-" |_|_| |_|_|\__(_)_/ |_|_| |_| |_|
-"
-"                            distek
-"
+"/====================================\
+"|   _       _ _         _            |
+"|  (_)_ __ (_) |___   _(_)_ __ ___   |
+"|  | | '_ \| | __\ \ / / | '_ ` _ \  |
+"|  | | | | | | |_ \ V /| | | | | | | |
+"|  |_|_| |_|_|\__(_)_/ |_|_| |_| |_| |
+"|                                    |
+"\====================================/
+
+
+" VIMPlug Plugins {{{
 
 "" VIMPlug init: {{{
 let vimplug_exists=expand('~/.vim/autoload/plug.vim')
@@ -23,58 +26,52 @@ if !filereadable(vimplug_exists)
 
   autocmd VimEnter * PlugInstall
 endif
-
-call plug#begin(expand('~/.config/nvim/plugged'))
 " }}}
 
-" VIMPlug Plugins {{{
-" Modes and Aesthetics
-Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'wfxr/minimap.vim'
-" Plug 'vim-airline/vim-airline' " vim aesthetic-goodness
-" Plug 'vim-airline/vim-airline-themes'
-Plug 'itchyny/lightline.vim'
-Plug 'mengelbrecht/lightline-bufferline'
+call plug#begin(expand('~/.config/nvim/plugged'))
+
+
+" Modes and QOL {{{
+Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 Plug 'simeji/winresizer'
-Plug 'vim-scripts/CSApprox' " gvim theme resolver for console Vim
-Plug 'Yggdroot/indentLine' " indent visualizer
-Plug 'sheerun/vim-polyglot' " syntax highlighting
-Plug 'dylanaraps/wal.vim'
-Plug 'sainnhe/gruvbox-material'
-
-Plug '~/.config/nvim/plugged-lock/iceberg.vim'
-
-
-" Autocomplete Goodness
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Plug 'neovim/nvim-lspconfig'
-" Plug 'nvim-lua/completion-nvim'
-" Plug 'tjdevries/nlua.nvim'
-" Plug 'tjdevries/lsp_extensions.nvim'
-
-" QOL Improvements
-Plug 'vuciv/vim-bujo'
+Plug 'Yggdroot/indentLine'
+Plug 'voldikss/vim-floaterm'
 Plug 'dhruvasagar/vim-zoom'
 Plug 'mbbill/undotree'
-Plug 'w0rp/ale' " fairly certain w0rp is jesus
-Plug 'majutsushi/tagbar' " also amazing
-Plug 'tpope/vim-commentary' " comments and comment blocks
-Plug 'tpope/vim-fugitive' " git wrapper
-Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
-Plug 'airblade/vim-gitgutter' " amazing
-Plug 'tpope/vim-obsession' " a better session manager
-Plug 'vim-scripts/colorizer' " hex and rgb(a) color highlighting
-" Plug 'Raimondi/delimitMate' "the auto quotes and shit | gunna try without
-if isdirectory('/usr/local/opt/fzf')
-  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
-else
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-  Plug 'junegunn/fzf.vim'
-endif
-" c
-Plug 'vim-scripts/c.vim', {'for': ['c', 'cpp']}
-Plug 'ludwig/split-manpage.vim'
+" Plug 'majutsushi/tagbar'
+Plug 'liuchengxu/vista.vim'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-obsession'
+Plug 'vim-scripts/colorizer'
+Plug 'pseewald/vim-anyfold'
+Plug 'kevinhwang91/nvim-bqf'
+" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
+Plug 'jamessan/vim-gnupg'
+
+"}}}
+
+" Aesthetics {{{
+Plug 'ryanoasis/vim-devicons'
+Plug 'itchyny/lightline.vim'
+Plug 'mengelbrecht/lightline-bufferline'
+Plug 'vim-scripts/CSApprox'
+Plug 'sheerun/vim-polyglot'
+Plug 'sainnhe/gruvbox-material'
+" }}}
+
+" Autocomplete and syntax {{{
+Plug 'w0rp/ale'
+Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+
+
+" }}}
+
+" Programming languages {{{
 " go
 Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
 " python
@@ -91,22 +88,27 @@ Plug 'chrisbra/csv.vim'
 " rust
 Plug 'rust-lang/rust.vim'
 Plug 'fidian/hexmode'
+" c
+Plug 'rhysd/vim-clang-format'
+" }}}
 
 call plug#end()
-
 " }}}
-"" Defaults: {{{
+
+" Defaults: {{{
 let mapleader=' '
 
-colorscheme iceberg
-set background=dark
-" execute "set t_8f=\e[38;2;%lu;%lu;%lum"
-" execute "set t_8b=\e[48;2;%lu;%lu;%lum"
 hi Pmenu ctermbg=2
+
 syntax on
 filetype off
 filetype plugin on
 filetype plugin indent on
+" Gruvbox-material
+let g:gruvbox_material_background='hard'
+colorscheme purps
+set background=dark
+
 set mouse=a
 set showtabline=2
 set foldmethod=marker
@@ -119,7 +121,7 @@ set softtabstop=0
 set shiftwidth=4
 set expandtab
 set hidden
-set hlsearch
+set nohlsearch
 set incsearch
 set ignorecase
 set smartcase
@@ -129,19 +131,22 @@ set ruler
 set number
 let no_buffers_menu=1
 " set t_Co=256
-set scrolloff=10
+set scrolloff=2
 set laststatus=2
 set modeline
 set modelines=10
 set showbreak=↪\
 set linebreak
 set termguicolors
+" set listchars=tab:▸\ ,trail:·,extends:»,nbsp:·                      "how to show chars
+set dictionary?
+set dictionary+=/Users/jacob_fralick/.config/nvim/google-10000-english-usa.txt
 
 " Correct RGB escape codes for vim inside tmux
-if !has('nvim') && $TERM ==# 'screen-256color'
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-endif
+" if !has('nvim') && $TERM ==# 'screen-256color'
+"   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+"   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" endif
 
 " Ensure undodir exists and has been created
 let undodir=expand('~/.cache/nvim/undodir')
@@ -150,13 +155,11 @@ if !isdirectory(undodir)
   echo ""
   silent exec "!\mkdir -p " . undodir
 endif
-
-set undodir=~/.cache/nvim/undodir
+set undodir=~/.cache/nvim/undodir " Do we need this?
 set undofile
 set noswapfile
 set relativenumber
 set cursorline
-hi CursorLine   cterm=NONE ctermbg=234
 
 if !exists('*s:setupWrapping')
   function s:setupWrapping()
@@ -173,9 +176,37 @@ else
     set shell=/bin/sh
 endif
 
-tnoremap <Esc> <C-\><C-n>
 " }}}
-"" Plugin_configs: {{{
+
+" Plugin_configs: {{{
+
+" vim-clang-format
+let g:clang_format#code_style = 'google'
+let g:clang_format#style_options = {
+            \ "AccessModifierOffset" : -4,
+            \ "AllowShortIfStatementsOnASingleLine" : "true",
+            \ "AlwaysBreakTemplateDeclarations" : "true",
+            \ "Standard" : "C++11",
+            \ "BreakBeforeBraces" : "Custom",
+            \ "BraceWrapping": {
+                \ "AfterEnum": "false",
+                \ "AfterStruct": "false",
+                \ "SplitEmptyFunction": "false",
+                \},
+\}
+autocmd BufWritePre *.c,*.h ClangFormat
+
+" Vista.vim
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+
+set statusline+=%{NearestMethodOrFunction()}
+
+autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+
+" Floaterm
+let g:floaterm_position = 'topright'
 
 " csv
 if exists("did_load_csvfiletype")
@@ -184,7 +215,7 @@ endif
 let did_load_csvfiletype=1
 
 augroup filetypedetect
-  au! BufRead,BufNewFile *.csv,*.dat	setfiletype csv
+  au! BufRead,BufNewFile *.csv,*.da setfiletype csv
 augroup END
 
 " winresizer
@@ -205,7 +236,7 @@ let g:indentLine_faster = 1
 
 " vim-lightline
 let g:lightline = {
-      \ 'colorscheme': 'ayu_dark',
+      \ 'colorscheme': 'distek',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
       \ },
@@ -220,74 +251,34 @@ let g:lightline = {
       \ 'subseparator': { 'left': '', 'right': '' },
       \ 'component_type': {
       \   'buffers': 'tabsel'
+      \ },
+      \ 'component_function': {
+      \   'filetype': 'MyFiletype',
+      \   'fileformat': 'MyFileformat'
       \ }
       \ }
-" " vim-airline
-" let g:airline_theme = 'gruvbox_material'
-" let g:airline#extensions#branch#enabled = 1
-" let g:airline#extensions#ale#enabled = 1
-" let g:airline#extensions#coc#enabled = 1
-" let g:airline#extensions#tabline#enabled = 1
-" let g:airline#extensions#tagbar#enabled = 1
-" let g:airline_skip_empty_sections = 1
 
-" if !exists('g:airline_symbols')
-"   let g:airline_symbols = {}
-" endif
-
-" if !exists('g:airline_powerline_fonts')
-"   let g:airline#extensions#tabline#left_sep = ' '
-"   let g:airline#extensions#tabline#left_alt_sep = '|'
-"   let g:airline_left_sep          = ''
-"   let g:airline_left_alt_sep      = ''
-"   let g:airline_right_sep         = ''
-"   let g:airline_right_alt_sep     = ''
-"   let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
-"   let g:airline#extensions#readonly#symbol   = '⊘'
-"   let g:airline#extensions#linecolumn#prefix = '¶'
-"   let g:airline#extensions#paste#symbol      = 'ρ'
-"   let g:airline_symbols.linenr    = '␊'
-"   let g:airline_symbols.branch    = '⎇'
-"   let g:airline_symbols.paste     = 'ρ'
-"   let g:airline_symbols.paste     = 'Þ'
-"   let g:airline_symbols.paste     = '∥'
-"   let g:airline_symbols.whitespace = 'Ξ'
-" else
-"   let g:airline#extensions#tabline#left_sep = ''
-"   let g:airline#extensions#tabline#left_alt_sep = ''
-
-"   " powerline symbols
-"   let g:airline_left_sep = ''
-"   let g:airline_left_alt_sep = ''
-"   let g:airline_right_sep = ''
-"   let g:airline_right_alt_sep = ''
-"   let g:airline_symbols.branch = ''
-"   let g:airline_symbols.readonly = ''
-"   let g:airline_symbols.linenr = ''
-" endif
-
-" NERDTree configuration
-let g:NERDTreeChDirMode=2
-let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
-let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
-let g:NERDTreeShowBookmarks=1
-let g:NERDTreeWinSize=30
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
-let g:nerdtree_tabs_focus_on_files=1
-
-" Gruvbox-material
-let g:gruvbox_material_background='hard'
+" CHADTree configuration
+let g:chadtree_settings = {
+            \ "options": {"show_hidden": v:true},
+            \ "theme": {"text_colour_set": "nerdtree_syntax_dark"},
+            \ "view": {"width": 30, "window_options": {
+            \           "relativenumber": v:true,
+            \           "number": v:true
+            \       }
+            \ }
+            \}
 
 " fzf.vim
 set wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
-let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
 
 " ale
-let g:ale_linters = {}
-
-" Tagbar
-let g:tagbar_autofocus = 1
+let g:ale_linters = {
+    \"go": ['golint', 'go vet'],
+    \'python': ['flake8'],
+    \ 'c': ['clang']
+\}
 
 " go
 let g:go_list_type = "quickfix"
@@ -301,6 +292,12 @@ let g:go_highlight_types = 1
 let g:go_highlight_diagnostic_errors = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
+let g:go_highlight_function_parameters = 1
+let g:go_highlight_string_spellcheck = 1
+let g:go_highlight_format_strings = 1
+let g:go_highlight_variable_declarations = 1
+let g:go_highlight_variable_assignments = 1
+let g:go_highlight_function_calls = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
@@ -324,10 +321,6 @@ let g:jedi#show_call_signatures = "0"
 let g:jedi#completions_command = "<C-Space>"
 let g:jedi#smart_auto_mappings = 0
 
-" ale
-:call extend(g:ale_linters, {
-    \'python': ['flake8'], })
-
 " vim-airline
 let g:airline#extensions#virtualenv#enabled = 1
 
@@ -335,21 +328,58 @@ let g:airline#extensions#virtualenv#enabled = 1
 " Default highlight is better than polyglot
 let python_highlight_all = 1
 
-:call extend(g:ale_linters, {
-    \"go": ['golint', 'go vet'], })
 " }}}
-"" QOL_Func_Autos: {{{
 
+" QOL_Func_Autos: {{{
+
+" remove excess whitespace on save
+autocmd BufWritePre * %s/\s\+$//e
+
+" close vista and chadtree
+"  vista#sidebar#IsOpen()
+
+function! s:closeIfLast()
+    if winnr("$") == 2
+        if vista#sidebar#IsOpen()
+            call vista#sidebar#Close()
+        endif
+    endif
+
+    if !&modifiable
+        if winnr("$") == 1
+            q
+        endif
+    endif
+
+endfunction
+autocmd BufEnter * call s:closeIfLast()
+
+
+"
 let g:LanguageClient_serverCommands = {
     \ 'sh': ['bash-language-server', 'start']
     \ }
+" C stuff
+au filetype *.c,*.h set filetype c.doxygen
+au filetype *.c,*.h set tabstop=4
+au filetype *.c,*.h set softtabstop=4
+au filetype *.c,*.h set shiftwidth=4
+au filetype *.c,*.h set noexpandtab=4
 
 " Mail stuff
-au filetype mail set spell
-au filetype mail set colorcolumn=88
-au filetype mail highlight ColorColumn ctermbg=0 guibg=blue
-au filetype mail set wrap!
-au filetype mail set textwidth=0
+au VimEnter neomutt* set spell
+au VimEnter neomutt* set colorcolumn=73
+au VimEnter neomutt* highlight ColorColumn ctermbg=0 guibg=blue
+au VimEnter neomutt* set wrap!
+au VimEnter neomutt* set textwidth=72
+au VimEnter neomutt* set readonly
+au VimEnter neomutt* nnoremap q :q!<CR>
+
+" Notes
+autocmd BufNewFile,BufRead *.md setlocal syntax=markdown
+autocmd BufNewFile,BufRead *.md setlocal spell
+autocmd BufNewFile,BufRead *.md setlocal wrap
+autocmd BufNewFile,BufRead *.md setlocal textwidth=80
 
 autocmd TermOpen * setlocal scrolloff=0
 
@@ -370,8 +400,8 @@ augroup vimrc-wrapping
   autocmd!
   autocmd BufRead,BufNewFile *.txt call s:setupWrapping()
 augroup END
-autocmd BufRead,BufNewFile *.txt setlocal spell 
-autocmd BufRead,BufNewFile *.md setlocal spell 
+autocmd BufRead,BufNewFile *.txt setlocal spell
+autocmd BufRead,BufNewFile *.md setlocal spell
 
 "" make/cmake
 augroup vimrc-make-cmake
@@ -463,26 +493,67 @@ function! s:check_back_space() abort
 endfunction
 
 " }}}
+
 " Mappings: {{{
-" nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+" CoC Show Documentation
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+nnoremap <silent> <leader>sd :call <SID>show_documentation()<CR>
+
+nmap <leader>gd <Plug>(coc-definition)
+nmap <leader>gy <Plug>(coc-type-definition)
+nmap <leader>gi <Plug>(coc-implementation)
+nmap <leader>gr <Plug>(coc-references)
+nmap <leader>rr <Plug>(coc-rename)
+nmap <leader>g[ <Plug>(coc-diagnostic-prev)
+nmap <leader>g] <Plug>(coc-diagnostic-next)
+nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
+nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
+
+" Undotree
+nnoremap <silent> <leader>ud :UndotreeToggle<CR>
+
+" Half page up/down
+nnoremap <silent> <S-J> <C-d>
+nnoremap <silent> <S-K> <C-u>
+
+" Floaterm
+nnoremap <silent> <leader>ft :FloatermToggle<CR>
+tnoremap <silent> <leader>ft <c-\><c-n>:FloatermToggle<CR>
+" " Escape out of terminal mode
+tnoremap <A-z> <C-\><C-n>
+tmap <A-h> <C-\><C-n> :wincmd h<CR>
+tmap <A-j> <C-\><C-n> :wincmd j<CR>
+tmap <A-k> <C-\><C-n> :wincmd k<CR>
+tmap <A-l> <C-\><C-n> :wincmd l<CR>
+
+" Normal term
+nnoremap <silent> <leader>st :split term://zsh<CR>
+nnoremap <silent> <leader>vt :vsplit term://zsh<CR>
 
 "" git
 "git related
-nnoremap <leader>gfi :GFiles<CR>
-nnoremap <leader>ga :Gwrite<CR>
-nnoremap <leader>gc :Gcommit<CR>
-nnoremap <leader>gsh :Gpush<CR>
-nnoremap <leader>gll :Gpull<CR>
-nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>gb :Gblame<CR>
-nnoremap <leader>gd :Gvdiff<CR>
-nnoremap <leader>gr :Gremove<CR>
+nnoremap <leader>Gfi :GFiles<CR>
+nnoremap <leader>Ga :Gwrite<CR>
+nnoremap <leader>Gc :Gcommit<CR>
+nnoremap <leader>Gsh :Gpush<CR>
+nnoremap <leader>Gll :Gpull<CR>
+nnoremap <leader>Gs :Gstatus<CR>
+nnoremap <leader>Gb :Gblame<CR>
+nnoremap <leader>Gd :Gvdiff<CR>
+nnoremap <leader>Gr :Gremove<CR>
 nnoremap <leader>o :.Gbrowse<CR> ""Open current line fuGITive
 nmap <leader>gj :diffget //3<CR>
 nmap <leader>gf :diffget //2<CR>
-
-" Coc restart
-nnoremap <leader>cr :CocRestart<CR>
 
 " Move visual selection
 vnoremap J :m '>+1<CR>gv=gv
@@ -493,8 +564,8 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Page up/down
-nnoremap <silent> <C-j> <C-d>
-nnoremap <silent> <C-k> <C-u>
+nnoremap <silent> <A-j> <C-d>
+nnoremap <silent> <A-k> <C-u>
 
 " Commentary
 vnoremap <silent> <leader>cm :Commentary<CR>
@@ -503,12 +574,7 @@ vnoremap <silent> <leader>cm :Commentary<CR>
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
-" terminal emulation
-nnoremap <silent> <leader>st :split term://bash<CR>
-nnoremap <silent> <leader>vt :vsplit term://bash<CR>
-nnoremap <silent> <leader>tt :terminal<CR>
-
-" BUFFERS ONLY, NO TABS ALLOWED
+" Vim's tabs are terrible, we use buffers 'round these parts
 nnoremap <silent> <Tab> :bn<CR>
 nnoremap <silent> <S-Tab> :bp<CR>
 nnoremap <silent> <S-t> :enew<CR>
@@ -516,11 +582,13 @@ nnoremap <silent> <S-t> :enew<CR>
 cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <silent> <leader>b :Buffers<CR>
 nnoremap <silent> <leader>e :FZF -m<CR>
+
 "Recovery commands from history through FZF
 nmap <leader>y :History:<CR>
 
-" Tagbar
-nmap <silent> <F4> :TagbarToggle<CR>
+" " Tagbar
+nmap <silent> <A-2> :Vista!!<CR>
+
 
 "" Switching windows
 nnoremap <silent> <A-j> :wincmd j<CR>
@@ -534,6 +602,10 @@ nnoremap <silent> <A-S-k> :wincmd K<CR>
 nnoremap <silent> <A-S-l> :wincmd L<CR>
 nnoremap <silent> <A-S-h> :wincmd H<CR>
 
+
+"" Other window mappings
+nnoremap <silent> <A-f> :call ToggleZoom(v:true)<CR>
+
 " Nohl
 nnoremap <silent> <leader>nh :nohl<CR>
 
@@ -546,15 +618,20 @@ vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
 " NERDTree Mappings
-nnoremap <silent> <F1> :NERDTreeToggle<CR>
-let g:NERDTreeMapOpenVSplit = '<F2>'
-let g:NERDTreeMapOpenSplit = '<F3>'
+" nnoremap <silent> <F1> :NERDTreeToggle<CR>
+" inoremap <silent> <F1> :NERDTreeToggle<CR>
+" vnoremap <silent> <F1> :NERDTreeToggle<CR>
+
+" CHADTree
+nnoremap <silent> <A-1> :CHADopen<CR>
+inoremap <silent> <A-1> :CHADopen<CR>
+vnoremap <silent> <A-1> :CHADopen<CR>
+
+" let g:NERDTreeMapOpenVSplit = '<F2>'
+" let g:NERDTreeMapOpenSplit = '<F3>'
 
 " Tagbar
-nmap <silent> <F4> :TagbarToggle<CR>
-
-" View buffers
-nnoremap <F5> :buffers<CR>:buffer<Space>
+nnoremap <silent> <F4> :TagbarToggle<CR>
 
 " Toggle folds with F9
 inoremap <F9> <C-O>za
@@ -567,38 +644,37 @@ nnoremap <silent> <leader>nh :nohl<CR>
 
 " splits
 nnoremap <leader>ss :split
-nnoremap <leader>sv :vsplit
+nnoremap <leader>vs :vsplit
 
-"" Fancy shit
-"FzfFiles 
+" fzf
 nnoremap <leader>pf :Files<CR>
+nnoremap <leader>pr :Rg<CR>
 nnoremap <leader>pv :wincmd v <bar> :Files<CR>
 nnoremap <leader>ph :wincmd s <bar> :Files<CR>
 
-" marks
-nnoremap <leader>d :delmark
+" Kwbd Mappings
+" Close buffer
+noremap <silent> <A-q> :Kwbd<CR>
 
-" Go
-autocmd CursorHold * call CocAction('doHover')
-autocmd CursorMoved * call CocActionAsync('highlight')
-nmap <leader>gd <Plug>(coc-definition)
-nmap <leader>gy <Plug>(coc-type-definition)
-nmap <leader>gi <Plug>(coc-implementation)
-nmap <leader>gr <Plug>(coc-references)
-nmap <leader>rr <Plug>(coc-rename)
-nmap <leader>g[ <Plug>(coc-diagnostic-prev)
-nmap <leader>g] <Plug>(coc-diagnostic-next)
-nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
-nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
-nnoremap <leader>cr :CocRestart <CR>
+" Just close window/pane
+nnoremap <silent> <A-w> :wincmd c<CR>
 
-inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ coc#refresh()
+" Functions {{{
 
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <silent><expr> <C-space> coc#refresh()
+" ToggleZoom
+function! ToggleZoom(zoom)
+  if exists("t:restore_zoom") && (a:zoom == v:true || t:restore_zoom.win != winnr())
+      exec t:restore_zoom.cmd
+      unlet t:restore_zoom
+  elseif a:zoom
+      let t:restore_zoom = { 'win': winnr(), 'cmd': winrestcmd() }
+      exec "normal \<C-W>\|\<C-W>_"
+  endif
+endfunction
+
+augroup restorezoom
+    au WinEnter * silent! :call ToggleZoom(v:false)
+augroup END
 
 "Kwbd
 "https://vim.fandom.com/wiki/Deleting_a_buffer_without_closing_the_window
@@ -666,8 +742,9 @@ function s:Kwbd(kwbdStage)
 endfunction
 
 command! Kwbd call s:Kwbd(1)
-" Kwbd Mappings
-nnoremap <silent> <Plug>Kwbd :<C-u>Kwbd<CR>
 
-noremap <C-q> :Kwbd<CR>
+" }}}
+
+
+" }}}
 
