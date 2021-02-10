@@ -6,6 +6,16 @@
   "coc.preferences.messageLevel": "error",
   "suggest.disableMenu": false,
   "suggest.snippetIndicator": "",
+  "clangd.enabled": true,
+  "clangd.checkUpdates": false,
+  "clangd.disableDiagnostics": false,
+  "clangd.disableSnippetCompletion": false,
+  "cSpell.enabledLanguageIds":["text", "mail", "note", "markdown", "html"],
+  "zi.patterns": {
+        "text":[],
+        "mail":[],
+        "note":[]
+    },
   "languageserver": {
       "gopls": {
           "command": "gopls",
@@ -20,5 +30,4 @@
           }
       }
   }
-
 }
