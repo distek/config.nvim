@@ -61,7 +61,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'vim-scripts/CSApprox'
 Plug 'sheerun/vim-polyglot'
-Plug 'sainnhe/gruvbox-material'
+Plug 'cocopon/iceberg.vim'
 " }}}
 
 " Autocomplete and syntax {{{
@@ -106,7 +106,7 @@ filetype plugin on
 filetype plugin indent on
 " Gruvbox-material
 let g:gruvbox_material_background='hard'
-colorscheme purps
+colorscheme iceberg
 set background=dark
 
 set mouse=a
@@ -235,7 +235,7 @@ let g:indentLine_faster = 1
 
 " vim-lightline
 let g:lightline = {
-      \ 'colorscheme': 'distek',
+      \ 'colorscheme': 'iceberg',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
       \ },
