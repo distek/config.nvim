@@ -139,7 +139,6 @@ set showbreak=↪\
 set linebreak
 set termguicolors
 " set listchars=tab:▸\ ,trail:·,extends:»,nbsp:·                      "how to show chars
-set dictionary?
 set dictionary+=/Users/jacob_fralick/.config/nvim/google-10000-english-usa.txt
 
 " Correct RGB escape codes for vim inside tmux
