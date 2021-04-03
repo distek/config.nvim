@@ -32,14 +32,15 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 
 
 " Modes and QOL {{{
-Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
+" Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
+Plug 'preservim/nerdtree'
 Plug 'simeji/winresizer'
 Plug 'Yggdroot/indentLine'
 Plug 'voldikss/vim-floaterm'
 Plug 'dhruvasagar/vim-zoom'
 Plug 'mbbill/undotree'
-" Plug 'majutsushi/tagbar'
-Plug 'liuchengxu/vista.vim'
+Plug 'vim-utils/vim-man'
+Plug 'preservim/tagbar'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
@@ -61,7 +62,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'vim-scripts/CSApprox'
 Plug 'sheerun/vim-polyglot'
-Plug 'cocopon/iceberg.vim'
+Plug 'sainnhe/everforest'
 " }}}
 
 " Autocomplete and syntax {{{
@@ -104,12 +105,10 @@ syntax on
 filetype off
 filetype plugin on
 filetype plugin indent on
-" Gruvbox-material
-let g:gruvbox_material_background='hard'
-colorscheme iceberg
-set background=dark
 
 set mouse=a
+set autoread
+set wrap
 set showtabline=2
 set foldmethod=marker
 set updatetime=300
@@ -136,10 +135,19 @@ set laststatus=2
 set modeline
 set modelines=10
 set showbreak=↪\
+set relativenumber
+set cursorline
 set linebreak
 set termguicolors
 " set listchars=tab:▸\ ,trail:·,extends:»,nbsp:·                      "how to show chars
 set dictionary+=/Users/jacob_fralick/.config/nvim/google-10000-english-usa.txt
+set splitbelow
+set splitright
+
+" Color
+colorscheme everforest
+let g:everforest_background='hard'
+set background=dark
 
 " Correct RGB escape codes for vim inside tmux
 " if !has('nvim') && $TERM ==# 'screen-256color'
@@ -157,16 +165,6 @@ endif
 set undodir=~/.cache/nvim/undodir " Do we need this?
 set undofile
 set noswapfile
-set relativenumber
-set cursorline
-
-if !exists('*s:setupWrapping')
-  function s:setupWrapping()
-    set wrap
-    set wm=2
-    set textwidth=88
-  endfunction
-endif
 
 " Term Stuff
 if exists('$SHELL')
@@ -178,31 +176,6 @@ endif
 " }}}
 
 " Plugin_configs: {{{
-
-" vim-clang-format
-let g:clang_format#code_style = 'google'
-let g:clang_format#style_options = {
-            \ "AccessModifierOffset" : -4,
-            \ "AllowShortIfStatementsOnASingleLine" : "true",
-            \ "AlwaysBreakTemplateDeclarations" : "true",
-            \ "Standard" : "C++11",
-            \ "BreakBeforeBraces" : "Custom",
-            \ "BraceWrapping": {
-                \ "AfterEnum": "false",
-                \ "AfterStruct": "false",
-                \ "SplitEmptyFunction": "false",
-                \},
-\}
-autocmd BufWritePre *.c,*.h ClangFormat
-
-" Vista.vim
-function! NearestMethodOrFunction() abort
-  return get(b:, 'vista_nearest_method_or_function', '')
-endfunction
-
-set statusline+=%{NearestMethodOrFunction()}
-
-autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 
 " Floaterm
 let g:floaterm_position = 'topright'
@@ -235,7 +208,7 @@ let g:indentLine_faster = 1
 
 " vim-lightline
 let g:lightline = {
-      \ 'colorscheme': 'iceberg',
+      \ 'colorscheme': 'everforest',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
       \ },
@@ -257,17 +230,6 @@ let g:lightline = {
       \ }
       \ }
 
-" CHADTree configuration
-let g:chadtree_settings = {
-            \ "options": {"show_hidden": v:true},
-            \ "theme": {"text_colour_set": "nerdtree_syntax_dark"},
-            \ "view": {"width": 30, "window_options": {
-            \           "relativenumber": v:true,
-            \           "number": v:true
-            \       }
-            \ }
-            \}
-
 " fzf.vim
 set wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
@@ -279,47 +241,6 @@ let g:ale_linters = {
     \ 'c': ['clang']
 \}
 
-" go
-let g:go_list_type = "quickfix"
-let g:go_fmt_autosave = 1
-let g:go_imports_autosave = 1
-let g:go_imports_commad ="goimports-ordered"
-let g:go_fmt_command = "goimports"
-let g:go_fmt_fail_silently = 1
-
-let g:go_highlight_types = 1
-let g:go_highlight_diagnostic_errors = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_function_parameters = 1
-let g:go_highlight_string_spellcheck = 1
-let g:go_highlight_format_strings = 1
-let g:go_highlight_variable_declarations = 1
-let g:go_highlight_variable_assignments = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_generate_tags = 1
-let g:go_highlight_space_tab_error = 0
-let g:go_highlight_array_whitespace_error = 0
-let g:go_highlight_trailing_whitespace_error = 0
-let g:go_highlight_extra_types = 1
-let g:go_rename_command = "gopls"
-
-" jedi-vim
-let g:jedi#popup_on_dot = 0
-let g:jedi#auto_initialization = 1
-let g:jedi#goto_assignments_command = "<leader>g"
-let g:jedi#goto_definitions_command = "<leader>d"
-let g:jedi#documentation_command = "K"
-let g:jedi#usages_command = "<leader>n"
-let g:jedi#rename_command = "<leader>r"
-let g:jedi#show_call_signatures = "0"
-let g:jedi#completions_command = "<C-Space>"
-let g:jedi#smart_auto_mappings = 0
-
 " vim-airline
 let g:airline#extensions#virtualenv#enabled = 1
 
@@ -329,131 +250,165 @@ let python_highlight_all = 1
 
 " }}}
 
-" QOL_Func_Autos: {{{
+" File_type_autos: {{{
+" Bash {{{
+augroup sh
+    let g:LanguageClient_serverCommands = {
+        \ 'sh': ['bash-language-server', 'start']
+        \ }
+augroup END
+" }}}
 
-" remove excess whitespace on save
-autocmd BufWritePre * %s/\s\+$//e
+" C stuff {{{
+augroup c
+    au!
+    au filetype *.c,*.h set filetype c.doxygen
+    au filetype *.c,*.h set tabstop=4
+    au filetype *.c,*.h set softtabstop=4
+    au filetype *.c,*.h set shiftwidth=4
+    au filetype *.c,*.h set noexpandtab=4
+    let g:clang_format#code_style = 'google'
+    let g:clang_format#style_options = {
+                \ "AccessModifierOffset" : -4,
+                \ "AllowShortIfStatementsOnASingleLine" : "true",
+                \ "AlwaysBreakTemplateDeclarations" : "true",
+                \ "Standard" : "C++11",
+                \ "BreakBeforeBraces" : "Custom",
+                \ "BraceWrapping": {
+                    \ "AfterEnum": "false",
+                    \ "AfterStruct": "false",
+                    \ "SplitEmptyFunction": "false",
+                    \},
+    \}
+    autocmd BufWritePre *.c,*.h ClangFormat
+    autocmd FileType c setlocal tabstop=4 shiftwidth=4 expandtab
+    autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 expandtab
+augroup END "}}}
 
-" close vista and chadtree
-"  vista#sidebar#IsOpen()
+" Mail stuff " {{{
+augroup mail
+    au VimEnter neomutt* set spell
+    au VimEnter neomutt* set colorcolumn=73
+    au VimEnter neomutt* highlight ColorColumn ctermbg=0 guibg=blue
+    au VimEnter neomutt* set wrap!
+    au VimEnter neomutt* set textwidth=72
+    au VimEnter neomutt* set readonly
+    au VimEnter neomutt* nnoremap q :q!<CR>
+augroup END " }}}
 
-function! s:closeIfLast()
-    if winnr("$") == 2
-        if vista#sidebar#IsOpen()
-            call vista#sidebar#Close()
-        endif
-    endif
+" Notes {{{
+augroup md
+    autocmd BufNewFile,BufRead *.md setlocal syntax=markdown
+    autocmd BufNewFile,BufRead *.md setlocal spell
+    autocmd BufNewFile,BufRead *.md setlocal wrap
+    autocmd BufNewFile,BufRead *.md setlocal textwidth=80
+augroup END " }}}
 
-    if !&modifiable
-        if winnr("$") == 1
-            q
-        endif
-    endif
+" txt {{{
+augroup txt
+    autocmd BufNewFile,BufRead *.txt setlocal spell
+    autocmd BufNewFile,BufRead *.txt setlocal wrap
+    autocmd BufNewFile,BufRead *.txt setlocal textwidth=80
+augroup END " }}}
 
-endfunction
-autocmd BufEnter * call s:closeIfLast()
-
-
-"
-let g:LanguageClient_serverCommands = {
-    \ 'sh': ['bash-language-server', 'start']
-    \ }
-" C stuff
-au filetype *.c,*.h set filetype c.doxygen
-au filetype *.c,*.h set tabstop=4
-au filetype *.c,*.h set softtabstop=4
-au filetype *.c,*.h set shiftwidth=4
-au filetype *.c,*.h set noexpandtab=4
-
-" Mail stuff
-au VimEnter neomutt* set spell
-au VimEnter neomutt* set colorcolumn=73
-au VimEnter neomutt* highlight ColorColumn ctermbg=0 guibg=blue
-au VimEnter neomutt* set wrap!
-au VimEnter neomutt* set textwidth=72
-au VimEnter neomutt* set readonly
-au VimEnter neomutt* nnoremap q :q!<CR>
-
-" Notes
-autocmd BufNewFile,BufRead *.md setlocal syntax=markdown
-autocmd BufNewFile,BufRead *.md setlocal spell
-autocmd BufNewFile,BufRead *.md setlocal wrap
-autocmd BufNewFile,BufRead *.md setlocal textwidth=80
-
+" Term {{{
 autocmd TermOpen * setlocal scrolloff=0
+autocmd TermOpen * setlocal wrap
+autocmd TermOpen * setlocal number!
+autocmd TermOpen * setlocal norelativenumber
+" }}}
 
-" The PC is fast enough, do syntax highlight syncing from start unless 200 lines
-"augroup vimrc-sync-fromstart
-"  autocmd!
-"  autocmd BufEnter * :syntax sync maxlines=200
-"augroup END
-
-"" Remember cursor position
-augroup vimrc-remember-cursor-position
-  autocmd!
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-augroup END
-
-"" txt
-augroup vimrc-wrapping
-  autocmd!
-  autocmd BufRead,BufNewFile *.txt call s:setupWrapping()
-augroup END
-autocmd BufRead,BufNewFile *.txt setlocal spell
-autocmd BufRead,BufNewFile *.md setlocal spell
-
-"" make/cmake
+" make/cmake {{{
 augroup vimrc-make-cmake
-  autocmd!
-  autocmd FileType make setlocal noexpandtab
-  autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
-augroup END
+    autocmd!
+    autocmd FileType make setlocal noexpandtab
+    autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
+augroup END " }}}
 
-augroup completion_preview_close
-  autocmd!
-  if v:version > 703 || v:version == 703 && has('patch598')
-    autocmd CompleteDone * if !&previewwindow && &completeopt =~ 'preview' | silent! pclose | endif
-  endif
-augroup END
-
+" Go {{{
 augroup go
+    au!
+    au Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+    au Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+    au Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+    au Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 
-  au!
-  au Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
-  au Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
-  au Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
-  au Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+    au FileType go nmap <Leader>dd <Plug>(go-def-vertical)
+    au FileType go nmap <Leader>dv <Plug>(go-doc-vertical)
+    au FileType go nmap <Leader>db <Plug>(go-doc-browser)
 
-  au FileType go nmap <Leader>dd <Plug>(go-def-vertical)
-  au FileType go nmap <Leader>dv <Plug>(go-doc-vertical)
-  au FileType go nmap <Leader>db <Plug>(go-doc-browser)
+    au FileType go nmap <leader>r  <Plug>(go-run)
+    au FileType go nmap <leader>t  <Plug>(go-test)
+    au FileType go nmap <Leader>gt <Plug>(go-coverage-toggle)
+    au FileType go nmap <Leader>i <Plug>(go-info)
+    au FileType go nmap <silent> <Leader>l <Plug>(go-metalinter)
+    au FileType go nmap <leader>dr :GoDeclsDir<cr>
+    au FileType go nmap <leader>gfs :GoFillStruct<cr>
+    au FileType go nmap <leader>gie :GoIfErr<cr>
+    au FileType go imap <leader>dr <esc>:<C-u>GoDeclsDir<cr>
+    au FileType go nmap <leader>rb :<C-u>call <SID>build_go_files()<CR>
 
-  au FileType go nmap <leader>r  <Plug>(go-run)
-  au FileType go nmap <leader>t  <Plug>(go-test)
-  au FileType go nmap <Leader>gt <Plug>(go-coverage-toggle)
-  au FileType go nmap <Leader>i <Plug>(go-info)
-  au FileType go nmap <silent> <Leader>l <Plug>(go-metalinter)
-  au FileType go nmap <leader>dr :GoDeclsDir<cr>
-  au FileType go imap <leader>dr <esc>:<C-u>GoDeclsDir<cr>
-  au FileType go nmap <leader>rb :<C-u>call <SID>build_go_files()<CR>
+    autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 
+    function! s:build_go_files()
+        let l:file = expand('%')
+        if l:file =~# '^\f\+_test\.go$'
+            call go#test#Test(0, 1)
+        elseif l:file =~# '^\f\+\.go$'
+            call go#cmd#Build(0)
+        endif
+    endfunction
+    " go
+    let g:go_list_type = "quickfix"
+    let g:go_fmt_autosave = 1
+    let g:go_imports_autosave = 1
+    let g:go_imports_commad ="goimports-ordered"
+    let g:go_fmt_command = "goimports"
+    let g:go_fmt_fail_silently = 1
+
+    let g:go_highlight_types = 1
+    let g:go_highlight_diagnostic_errors = 1
+    let g:go_highlight_fields = 1
+    let g:go_highlight_functions = 1
+    let g:go_highlight_function_parameters = 1
+    let g:go_highlight_string_spellcheck = 1
+    let g:go_highlight_format_strings = 1
+    let g:go_highlight_variable_declarations = 1
+    let g:go_highlight_variable_assignments = 1
+    let g:go_highlight_function_calls = 1
+    let g:go_highlight_methods = 1
+    let g:go_highlight_operators = 1
+    let g:go_highlight_build_constraints = 1
+    let g:go_highlight_structs = 1
+    let g:go_highlight_generate_tags = 1
+    let g:go_highlight_space_tab_error = 0
+    let g:go_highlight_array_whitespace_error = 0
+    let g:go_highlight_trailing_whitespace_error = 0
+    let g:go_highlight_extra_types = 1
+    let g:go_rename_command = "gopls"
+augroup END " }}}
+
+" }}}
+
+" Other_Autos {{{
+augroup completion_preview_close
+    autocmd!
+    if v:version > 703 || v:version == 703 && has('patch598')
+        autocmd CompleteDone * if !&previewwindow && &completeopt =~ 'preview' | silent! pclose | endif
+    endif
 augroup END
 
-augroup vimrc-python
-  autocmd!
-  autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8 colorcolumn=88
+augroup python
+    autocmd!
+    " jedi-vim
+    let g:jedi#popup_on_dot = 0
+    let g:jedi#auto_initialization = 0
+    let g:jedi#completions_enabled = 0
+    let g:jedi#smart_auto_mappings = 0
+    autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8 colorcolumn=88
       \ formatoptions+=croq softtabstop=4
       \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
 augroup END
-
-
-set autoread
-
-" Disable visualbell
-set noerrorbells visualbell t_vb=
-if has('autocmd')
-  autocmd GUIEnter * set visualbell t_vb=
-endif
 
 "" Copy/Paste/Cut
 if has('unnamedplus')
@@ -462,201 +417,29 @@ endif
 
 " ripgrep
 if executable('rg')
-  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
-  set grepprg=rg\ --vimgrep
-  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+    let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+    set grepprg=rg\ --vimgrep
+    command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 endif
 
 " json
 autocmd FileType json set foldmethod=syntax foldlevel=20
 
-" c
-autocmd FileType c setlocal tabstop=4 shiftwidth=4 expandtab
-autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 expandtab
+" Remember cursor position
+augroup vimrc-remember-cursor-position
+  autocmd!
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+augroup END
 
-" go
-autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
+" remove excess whitespace on save
+autocmd BufWritePre * %s/\s\+$//e
 
-function! s:build_go_files()
-  let l:file = expand('%')
-  if l:file =~# '^\f\+_test\.go$'
-    call go#test#Test(0, 1)
-  elseif l:file =~# '^\f\+\.go$'
-    call go#cmd#Build(0)
-  endif
-endfunction
-
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" Deal with man pages
+if &filetype ==# 'man'
+    remap q :q!<CR>
+endif
 
 " }}}
-
-" Mappings: {{{
-
-" CoC Show Documentation
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
-
-nnoremap <silent> <leader>sd :call <SID>show_documentation()<CR>
-
-nmap <leader>gd <Plug>(coc-definition)
-nmap <leader>gy <Plug>(coc-type-definition)
-nmap <leader>gi <Plug>(coc-implementation)
-nmap <leader>gr <Plug>(coc-references)
-nmap <leader>rr <Plug>(coc-rename)
-nmap <leader>g[ <Plug>(coc-diagnostic-prev)
-nmap <leader>g] <Plug>(coc-diagnostic-next)
-nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
-nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
-
-" Undotree
-nnoremap <silent> <leader>ud :UndotreeToggle<CR>
-
-" Half page up/down
-nnoremap <silent> <S-J> <C-d>
-nnoremap <silent> <S-K> <C-u>
-
-" Floaterm
-nnoremap <silent> <leader>ft :FloatermToggle<CR>
-tnoremap <silent> <leader>ft <c-\><c-n>:FloatermToggle<CR>
-" " Escape out of terminal mode
-tnoremap <A-z> <C-\><C-n>
-tmap <A-h> <C-\><C-n> :wincmd h<CR>
-tmap <A-j> <C-\><C-n> :wincmd j<CR>
-tmap <A-k> <C-\><C-n> :wincmd k<CR>
-tmap <A-l> <C-\><C-n> :wincmd l<CR>
-
-" Normal term
-nnoremap <silent> <leader>st :split term://zsh<CR>
-nnoremap <silent> <leader>vt :vsplit term://zsh<CR>
-
-"" git
-"git related
-nnoremap <leader>Gfi :GFiles<CR>
-nnoremap <leader>Ga :Gwrite<CR>
-nnoremap <leader>Gc :Gcommit<CR>
-nnoremap <leader>Gsh :Gpush<CR>
-nnoremap <leader>Gll :Gpull<CR>
-nnoremap <leader>Gs :Gstatus<CR>
-nnoremap <leader>Gb :Gblame<CR>
-nnoremap <leader>Gd :Gvdiff<CR>
-nnoremap <leader>Gr :Gremove<CR>
-nnoremap <leader>o :.Gbrowse<CR> ""Open current line fuGITive
-nmap <leader>gj :diffget //3<CR>
-nmap <leader>gf :diffget //2<CR>
-
-" Move visual selection
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
-
-" Tab completion
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" Page up/down
-nnoremap <silent> <A-j> <C-d>
-nnoremap <silent> <A-k> <C-u>
-
-" Commentary
-vnoremap <silent> <leader>cm :Commentary<CR>
-
-" better next/previous search
-nnoremap n nzzzv
-nnoremap N Nzzzv
-
-" Vim's tabs are terrible, we use buffers 'round these parts
-nnoremap <silent> <Tab> :bn<CR>
-nnoremap <silent> <S-Tab> :bp<CR>
-nnoremap <silent> <S-t> :enew<CR>
-
-cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
-nnoremap <silent> <leader>b :Buffers<CR>
-nnoremap <silent> <leader>e :FZF -m<CR>
-
-"Recovery commands from history through FZF
-nmap <leader>y :History:<CR>
-
-" " Tagbar
-nmap <silent> <A-2> :Vista!!<CR>
-
-
-"" Switching windows
-nnoremap <silent> <A-j> :wincmd j<CR>
-nnoremap <silent> <A-k> :wincmd k<CR>
-nnoremap <silent> <A-l> :wincmd l<CR>
-nnoremap <silent> <A-h> :wincmd h<CR>
-
-"" Moving windows
-nnoremap <silent> <A-S-j> :wincmd J<CR>
-nnoremap <silent> <A-S-k> :wincmd K<CR>
-nnoremap <silent> <A-S-l> :wincmd L<CR>
-nnoremap <silent> <A-S-h> :wincmd H<CR>
-
-
-"" Other window mappings
-nnoremap <silent> <A-f> :call ToggleZoom(v:true)<CR>
-
-" Nohl
-nnoremap <silent> <leader>nh :nohl<CR>
-
-"" Vmap for maintain Visual Mode after shifting > and <
-vmap < <gv
-vmap > >gv
-
-"" Move visual block
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
-
-" NERDTree Mappings
-" nnoremap <silent> <F1> :NERDTreeToggle<CR>
-" inoremap <silent> <F1> :NERDTreeToggle<CR>
-" vnoremap <silent> <F1> :NERDTreeToggle<CR>
-
-" CHADTree
-nnoremap <silent> <A-1> :CHADopen<CR>
-inoremap <silent> <A-1> :CHADopen<CR>
-vnoremap <silent> <A-1> :CHADopen<CR>
-
-" let g:NERDTreeMapOpenVSplit = '<F2>'
-" let g:NERDTreeMapOpenSplit = '<F3>'
-
-" Tagbar
-nnoremap <silent> <F4> :TagbarToggle<CR>
-
-" Toggle folds with F9
-inoremap <F9> <C-O>za
-nnoremap <F9> za
-onoremap <F9> <C-C>za
-vnoremap <F9> zf
-
-" nohl
-nnoremap <silent> <leader>nh :nohl<CR>
-
-" splits
-nnoremap <leader>ss :split
-nnoremap <leader>vs :vsplit
-
-" fzf
-nnoremap <leader>pf :Files<CR>
-nnoremap <leader>pr :Rg<CR>
-nnoremap <leader>pv :wincmd v <bar> :Files<CR>
-nnoremap <leader>ph :wincmd s <bar> :Files<CR>
-
-" Kwbd Mappings
-" Close buffer
-noremap <silent> <A-q> :Kwbd<CR>
-
-" Just close window/pane
-nnoremap <silent> <A-w> :wincmd c<CR>
 
 " Functions {{{
 
@@ -742,8 +525,162 @@ endfunction
 
 command! Kwbd call s:Kwbd(1)
 
+" CoC Show Documentation
+function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    elseif (coc#rpc#ready())
+        call CocActionAsync('doHover')
+    else
+        execute '!' . &keywordprg . " " . expand('<cword>')
+    endif
+endfunction
+
+
 " }}}
 
+" Mappings: {{{
+
+nnoremap <silent> <leader>sd :call <SID>show_documentation()<CR>
+
+nmap <leader>gd <Plug>(coc-definition)
+nmap <leader>gy <Plug>(coc-type-definition)
+nmap <leader>gi <Plug>(coc-implementation)
+nmap <leader>gr <Plug>(coc-references)
+nmap <leader>rr <Plug>(coc-rename)
+nmap <leader>g[ <Plug>(coc-diagnostic-prev)
+nmap <leader>g] <Plug>(coc-diagnostic-next)
+nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
+nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
+
+" Undotree
+nnoremap <silent> <leader>ud :UndotreeToggle<CR>
+
+" Half page up/down
+nnoremap <silent> <S-J> <C-d>
+nnoremap <silent> <S-K> <C-u>
+
+" Floaterm
+nnoremap <silent> <leader>ft :FloatermToggle<CR>
+tnoremap <silent> <leader>ft <c-\><c-n>:FloatermToggle<CR>
+" " Escape out of terminal mode
+tnoremap <A-z> <C-\><C-n>
+tmap <A-h> <C-\><C-n> :wincmd h<CR>
+tmap <A-j> <C-\><C-n> :wincmd j<CR>
+tmap <A-k> <C-\><C-n> :wincmd k<CR>
+tmap <A-l> <C-\><C-n> :wincmd l<CR>
+
+" Normal term
+nnoremap <silent> <leader>st :split term://bash<CR>
+nnoremap <silent> <leader>vt :vsplit term://bash<CR>
+
+"" git
+"git related
+nnoremap <leader>Gfi :GFiles<CR>
+nnoremap <leader>Ga :Gwrite<CR>
+nnoremap <leader>Gc :Git commit<CR>
+nnoremap <leader>Gsh :Git push<CR>
+nnoremap <leader>Gll :Git pull<CR>
+nnoremap <leader>Gs :Gstatus<CR>
+nnoremap <leader>Gb :Gblame<CR>
+nnoremap <leader>Gd :Gvdiff<CR>
+nnoremap <leader>Gr :Gremove<CR>
+nnoremap <leader>o :.Gbrowse<CR> ""Open current line fuGITive
+nmap <leader>gj :diffget //3<CR>
+nmap <leader>gf :diffget //2<CR>
+
+" Move visual selection
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+" Tab completion
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Page up/down
+nnoremap <silent> <A-j> <C-d>
+nnoremap <silent> <A-k> <C-u>
+
+" Commentary
+vnoremap <silent> <leader>cm :Commentary<CR>
+
+" better next/previous search
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" Vim's tabs are terrible, we use buffers 'round these parts
+nnoremap <silent> <Tab> :bn<CR>
+nnoremap <silent> <S-Tab> :bp<CR>
+nnoremap <silent> <S-t> :enew<CR>
+
+cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
+nnoremap <silent> <leader>b :Buffers<CR>
+nnoremap <silent> <leader>e :FZF -m<CR>
+
+"Recovery commands from history through FZF
+nmap <leader>y :History:<CR>
+
+"" Switching windows
+nnoremap <silent> <A-j> :wincmd j<CR>
+nnoremap <silent> <A-k> :wincmd k<CR>
+nnoremap <silent> <A-l> :wincmd l<CR>
+nnoremap <silent> <A-h> :wincmd h<CR>
+
+"" Moving windows
+nnoremap <silent> <A-S-j> :wincmd J<CR>
+nnoremap <silent> <A-S-k> :wincmd K<CR>
+nnoremap <silent> <A-S-l> :wincmd L<CR>
+nnoremap <silent> <A-S-h> :wincmd H<CR>
+
+
+"" Other window mappings
+nnoremap <silent> <A-f> :call ToggleZoom(v:true)<CR>
+
+" Nohl
+nnoremap <silent> <leader>nh :nohl<CR>
+
+"" Vmap for maintain Visual Mode after shifting > and <
+vmap < <gv
+vmap > >gv
+
+"" Move visual block
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+" NERDTree Mappings
+noremap <silent> <A-1> :NERDTreeToggle<CR>
+
+let g:NERDTreeMapOpenVSplit = '<A-2>'
+let g:NERDTreeMapOpenSplit = '<A-3>'
+
+" Tagbar
+nnoremap <silent> <A-4> :TagbarToggle<CR>
+
+" Toggle folds with F9
+inoremap <F9> <C-O>za
+nnoremap <F9> za
+onoremap <F9> <C-C>za
+vnoremap <F9> zf
+
+" nohl
+nnoremap <silent> <leader>nh :nohl<CR>
+
+" splits
+nnoremap <leader>ss :split
+nnoremap <leader>vs :vsplit
+
+" fzf
+nnoremap <leader>pf :Files<CR>
+nnoremap <leader>pr :Rg<CR>
+nnoremap <leader>pv :wincmd v <bar> :Files<CR>
+nnoremap <leader>ph :wincmd s <bar> :Files<CR>
+
+" Kwbd Mappings
+" Close buffer
+noremap <silent> <A-q> :Kwbd<CR>
+
+" Just close window/pane
+nnoremap <silent> <A-w> :wincmd c<CR>
 
 " }}}
 
