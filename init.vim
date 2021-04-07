@@ -4,7 +4,7 @@
 "|  | | '_ \| | __\ \ / / | '_ ` _ \  |
 "|  | | | | | | |_ \ V /| | | | | | | |
 "|  |_|_| |_|_|\__(_)_/ |_|_| |_| |_| |
-"|                                    |
+"|                             distek |
 "\====================================/
 
 
@@ -30,29 +30,29 @@ endif
 
 call plug#begin(expand('~/.config/nvim/plugged'))
 
-
-" Modes and QOL {{{
-" Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
+" QOL {{{
 Plug 'preservim/nerdtree'
-Plug 'simeji/winresizer'
-Plug 'Yggdroot/indentLine'
-Plug 'voldikss/vim-floaterm'
-Plug 'dhruvasagar/vim-zoom'
 Plug 'mbbill/undotree'
-Plug 'vim-utils/vim-man'
+Plug 'Yggdroot/indentLine'
 Plug 'preservim/tagbar'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-obsession'
 Plug 'vim-scripts/colorizer'
+Plug 'airblade/vim-gitgutter'
 Plug 'pseewald/vim-anyfold'
-Plug 'kevinhwang91/nvim-bqf'
-" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'jamessan/vim-gnupg'
+" }}}
+
+" Modes {{{
+Plug 'simeji/winresizer'
+Plug 'voldikss/vim-floaterm'
+Plug 'dhruvasagar/vim-zoom'
+Plug 'vim-utils/vim-man'
+Plug 'tpope/vim-obsession'
+Plug 'kevinhwang91/nvim-bqf'
 
 "}}}
 
@@ -60,16 +60,15 @@ Plug 'jamessan/vim-gnupg'
 Plug 'ryanoasis/vim-devicons'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
-Plug 'vim-scripts/CSApprox'
+" Plug 'vim-scripts/CSApprox'
 Plug 'sheerun/vim-polyglot'
+" Theme
 Plug 'sainnhe/everforest'
 " }}}
 
 " Autocomplete and syntax {{{
 Plug 'w0rp/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
-
-
 " }}}
 
 " Programming languages {{{
@@ -155,6 +154,7 @@ set background=dark
 "   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 " endif
 
+" Undodir {{{
 " Ensure undodir exists and has been created
 let undodir=expand('~/.cache/nvim/undodir')
 if !isdirectory(undodir)
@@ -172,6 +172,7 @@ if exists('$SHELL')
 else
     set shell=/bin/sh
 endif
+" }}}
 
 " }}}
 
@@ -206,7 +207,7 @@ let g:indentLine_concealcursor = 0
 let g:indentLine_char = '┆'
 let g:indentLine_faster = 1
 
-" vim-lightline
+" vim-lightline {{{
 let g:lightline = {
       \ 'colorscheme': 'everforest',
       \ 'active': {
@@ -229,6 +230,7 @@ let g:lightline = {
       \   'fileformat': 'MyFileformat'
       \ }
       \ }
+" }}}
 
 " fzf.vim
 set wildmode=list:longest,list:full
@@ -563,7 +565,8 @@ nnoremap <silent> <S-K> <C-u>
 " Floaterm
 nnoremap <silent> <leader>ft :FloatermToggle<CR>
 tnoremap <silent> <leader>ft <c-\><c-n>:FloatermToggle<CR>
-" " Escape out of terminal mode
+
+" Escape out of terminal mode
 tnoremap <A-z> <C-\><C-n>
 tmap <A-h> <C-\><C-n> :wincmd h<CR>
 tmap <A-j> <C-\><C-n> :wincmd j<CR>
@@ -571,11 +574,10 @@ tmap <A-k> <C-\><C-n> :wincmd k<CR>
 tmap <A-l> <C-\><C-n> :wincmd l<CR>
 
 " Normal term
-nnoremap <silent> <leader>st :split term://bash<CR>
-nnoremap <silent> <leader>vt :vsplit term://bash<CR>
+nnoremap <expr> <silent> <leader>st ":split term://" . &shell . "<CR>"
+nnoremap <expr> <silent> <leader>vt ":vsplit term://" . &shell . "<CR>"
 
-"" git
-"git related
+" Fugitive related
 nnoremap <leader>Gfi :GFiles<CR>
 nnoremap <leader>Ga :Gwrite<CR>
 nnoremap <leader>Gc :Git commit<CR>
@@ -596,6 +598,7 @@ vnoremap K :m '<-2<CR>gv=gv
 " Tab completion
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <Enter> pumvisible() ? "\<Right>" : ""
 
 " Page up/down
 nnoremap <silent> <A-j> <C-d>
