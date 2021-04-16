@@ -145,8 +145,16 @@ set splitright
 
 " Color
 colorscheme everforest
-let g:everforest_background='hard'
-set background=dark
+
+let ifLight = system("grep '^background_opacity: 0.7' ~/.config/alacritty/colors.yml")
+
+if v:shell_error != 0
+    let g:everforest_background='soft'
+    set background=light
+else
+    let g:everforest_background='hard'
+    set background=dark
+endif
 
 " Correct RGB escape codes for vim inside tmux
 " if !has('nvim') && $TERM ==# 'screen-256color'
@@ -393,6 +401,11 @@ augroup END " }}}
 " }}}
 
 " Other_Autos {{{
+
+"close nerdtree if last window
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+
 augroup completion_preview_close
     autocmd!
     if v:version > 703 || v:version == 703 && has('patch598')
