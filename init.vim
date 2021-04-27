@@ -58,8 +58,9 @@ Plug 'kevinhwang91/nvim-bqf'
 
 " Aesthetics {{{
 Plug 'ryanoasis/vim-devicons'
-Plug 'itchyny/lightline.vim'
-Plug 'mengelbrecht/lightline-bufferline'
+" Plug 'itchyny/lightline.vim'
+" Plug 'mengelbrecht/lightline-bufferline'
+Plug 'vim-airline/vim-airline'
 " Plug 'vim-scripts/CSApprox'
 Plug 'sheerun/vim-polyglot'
 " Theme
@@ -69,6 +70,9 @@ Plug 'sainnhe/everforest'
 " Autocomplete and syntax {{{
 Plug 'w0rp/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+" nvimlsp is minimum 3 plugins
+" coc is self contained
+" just fucking use coc.
 " }}}
 
 " Programming languages {{{
@@ -146,10 +150,10 @@ set splitright
 " Color
 colorscheme everforest
 
-let ifLight = system("grep '^background_opacity: 0.7' ~/.config/alacritty/colors.yml")
-
+let g:everforest_transparent_background=0
+let ifLight = system("grep '^colors: .*dark' ~/.config/alacritty/colors.yml")
 if v:shell_error != 0
-    let g:everforest_background='soft'
+    let g:everforest_background='medium'
     set background=light
 else
     let g:everforest_background='hard'
@@ -216,28 +220,36 @@ let g:indentLine_char = '┆'
 let g:indentLine_faster = 1
 
 " vim-lightline {{{
-let g:lightline = {
-      \ 'colorscheme': 'everforest',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'tabline': {
-      \   'left': [ ['buffers', " "] ],
-      \   'right': [ ['close'] ]
-      \ },
-      \ 'component_expand': {
-      \   'buffers': 'lightline#bufferline#buffers'
-      \ },
-      \ 'separator': { 'left': '', 'right': '' },
-      \ 'subseparator': { 'left': '', 'right': '' },
-      \ 'component_type': {
-      \   'buffers': 'tabsel'
-      \ },
-      \ 'component_function': {
-      \   'filetype': 'MyFiletype',
-      \   'fileformat': 'MyFileformat'
-      \ }
-      \ }
+" let g:lightline = {
+"       \ 'colorscheme': 'everforest',
+"       \ 'active': {
+"       \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
+"       \ },
+"       \ 'tabline': {
+"       \   'left': [ ['buffers'] ],
+"       \   'right': [ ['close'] ]
+"       \ },
+"       \ 'component_expand': {
+"       \   'buffers': 'lightline#bufferline#buffers'
+"       \ },
+"       \ 'separator': { 'left': '', 'right': '' },
+"       \ 'subseparator': { 'left': '', 'right': '' },
+"       \ 'component_type': {
+"       \   'buffers': 'tabsel'
+"       \ },
+"       \ 'component_function': {
+"       \   'filetype': 'MyFiletype',
+"       \   'fileformat': 'MyFileformat'
+"       \ }
+"       \ }
+
+" let g:lightline#bufferline#clickable = 1
+" let g:lightline#bufferline#margin_right = 1
+" let g:lightline#bufferline#enable_devicons = 1
+" let g:lightline#bufferline#unnamed = '_'
+" let g:lightline#bufferline#show_number = 2
+" let g:lightline#bufferline#icon_position = 'first'
+
 " }}}
 
 " fzf.vim
@@ -251,8 +263,34 @@ let g:ale_linters = {
     \ 'c': ['clang']
 \}
 
-" vim-airline
+" vim-airline {{{
 let g:airline#extensions#virtualenv#enabled = 1
+let g:airline_theme = 'everforest'
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline#extensions#tabline#right_sep = ''
+let g:airline#extensions#tabline#right_alt_sep = ''
+
+let g:airline#extensions#tabline#show_close_button = 0
+
+" fixes unnecessary redraw, when e.g. opening Gundo window
+let airline#extensions#tabline#ignore_bufadd_pat =
+          \ '\c\vgundo|undotree|vimfiler|tagbar|nerd_tree'
+
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 1 " enable/disable displaying buffers with a single tab
+let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#extensions#tagbar#enabled = 0
+let g:airline#extensions#tabline#show_tab_type = 0
+
+
+" }}}
 
 " Syntax highlight
 " Default highlight is better than polyglot
@@ -458,6 +496,14 @@ endif
 
 " Functions {{{
 
+" get attribute under cursor
+function! SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
 " ToggleZoom
 function! ToggleZoom(zoom)
   if exists("t:restore_zoom") && (a:zoom == v:true || t:restore_zoom.win != winnr())
@@ -540,7 +586,7 @@ endfunction
 
 command! Kwbd call s:Kwbd(1)
 
-" CoC Show Documentation
+" " CoC Show Documentation
 function! s:show_documentation()
     if (index(['vim','help'], &filetype) >= 0)
         execute 'h '.expand('<cword>')
@@ -698,5 +744,16 @@ noremap <silent> <A-q> :Kwbd<CR>
 " Just close window/pane
 nnoremap <silent> <A-w> :wincmd c<CR>
 
+" Lightline-buffers
+nmap <Leader>1 <Plug>lightline#bufferline#go(1)
+nmap <Leader>2 <Plug>lightline#bufferline#go(2)
+nmap <Leader>3 <Plug>lightline#bufferline#go(3)
+nmap <Leader>4 <Plug>lightline#bufferline#go(4)
+nmap <Leader>5 <Plug>lightline#bufferline#go(5)
+nmap <Leader>6 <Plug>lightline#bufferline#go(6)
+nmap <Leader>7 <Plug>lightline#bufferline#go(7)
+nmap <Leader>8 <Plug>lightline#bufferline#go(8)
+nmap <Leader>9 <Plug>lightline#bufferline#go(9)
+nmap <Leader>0 <Plug>lightline#bufferline#go(10)
 " }}}
 

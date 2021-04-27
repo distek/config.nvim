@@ -17,6 +17,7 @@
     "clangd.disableDiagnostics": false,
     "clangd.disableSnippetCompletion": false,
     "cSpell.enabledLanguageIds":["text", "mail", "note", "markdown", "html"],
+    "sh.enable": true,
     "zi.patterns": {
           "text":[],
           "mail":[],
