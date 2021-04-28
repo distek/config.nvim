@@ -288,6 +288,7 @@ let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#tagbar#enabled = 0
 let g:airline#extensions#tabline#show_tab_type = 0
+let g:airline_powerline_fonts=1
 
 
 " }}}
