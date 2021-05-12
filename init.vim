@@ -38,12 +38,14 @@ Plug 'preservim/tagbar'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-obsession'
 Plug 'vim-scripts/colorizer'
 Plug 'airblade/vim-gitgutter'
 Plug 'pseewald/vim-anyfold'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'jamessan/vim-gnupg'
+Plug 'junegunn/limelight.vim'
 " }}}
 
 " Modes {{{
@@ -53,6 +55,8 @@ Plug 'dhruvasagar/vim-zoom'
 Plug 'vim-utils/vim-man'
 Plug 'tpope/vim-obsession'
 Plug 'kevinhwang91/nvim-bqf'
+Plug 'puremourning/vimspector'
+Plug 'jodosha/vim-godebug'
 
 "}}}
 
@@ -160,11 +164,18 @@ else
     set background=dark
 endif
 
+" GUI
+set guifont=FiraCode\ Nerd\ Font\ Mono:h9
+set guicursor+=a:blinkon650
+
 " Correct RGB escape codes for vim inside tmux
 " if !has('nvim') && $TERM ==# 'screen-256color'
 "   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 "   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 " endif
+
+let g:foldStart = 'A # {{{'
+let g:foldEnd = 'A # }}}'
 
 " Undodir {{{
 " Ensure undodir exists and has been created
@@ -177,6 +188,7 @@ endif
 set undodir=~/.cache/nvim/undodir " Do we need this?
 set undofile
 set noswapfile
+" }}}
 
 " Term Stuff
 if exists('$SHELL')
@@ -184,11 +196,15 @@ if exists('$SHELL')
 else
     set shell=/bin/sh
 endif
-" }}}
 
 " }}}
 
-" Plugin_configs: {{{
+" Plugin configs: {{{
+
+" Limelight
+let g:limelight_bop = '\(func\ .*\n\|type\ .*{\n\|\nvar.*\n\)'
+let g:limelight_eop = '}\n\n'
+
 
 " Floaterm
 let g:floaterm_position = 'topright'
@@ -299,7 +315,7 @@ let python_highlight_all = 1
 
 " }}}
 
-" File_type_autos: {{{
+" File type autos: {{{
 " Bash {{{
 augroup sh
     let g:LanguageClient_serverCommands = {
@@ -394,7 +410,7 @@ augroup go
     au FileType go nmap <leader>dr :GoDeclsDir<cr>
     au FileType go nmap <leader>gfs :GoFillStruct<cr>
     au FileType go nmap <leader>gie :GoIfErr<cr>
-    au FileType go imap <leader>dr <esc>:<C-u>GoDeclsDir<cr>
+    " au FileType go imap <leader>dr <esc>:<C-u>GoDeclsDir<cr>
     au FileType go nmap <leader>rb :<C-u>call <SID>build_go_files()<CR>
 
     autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
@@ -413,7 +429,7 @@ augroup go
     let g:go_imports_autosave = 1
     let g:go_imports_commad ="goimports-ordered"
     let g:go_fmt_command = "goimports"
-    let g:go_fmt_fail_silently = 1
+    let g:go_fmt_fail_silently = 0
 
     let g:go_highlight_types = 1
     let g:go_highlight_diagnostic_errors = 1
@@ -435,14 +451,23 @@ augroup go
     let g:go_highlight_trailing_whitespace_error = 0
     let g:go_highlight_extra_types = 1
     let g:go_rename_command = "gopls"
+    let g:go_fmt_experimental = 1
+    let g:go_doc_keywordprg_enabled = 0
+    au FileType go let g:foldStart = 'A // {{{'
+    au FileType go let g:foldEnd = 'A // }}}'
+
 augroup END " }}}
 
 " }}}
 
-" Other_Autos {{{
+" Other Autos {{{
 
-"close nerdtree if last window
+" NERDTree
+" close nerdtree if last window
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+
+let g:NERDTreeChDirMode = 2
 
 
 augroup completion_preview_close
@@ -496,6 +521,15 @@ endif
 " }}}
 
 " Functions {{{
+
+" Add folds to end of line
+function Folder(position)
+    if (a:position == 'start')
+        call feedkeys(g:foldStart.'')
+    elseif (a:position == 'end')
+        call feedkeys(g:foldEnd.'')
+    endif
+endfunction
 
 " get attribute under cursor
 function! SynStack()
@@ -603,6 +637,28 @@ endfunction
 
 " Mappings: {{{
 
+" Plug
+nnoremap <silent> <leader>PI :PlugInstall<CR>
+nnoremap <silent> <leader>PU :PlugUpdate<CR>
+nnoremap <silent> <leader>PC :PlugClean<CR>
+
+" vimspector
+nnoremap <silent> <leader>Dbg :call vimspector#Launch()<CR>
+nnoremap <silent> <leader>Dbb :call vimspector#ToggleBreakpoint()<CR>
+nnoremap <silent> <leader>Dbc :call vimspector#Continue()<CR>
+nnoremap <silent> <leader>Dbp :call vimspector#Pause()<CR>
+nnoremap <silent> <leader>Dbs :call vimspector#Stop()<CR>
+
+" Obsession
+nnoremap <silent> <leader>O :Obsession<CR>
+
+" Limelight
+nnoremap <silent> <leader>li :Limelight<CR>
+
+" Folder
+nnoremap <silent> <leader>fo :call Folder('start')<CR>
+nnoremap <silent> <leader>fc :call Folder('end')<CR>
+
 nnoremap <silent> <leader>sd :call <SID>show_documentation()<CR>
 
 nmap <leader>gd <Plug>(coc-definition)
@@ -619,8 +675,8 @@ nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
 nnoremap <silent> <leader>ud :UndotreeToggle<CR>
 
 " Half page up/down
-nnoremap <silent> <S-J> <C-d>
-nnoremap <silent> <S-K> <C-u>
+noremap <silent> <S-J> <C-d>
+noremap <silent> <S-K> <C-u>
 
 " Floaterm
 nnoremap <silent> <leader>ft :FloatermToggle<CR>
@@ -658,7 +714,7 @@ vnoremap K :m '<-2<CR>gv=gv
 " Tab completion
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <Enter> pumvisible() ? "\<Right>" : ""
+inoremap <expr> <Enter> pumvisible() ? "\<Right>" : "\<Enter>"
 
 " Page up/down
 nnoremap <silent> <A-j> <C-d>
