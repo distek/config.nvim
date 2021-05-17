@@ -7,11 +7,10 @@
 "|                             distek |
 "\====================================/
 
-
 " VIMPlug Plugins {{{
 
 "" VIMPlug init: {{{
-let vimplug_exists=expand('~/.vim/autoload/plug.vim')
+let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
 
 " For a new system
 if !filereadable(vimplug_exists)
@@ -703,7 +702,7 @@ nnoremap <leader>Gs :Gstatus<CR>
 nnoremap <leader>Gb :Gblame<CR>
 nnoremap <leader>Gd :Gvdiff<CR>
 nnoremap <leader>Gr :Gremove<CR>
-nnoremap <leader>o :.Gbrowse<CR> ""Open current line fuGITive
+nnoremap <leader>Go :.Gbrowse<CR> ""Open current line fuGITive
 nmap <leader>gj :diffget //3<CR>
 nmap <leader>gf :diffget //2<CR>
 
@@ -716,10 +715,6 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <Enter> pumvisible() ? "\<Right>" : "\<Enter>"
 
-" Page up/down
-nnoremap <silent> <A-j> <C-d>
-nnoremap <silent> <A-k> <C-u>
-
 " Commentary
 vnoremap <silent> <leader>cm :Commentary<CR>
 
@@ -727,7 +722,7 @@ vnoremap <silent> <leader>cm :Commentary<CR>
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
-" Vim's tabs are terrible, we use buffers 'round these parts
+" I don't like the way vim does tabs, so I use buffers instead
 nnoremap <silent> <Tab> :bn<CR>
 nnoremap <silent> <S-Tab> :bp<CR>
 nnoremap <silent> <S-t> :enew<CR>
