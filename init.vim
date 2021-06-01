@@ -45,6 +45,9 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'jamessan/vim-gnupg'
 Plug 'junegunn/limelight.vim'
+Plug 'nvim-lua/plenary.nvim' " don't forget to add this one if you don't have it yet!
+Plug 'nvim-lua/popup.nvim'
+Plug 'ThePrimeagen/harpoon'
 " }}}
 
 " Modes {{{
@@ -55,11 +58,11 @@ Plug 'vim-utils/vim-man'
 Plug 'tpope/vim-obsession'
 Plug 'kevinhwang91/nvim-bqf'
 Plug 'puremourning/vimspector'
-Plug 'jodosha/vim-godebug'
-
+Plug 'christoomey/vim-tmux-navigator'
 "}}}
 
 " Aesthetics {{{
+Plug 'deviantfero/wpgtk.vim'
 Plug 'ryanoasis/vim-devicons'
 " Plug 'itchyny/lightline.vim'
 " Plug 'mengelbrecht/lightline-bufferline'
@@ -68,14 +71,17 @@ Plug 'vim-airline/vim-airline'
 Plug 'sheerun/vim-polyglot'
 " Theme
 Plug 'sainnhe/everforest'
+Plug 'morhetz/gruvbox'
 " }}}
 
 " Autocomplete and syntax {{{
 Plug 'w0rp/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
 " nvimlsp is minimum 3 plugins
-" coc is self contained
+" coc is mostly self contained
 " just fucking use coc.
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 " }}}
 
 " Programming languages {{{
@@ -105,8 +111,6 @@ call plug#end()
 " Defaults: {{{
 let mapleader=' '
 
-hi Pmenu ctermbg=2
-
 syntax on
 filetype off
 filetype plugin on
@@ -135,7 +139,7 @@ set fileformats=unix,dos,mac
 set ruler
 set number
 let no_buffers_menu=1
-" set t_Co=256
+set t_Co=256
 set scrolloff=2
 set laststatus=2
 set modeline
@@ -151,21 +155,28 @@ set splitbelow
 set splitright
 
 " Color
-colorscheme everforest
+" colorscheme wpgtkAlt
+colorscheme gruvbox
+let g:gruvbox_italic = 1
+let g:gruvbox_improved_strings = 0
+let g:gruvbox_improved_warnings = 1
+let g:gruvbox_invert_tabline = 1
 
 let g:everforest_transparent_background=0
 let ifLight = system("grep '^colors: .*dark' ~/.config/alacritty/colors.yml")
 if v:shell_error != 0
     let g:everforest_background='medium'
+    let g:gruvbox_contrast_light='soft'
     set background=light
 else
     let g:everforest_background='hard'
+    let g:gruvbox_contrast_dark='medium'
     set background=dark
 endif
 
 " GUI
-set guifont=FiraCode\ Nerd\ Font\ Mono:h9
-set guicursor+=a:blinkon650
+" set guifont=FiraCode\ Nerd\ Font\ Mono:h9
+" set guicursor+=a:blinkon650
 
 " Correct RGB escape codes for vim inside tmux
 " if !has('nvim') && $TERM ==# 'screen-256color'
@@ -199,6 +210,16 @@ endif
 " }}}
 
 " Plugin configs: {{{
+" Ultisnips
+let g:UltiSnipsJumpForwardTrigger="<c-k>"
+let g:UltiSnipsJumpBackwardTrigger="<c-j>"
+let g:UltiSnipsExpandTrigger = ""
+
+" vim-tmux-navigator
+let g:tmux_navigator_no_mappings = 1
+
+"CoC
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Limelight
 let g:limelight_bop = '\(func\ .*\n\|type\ .*{\n\|\nvar.*\n\)'
@@ -280,7 +301,7 @@ let g:ale_linters = {
 
 " vim-airline {{{
 let g:airline#extensions#virtualenv#enabled = 1
-let g:airline_theme = 'everforest'
+let g:airline_theme = 'gruvbox'
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
@@ -291,7 +312,6 @@ let g:airline#extensions#tabline#left_alt_sep = ''
 let g:airline#extensions#tabline#right_sep = ''
 let g:airline#extensions#tabline#right_alt_sep = ''
 
-let g:airline#extensions#tabline#show_close_button = 0
 
 " fixes unnecessary redraw, when e.g. opening Gundo window
 let airline#extensions#tabline#ignore_bufadd_pat =
@@ -299,11 +319,21 @@ let airline#extensions#tabline#ignore_bufadd_pat =
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 1 " enable/disable displaying buffers with a single tab
+let g:airline#extensions#tabline#show_close_button = 1
+let g:airline#extensions#tabline#close_symbol = 'X'
 let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#tagbar#enabled = 0
-let g:airline#extensions#tabline#show_tab_type = 0
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#tabline#show_tab_type = 1
+let g:airline#extensions#tabline#show_splits = 1
 let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
+let g:airline#extensions#tabline#show_tabs = 1
+
+let g:airline#extensions#tabline#show_tab_count = 0
+let g:airline#extensions#tabline#show_tabs = 0
+let airline#extensions#tabline#current_first = 0
+let g:airline#extensions#scrollbar#enabled = 0 " It's horizontal
 
 
 " }}}
@@ -344,7 +374,7 @@ augroup c
                     \ "SplitEmptyFunction": "false",
                     \},
     \}
-    autocmd BufWritePre *.c,*.h ClangFormat
+    " autocmd BufWritePre *.c,*.h ClangFormat
     autocmd FileType c setlocal tabstop=4 shiftwidth=4 expandtab
     autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 expandtab
 augroup END "}}}
@@ -412,6 +442,13 @@ augroup go
     " au FileType go imap <leader>dr <esc>:<C-u>GoDeclsDir<cr>
     au FileType go nmap <leader>rb :<C-u>call <SID>build_go_files()<CR>
 
+    au FileType go nmap <silent> <leader>gdb :GoDebugStart<CR>
+    au FileType go nmap <silent> <leader>gdp :GoDebugBreakpoint<CR>
+    au FileType go nmap <silent> <leader>gds :GoDebugStart<CR>
+    au FileType go nmap <silent> <leader>gdS :GoDebugStop<CR>
+    au FileType go nmap <silent> <leader>gdn :GoDebugStep<CR>
+    au FileType go nmap <silent> <leader>gdc :GoDebugContinue<CR>
+
     autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 
     function! s:build_go_files()
@@ -457,6 +494,8 @@ augroup go
 
 augroup END " }}}
 
+" Mark any buffer for harpoon
+autocmd BufNewFile,BufRead * :lua require("harpoon.mark").add_file()
 " }}}
 
 " Other Autos {{{
@@ -636,6 +675,30 @@ endfunction
 
 " Mappings: {{{
 
+" harpoon
+nnoremap <silent> <leader>hp :lua require("harpoon.ui").toggle_quick_menu()<CR>
+nnoremap <silent> <leader>h1 :lua require("harpoon.ui").nav_file(1)<CR>
+nnoremap <silent> <leader>h2 :lua require("harpoon.ui").nav_file(2)<CR>
+nnoremap <silent> <leader>h3 :lua require("harpoon.ui").nav_file(3)<CR>
+nnoremap <silent> <leader>h4 :lua require("harpoon.ui").nav_file(4)<CR>
+nnoremap <silent> <leader>h5 :lua require("harpoon.ui").nav_file(5)<CR>
+nnoremap <silent> <leader>h6 :lua require("harpoon.ui").nav_file(6)<CR>
+nnoremap <silent> <leader>h7 :lua require("harpoon.ui").nav_file(7)<CR>
+nnoremap <silent> <leader>h8 :lua require("harpoon.ui").nav_file(8)<CR>
+nnoremap <silent> <leader>h9 :lua require("harpoon.ui").nav_file(9)<CR>
+nnoremap <silent> <leader>h0 :lua require("harpoon.ui").nav_file(10)<CR>
+
+nnoremap <silent> <leader>H1 :lua require("harpoon.ui").add_file()<CR>
+nnoremap <silent> <leader>H2 :lua require("harpoon.ui").add_file()<CR>
+nnoremap <silent> <leader>H3 :lua require("harpoon.ui").add_file()<CR>
+nnoremap <silent> <leader>H4 :lua require("harpoon.ui").add_file()<CR>
+nnoremap <silent> <leader>H5 :lua require("harpoon.ui").add_file()<CR>
+nnoremap <silent> <leader>H6 :lua require("harpoon.ui").add_file()<CR>
+nnoremap <silent> <leader>H7 :lua require("harpoon.ui").add_file()<CR>
+nnoremap <silent> <leader>H8 :lua require("harpoon.ui").add_file()<CR>
+nnoremap <silent> <leader>H9 :lua require("harpoon.ui").add_file()<CR>
+nnoremap <silent> <leader>H0 :lua require("harpoon.ui").add_file()<CR>
+
 " Plug
 nnoremap <silent> <leader>PI :PlugInstall<CR>
 nnoremap <silent> <leader>PU :PlugUpdate<CR>
@@ -723,9 +786,26 @@ nnoremap n nzzzv
 nnoremap N Nzzzv
 
 " I don't like the way vim does tabs, so I use buffers instead
-nnoremap <silent> <Tab> :bn<CR>
-nnoremap <silent> <S-Tab> :bp<CR>
-nnoremap <silent> <S-t> :enew<CR>
+ " {{{
+function! BnSkipQF()
+  let start_buffer = bufnr('%')
+  bn
+  while &buftype ==# 'quickfix' && bufnr('%') != start_buffer
+    bn
+  endwhile
+endfunction
+
+function! BpSkipQF()
+  let start_buffer = bufnr('%')
+  bp
+  while &buftype ==# 'quickfix' && bufnr('%') != start_buffer
+    bp
+  endwhile
+endfunction
+ " }}}
+
+nnoremap <silent> <Tab> :call BnSkipQF()<CR>
+nnoremap <silent> <S-Tab> :call BpSkipQF()<CR>
 
 cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <silent> <leader>b :Buffers<CR>
@@ -735,10 +815,10 @@ nnoremap <silent> <leader>e :FZF -m<CR>
 nmap <leader>y :History:<CR>
 
 "" Switching windows
-nnoremap <silent> <A-j> :wincmd j<CR>
-nnoremap <silent> <A-k> :wincmd k<CR>
-nnoremap <silent> <A-l> :wincmd l<CR>
-nnoremap <silent> <A-h> :wincmd h<CR>
+nnoremap <silent> <A-j> :TmuxNavigateDown<CR>
+nnoremap <silent> <A-k> :TmuxNavigateUp<CR>
+nnoremap <silent> <A-l> :TmuxNavigateRight<CR>
+nnoremap <silent> <A-h> :TmuxNavigateLeft<CR>
 
 "" Moving windows
 nnoremap <silent> <A-S-j> :wincmd J<CR>
