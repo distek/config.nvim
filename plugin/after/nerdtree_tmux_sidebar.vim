@@ -1,7 +1,16 @@
 if exists("g:nerdtree_vide") && g:nerdtree_vide ==# 1
     function! NvrRemote()
-        let file = g:NERDTreeFileNode.GetSelected().path.str()
-        silent exe ':!"nvr"'." --servername /tmp/nvimsocket --remote-silent"." ".file." 2>/dev/null"
+        let file = g:NERDTreeFileNode.GetSelected()
+        if getline(".") ==# g:NERDTreeUI.UpDirLine()
+            silent call nerdtree#ui_glue#upDir(0)
+            return
+        endif
+        if isdirectory(file.path.str())
+            call nerdtree#ui_glue#invokeKeyMap("<CR>")
+            return
+        endif
+
+        silent exe ':!"nvr"'." --servername /tmp/nvimsocket --remote-silent"." ".file.path.str()." 2>/dev/null"
     endfunction
 
     set noshowmode

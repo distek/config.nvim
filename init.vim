@@ -155,7 +155,6 @@ set splitbelow
 set splitright
 
 " Color
-" colorscheme wpgtkAlt
 colorscheme gruvbox
 let g:gruvbox_italic = 1
 let g:gruvbox_improved_strings = 0
@@ -177,12 +176,6 @@ endif
 " GUI
 " set guifont=FiraCode\ Nerd\ Font\ Mono:h9
 " set guicursor+=a:blinkon650
-
-" Correct RGB escape codes for vim inside tmux
-" if !has('nvim') && $TERM ==# 'screen-256color'
-"   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-"   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-" endif
 
 let g:foldStart = 'A # {{{'
 let g:foldEnd = 'A # }}}'
