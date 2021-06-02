@@ -77,11 +77,6 @@ Plug 'morhetz/gruvbox'
 " Autocomplete and syntax {{{
 Plug 'w0rp/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
-" nvimlsp is minimum 3 plugins
-" coc is mostly self contained
-" just fucking use coc.
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
 " }}}
 
 " Programming languages {{{
@@ -203,10 +198,6 @@ endif
 " }}}
 
 " Plugin configs: {{{
-" Ultisnips
-let g:UltiSnipsJumpForwardTrigger="<c-k>"
-let g:UltiSnipsJumpBackwardTrigger="<c-j>"
-let g:UltiSnipsExpandTrigger = ""
 
 " vim-tmux-navigator
 let g:tmux_navigator_no_mappings = 1
