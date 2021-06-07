@@ -45,7 +45,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'jamessan/vim-gnupg'
 Plug 'junegunn/limelight.vim'
-Plug 'nvim-lua/plenary.nvim' " don't forget to add this one if you don't have it yet!
+Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'ThePrimeagen/harpoon'
 " }}}
@@ -62,15 +62,11 @@ Plug 'christoomey/vim-tmux-navigator'
 "}}}
 
 " Aesthetics {{{
-Plug 'deviantfero/wpgtk.vim'
 Plug 'ryanoasis/vim-devicons'
-" Plug 'itchyny/lightline.vim'
-" Plug 'mengelbrecht/lightline-bufferline'
 Plug 'vim-airline/vim-airline'
-" Plug 'vim-scripts/CSApprox'
-Plug 'sheerun/vim-polyglot'
+" Plug 'sheerun/vim-polyglot'
+
 " Theme
-Plug 'sainnhe/everforest'
 Plug 'morhetz/gruvbox'
 " }}}
 
@@ -80,24 +76,32 @@ Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lock
 " }}}
 
 " Programming languages {{{
+
 " go
-Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
+Plug 'fatih/vim-go', { 'for': 'go' }
+
 " python
-Plug 'davidhalter/jedi-vim'
+Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
+
 " perl
 Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
+
 " Arduino
 Plug 'stevearc/vim-arduino'
+
 " Openscad
 Plug 'sirtaj/vim-openscad'
+
 " csv
-Plug 'chrisbra/csv.vim'
+Plug 'chrisbra/csv.vim', { 'for': 'csv' }
+
 " rust
-Plug 'rust-lang/rust.vim'
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'fidian/hexmode'
+
 " c
-Plug 'rhysd/vim-clang-format'
+Plug 'rhysd/vim-clang-format', { 'for': 'c' }
 " }}}
 
 call plug#end()
@@ -156,14 +160,11 @@ let g:gruvbox_improved_strings = 0
 let g:gruvbox_improved_warnings = 1
 let g:gruvbox_invert_tabline = 1
 
-let g:everforest_transparent_background=0
 let ifLight = system("grep '^colors: .*dark' ~/.config/alacritty/colors.yml")
 if v:shell_error != 0
-    let g:everforest_background='medium'
     let g:gruvbox_contrast_light='soft'
     set background=light
 else
-    let g:everforest_background='hard'
     let g:gruvbox_contrast_dark='medium'
     set background=dark
 endif
@@ -238,37 +239,6 @@ let g:indentLine_enabled = 1
 let g:indentLine_concealcursor = 0
 let g:indentLine_char = '┆'
 let g:indentLine_faster = 1
-
-" vim-lightline {{{
-" let g:lightline = {
-"       \ 'colorscheme': 'everforest',
-"       \ 'active': {
-"       \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
-"       \ },
-"       \ 'tabline': {
-"       \   'left': [ ['buffers'] ],
-"       \   'right': [ ['close'] ]
-"       \ },
-"       \ 'component_expand': {
-"       \   'buffers': 'lightline#bufferline#buffers'
-"       \ },
-"       \ 'separator': { 'left': '', 'right': '' },
-"       \ 'subseparator': { 'left': '', 'right': '' },
-"       \ 'component_type': {
-"       \   'buffers': 'tabsel'
-"       \ },
-"       \ 'component_function': {
-"       \   'filetype': 'MyFiletype',
-"       \   'fileformat': 'MyFileformat'
-"       \ }
-"       \ }
-
-" let g:lightline#bufferline#clickable = 1
-" let g:lightline#bufferline#margin_right = 1
-" let g:lightline#bufferline#enable_devicons = 1
-" let g:lightline#bufferline#unnamed = '_'
-" let g:lightline#bufferline#show_number = 2
-" let g:lightline#bufferline#icon_position = 'first'
 
 " }}}
 
