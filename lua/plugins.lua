@@ -32,7 +32,7 @@ require("lazy").setup({
 	{ "kwkarlwang/bufresize.nvim" },
 	{ "lukas-reineke/indent-blankline.nvim" },
 	{ "lewis6991/gitsigns.nvim" },
-	{ "ldelossa/nvim-ide" },
+	{ "nvim-tree/nvim-tree.lua" },
 	{ "tiagovla/scope.nvim" },
 	{ "sindrets/winshift.nvim" },
 	{ "folke/zen-mode.nvim" },
@@ -104,6 +104,7 @@ require("lazy").setup({
 	{ "nvim-telescope/telescope-ui-select.nvim" },
 	{ "nvim-telescope/telescope-dap.nvim" },
 	{ "LinArcX/telescope-command-palette.nvim" },
+	{ "tknightz/telescope-termfinder.nvim" },
 
 	-- misc
 	{ "jakewvincent/mkdnflow.nvim" },
@@ -120,6 +121,7 @@ require("lazy").setup({
 	{ "nvim-zh/colorful-winsep.nvim" },
 	{ "famiu/bufdelete.nvim" },
 	{ "luukvbaal/statuscol.nvim" },
+	{ "akinsho/toggleterm.nvim" },
 
 	-- Themes
 	{ "tiagovla/tokyodark.nvim" },

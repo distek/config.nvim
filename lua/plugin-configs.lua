@@ -2,8 +2,8 @@
 local addHook = require("aftermath").addHook
 
 addHook({
-	id = "auto-size-nvim-ide-components",
-	desc = "Automatically resize (horizontally) nvim-ide components when vim is resized",
+	id = "auto-size-nvim-tree",
+	desc = "Automatically resize (horizontally) nvim-tree when vim is resized",
 	event = { "VimResized", "WinEnter", "WinClosed" },
 	run = function()
 		local panelWidth = 30
@@ -11,45 +11,28 @@ addHook({
 		local terminalHeight = 15
 
 		for _, page in ipairs(vim.api.nvim_list_tabpages()) do
-			local exists, window = Util.ifNameExists("component://Terminal:.*:" .. page)
-			if exists then
-				vim.api.nvim_win_set_hl_ns(window, PanelNS)
-				if vim.api.nvim_win_get_height(window) > terminalHeight then
-					vim.api.nvim_win_set_height(window, terminalHeight)
-				end
-			end
-
-			exists, window = Util.ifNameExists("component://TerminalBrowser:.*:" .. page)
+			local exists, window = Util.ifNameExists("NvimTree_")
 			if exists then
 				vim.api.nvim_win_set_hl_ns(window, PanelNS)
 				vim.api.nvim_win_set_width(window, panelWidth)
-				if vim.api.nvim_win_get_height(window) > terminalHeight then
-					vim.api.nvim_win_set_height(window, terminalHeight)
-				end
+				vim.api.nvim_win_set_option(window, "statuscolumn", "")
 			end
-
-			exists, window = Util.ifNameExists("component://Explorer:.*:" .. page)
+			exists, window = Util.ifNameExists("term://")
 			if exists then
-				vim.api.nvim_win_set_hl_ns(window, PanelNS)
-				vim.api.nvim_win_set_width(window, panelWidth)
-			end
-
-			exists, window = Util.ifNameExists("term://.*")
-			if exists then
-				vim.api.nvim_win_set_hl_ns(window, PanelNS)
+				vim.api.nvim_win_set_option(window, "statuscolumn", "")
 			end
 		end
 	end,
 })
 
 addHook({
-	id = "auto-close-nvim-ide",
-	desc = "Automatically close nvim if only remaining windows are nvim-ide components",
+	id = "auto-close-filetree",
+	desc = "Automatically close nvim if only remaining windows is the configured filetree",
 	event = "WinEnter",
 	run = function()
 		local newWinName = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(0))
 
-		if not string.find(newWinName, "component://*") and not string.find(newWinName, "term://") then
+		if not string.find(newWinName, "NvimTree_", 1, true) then
 			return
 		end
 
@@ -58,16 +41,6 @@ addHook({
 		if winCount == compCount then
 			vim.cmd("qa")
 		end
-	end,
-})
-
-addHook({
-	id = "bottom-panel-close",
-	desc = "Close bottom panel on vimenter",
-	event = "VimEnter",
-	run = function()
-		local ws = require("ide.workspaces.workspace_registry").get_workspace(vim.api.nvim_get_current_tabpage())
-		ws.panels[require("ide.panels.panel").PANEL_POS_BOTTOM].close()
 	end,
 })
 
@@ -794,55 +767,74 @@ dap.configurations.go = {
 require("nvim-dap-virtual-text").setup()
 
 -- }}}
--- nvim-ide{{{
-local explorer = require("ide.components.explorer")
-local outline = require("ide.components.outline")
-local terminal = require("ide.components.terminal")
-local terminalbrowser = require("ide.components.terminal.terminalbrowser")
+-- -- nvim-ide{{{
+-- local explorer = require("ide.components.explorer")
+-- local outline = require("ide.components.outline")
+-- local terminal = require("ide.components.terminal")
+-- local terminalbrowser = require("ide.components.terminal.terminalbrowser")
 
-require("ide").setup({
-	log_level = "error",
-	-- the global icon set to use.
-	-- values: "nerd", "codicon", "default"
-	icon_set = "codicon",
-	-- place Component config overrides here.
-	-- they key to this table must be the Component's unique name and the value
-	-- is a table which overrides any default config values.
-	components = {
-		global_keymaps = {
-			-- example, change all Component's hide keymap to "h"
-			hide = "H",
-		},
-	},
-	-- default panel groups to display on left and right.
-	panels = {
-		left = "explorer",
-		right = "outline",
-	},
-	-- panels defined by groups of components, user is free to redefine these
-	-- or add more.
-	panel_groups = {
-		explorer = {
-			explorer.Name,
-		},
-		terminal = {
-			terminal.Name,
-			terminalbrowser.Name,
-		},
-		outline = {
-			outline.Name,
-		},
-	},
+-- require("ide").setup({
+-- 	log_level = "error",
+-- 	-- the global icon set to use.
+-- 	-- values: "nerd", "codicon", "default"
+-- 	icon_set = "codicon",
+-- 	-- place Component config overrides here.
+-- 	-- they key to this table must be the Component's unique name and the value
+-- 	-- is a table which overrides any default config values.
+-- 	components = {
+-- 		global_keymaps = {
+-- 			-- example, change all Component's hide keymap to "h"
+-- 			hide = "H",
+-- 		},
+-- 	},
+-- 	-- default panel groups to display on left and right.
+-- 	panels = {
+-- 		left = "explorer",
+-- 		right = "outline",
+-- 	},
+-- 	-- panels defined by groups of components, user is free to redefine these
+-- 	-- or add more.
+-- 	panel_groups = {
+-- 		explorer = {
+-- 			explorer.Name,
+-- 		},
+-- 		terminal = {
+-- 			terminal.Name,
+-- 			terminalbrowser.Name,
+-- 		},
+-- 		outline = {
+-- 			outline.Name,
+-- 		},
+-- 	},
 
-	workspaces = {
-		--     auto_close = true
-		auto_open = "none",
-	},
+-- 	workspaces = {
+-- 		--     auto_close = true
+-- 		auto_open = "none",
+-- 	},
 
-	panel_sizes = {
-		bottom = 15,
-		left = 30,
-		right = 40,
+-- 	panel_sizes = {
+-- 		bottom = 15,
+-- 		left = 30,
+-- 		right = 40,
+-- 	},
+-- })
+-- -- }}}
+-- nvim-tree {{{
+require("nvim-tree").setup({
+	sort_by = "case_sensitive",
+	view = {
+		adaptive_size = true,
+		-- mappings = {
+		--   list = {
+		--     { key = "u", action = "dir_up" },
+		--   },
+		-- },
+	},
+	renderer = {
+		group_empty = true,
+	},
+	filters = {
+		dotfiles = true,
 	},
 })
 -- }}}
@@ -886,6 +878,7 @@ function statuscolConfig()
 		GitSignsChangedelete = builtin.gitsigns_click,
 		GitSignsDelete = builtin.gitsigns_click,
 	}
+
 	require("statuscol").setup(cfg)
 
 	vim.o.statuscolumn = vim.o.statuscolumn .. "  "
@@ -935,6 +928,18 @@ require("telescope").setup({
 require("telescope").load_extension("command_palette")
 require("telescope").load_extension("file_browser")
 require("telescope").load_extension("git_worktree")
+require("telescope").load_extension("termfinder")
+
+-- }}}
+-- Toggleterm {{{
+require("toggleterm").setup({
+	on_open = function(t)
+		local api = require("nvim-tree.api")
+		api.tree.toggle()
+		api.tree.toggle()
+		vim.cmd("wincmd p")
+	end,
+})
 -- }}}
 -- Treesitter (and associated plugins){{{
 require("nvim-treesitter.configs").setup({

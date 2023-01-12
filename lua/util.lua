@@ -509,13 +509,27 @@ Util.compVsWinCount = function()
 		local name = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(v))
 
 		if vim.api.nvim_win_get_config(v).relative == "" then
-			if string.find(name, "component://*") or string.find(name, "term://") then
+			if string.find(name, "NvimTree_", 1, true) or string.find(name, "term://", 1, true) then
 				compCount = compCount + 1
 			end
 			winCount = winCount + 1
 		end
 	end
 	return compCount, winCount
+end
+
+Util.findNvimTree = function()
+	for _, v in ipairs(vim.api.nvim_list_wins()) do
+		local name = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(v))
+
+		if vim.api.nvim_win_get_config(v).relative == "" then
+			if string.find(name, "NvimTree_", 1, true) then
+				return true
+			end
+		end
+	end
+
+	return false
 end
 
 Util.ifNameExists = function(n)

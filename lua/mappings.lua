@@ -45,9 +45,6 @@ end)
 map("n", "<leader>ss", "<cmd>split<cr>", { desc = "Split horizontal" })
 map("n", "<leader>sv", "<cmd>vsplit<cr>", { desc = "Split Vertical" })
 
--- nohl
-map("n", "<leader>hh", ":nohl<CR>", { desc = "No highlight" })
-
 -- Split Terminal
 map("n", "<leader>stv", "<cmd>vsplit term://" .. vim.o.shell, { desc = "Vertical Term" })
 map("n", "<leader>sts", "<cmd>split term://" .. vim.o.shell, { desc = "Horizontal Term" })
@@ -170,11 +167,11 @@ map("v", "<leader>cm", ":Commentary<cr><esc>", { desc = "Comment line(s)" })
 map("n", "<leader>aa", "<cmd>Telescope file_browser path=%:p:h<CR>", { desc = "File browser" })
 map("t", "<leader>aa", "<cmd>Telescope file_browser path=%:p:h<CR>", { desc = "File browser" })
 
-map("n", "<leader>as", Util.nvimIDEToggleBottom, { desc = "Toggle terminal" })
-map("t", "<leader>as", Util.nvimIDEToggleBottom, { desc = "Toggle terminal" })
+map("n", "<leader>as", "<cmd>ToggleTerm size=20 direction=horizontal<CR>", { desc = "Toggle terminal" })
+map("t", "<leader>as", "<cmd>ToggleTerm size=20 direction=horizontal<CR>", { desc = "Toggle terminal" })
 
-map("n", "<leader>ad", "<cmd>Workspace LeftPanelToggle<CR>", { desc = "Toggle left panel" })
-map("t", "<leader>ad", "<cmd>Workspace LeftPanelToggle<CR>", { desc = "Toggle left panel" })
+map("n", "<leader>ad", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle left panel" })
+map("t", "<leader>ad", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle left panel" })
 
 map("n", "<leader>af", "<cmd>Workspace RightPanelToggle<CR>", { desc = "Toggle right panel" })
 
@@ -198,6 +195,8 @@ map("n", "<leader>kh", require("telescope.builtin").help_tags, { desc = "Search 
 
 map("n", "<leader>kF", require("telescope.builtin").quickfix, { desc = "Quickfix list" })
 map("n", "<leader>kL", require("telescope.builtin").loclist, { desc = "Location list" })
+
+map("n", "<leader>ks", "<cmd>:Telescope termfinder find<cr>", { desc = "Find terminal" })
 
 -- Debug maps
 map("n", "<leader>db", require("dap").toggle_breakpoint, { desc = "Toggle breakpoint" })
@@ -275,7 +274,6 @@ map("n", "<leader>Sd", require("session-tabs").deleteSession, { desc = "Delete s
 map("v", "<C-K>", "xkP`[V`]")
 map("v", "<C-J>", "xp`[V`]")
 
--- nvim-ide
 map("n", "<A-Space>", "<cmd>Telescope command_palette<CR>")
 
 -- Fuck q:
