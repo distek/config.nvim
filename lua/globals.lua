@@ -15,6 +15,7 @@ vim.o.fileformats = "unix,dos,mac"
 vim.cmd([[filetype plugin indent on]])
 vim.o.fillchars = "vert:│,fold:─,eob: "
 vim.o.foldmethod = "marker"
+vim.o.foldcolumn = "auto"
 vim.o.hidden = true
 vim.o.hlsearch = true
 vim.o.ignorecase = true
@@ -26,7 +27,7 @@ vim.o.modeline = true
 vim.o.modelines = 5
 vim.o.mouse = "a"
 vim.o.number = true
-vim.o.numberwidth = 5
+vim.o.numberwidth = 8
 vim.o.pumblend = 15
 vim.o.relativenumber = true
 vim.o.ruler = true
@@ -39,7 +40,8 @@ vim.o.shiftwidth = 4
 vim.o.showbreak = "↪ "
 vim.o.showmode = false
 vim.o.showtabline = 2
-vim.o.signcolumn = "yes:2"
+-- vim.o.signcolumn = "yes:2"
+-- vim.o.statuscolumn = "%@v:lua.ScFa@%C%T%@v:lua.ScLa@%s%T@v:lua.ScNa@%=%{v:lua.ScLn()}%T"
 vim.o.smartcase = true
 vim.o.softtabstop = 0
 vim.opt.spell = false
