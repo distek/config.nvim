@@ -98,17 +98,17 @@ vim.api.nvim_create_augroup("Terminal", { clear = true })
 -- 	group = "Terminal",
 -- })
 
--- vim.api.nvim_create_autocmd("TermOpen", {
--- 	pattern = { "*" },
--- 	callback = function()
--- 		vim.opt_local.number = false
--- 		vim.opt_local.relativenumber = false
--- 		vim.opt_local.wrap = true
--- 		vim.opt_local.list = true
--- 		vim.opt_local.signcolumn = "no"
--- 	end,
--- 	group = "Terminal",
--- })
+vim.api.nvim_create_autocmd("TermOpen", {
+	pattern = { "*" },
+	callback = function()
+		vim.opt_local.number = false
+		vim.opt_local.relativenumber = false
+		vim.opt_local.wrap = true
+		vim.opt_local.list = true
+		vim.opt_local.signcolumn = "no"
+	end,
+	group = "Terminal",
+})
 
 vim.api.nvim_create_augroup("markdown", { clear = true })
 

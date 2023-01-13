@@ -167,8 +167,9 @@ map("v", "<leader>cm", ":Commentary<cr><esc>", { desc = "Comment line(s)" })
 map("n", "<leader>aa", "<cmd>Telescope file_browser path=%:p:h<CR>", { desc = "File browser" })
 map("t", "<leader>aa", "<cmd>Telescope file_browser path=%:p:h<CR>", { desc = "File browser" })
 
-map("n", "<leader>as", "<cmd>ToggleTerm size=20 direction=horizontal<CR>", { desc = "Toggle terminal" })
-map("t", "<leader>as", "<cmd>ToggleTerm size=20 direction=horizontal<CR>", { desc = "Toggle terminal" })
+Terminal = require("nvim-terminal").DefaultTerminal
+map("n", "<leader>as", "<cmd>lua Terminal:toggle()<CR>", { desc = "Toggle terminal" })
+map("t", "<leader>as", "<cmd>lua Terminal:toggle()<CR>", { desc = "Toggle terminal" })
 
 map("n", "<leader>ad", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle explorer panel" })
 map("t", "<leader>ad", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle explorer panel" })

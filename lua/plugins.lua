@@ -122,7 +122,8 @@ require("lazy").setup({
 	{ "nvim-zh/colorful-winsep.nvim" },
 	{ "famiu/bufdelete.nvim" },
 	{ "luukvbaal/statuscol.nvim" },
-	{ "akinsho/toggleterm.nvim" },
+	{ "distek/nvim-terminal" },
+	-- { dir = "~/Programming/neovim-plugs/nvim-terminal" },
 
 	-- Themes
 	{ "tiagovla/tokyodark.nvim" },
