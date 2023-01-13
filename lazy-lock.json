@@ -55,6 +55,7 @@
   "scope.nvim": { "branch": "main", "commit": "2db6d31de8e3a98d2b41c0f0d1f5dc299ee76875" },
   "session-tabs.nvim": { "branch": "main", "commit": "8baabb003c6ce596ec39cf1e3efab96d21491ece" },
   "statuscol.nvim": { "branch": "main", "commit": "77c9f3794b4a0b64697111ccdd962a76fa4c80b9" },
+  "symbols-outline.nvim": { "branch": "master", "commit": "6a3ed24c5631da7a5d418bced57c16b32af7747c" },
   "telescope-command-palette.nvim": { "branch": "master", "commit": "f7024ea025ed7985d8881d1b535004a1200903f3" },
   "telescope-dap.nvim": { "branch": "master", "commit": "313d2ea12ae59a1ca51b62bf01fc941a983d9c9c" },
   "telescope-file-browser.nvim": { "branch": "master", "commit": "304508fb7bea78e3c0eeddd88c4837501e403ae8" },

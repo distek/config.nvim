@@ -170,10 +170,10 @@ map("t", "<leader>aa", "<cmd>Telescope file_browser path=%:p:h<CR>", { desc = "F
 map("n", "<leader>as", "<cmd>ToggleTerm size=20 direction=horizontal<CR>", { desc = "Toggle terminal" })
 map("t", "<leader>as", "<cmd>ToggleTerm size=20 direction=horizontal<CR>", { desc = "Toggle terminal" })
 
-map("n", "<leader>ad", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle left panel" })
-map("t", "<leader>ad", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle left panel" })
+map("n", "<leader>ad", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle explorer panel" })
+map("t", "<leader>ad", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle explorer panel" })
 
-map("n", "<leader>af", "<cmd>Workspace RightPanelToggle<CR>", { desc = "Toggle right panel" })
+map("n", "<leader>af", "<cmd>SymbolsOutline<CR>", { desc = "Toggle outline panel" })
 
 -- LSP
 map("n", "<leader>lD", "<Cmd>Glance definitions<CR>", { desc = "Peek definition" })

@@ -1,4 +1,4 @@
--- Return to previous line in file
+-- Return to previous line in fileauto
 vim.api.nvim_create_autocmd("BufReadPost", {
 	pattern = { "*" },
 	callback = function()
@@ -90,25 +90,25 @@ vim.api.nvim_create_autocmd("WinEnter", {
 -- Terminal
 vim.api.nvim_create_augroup("Terminal", { clear = true })
 
-vim.api.nvim_create_autocmd("BufEnter", {
-	pattern = { "term://*", "component://Terminal:*" },
-	callback = function()
-		vim.cmd([[startinsert]])
-	end,
-	group = "Terminal",
-})
+-- vim.api.nvim_create_autocmd("BufEnter", {
+-- 	pattern = { "term://*", "component://Terminal:*" },
+-- 	callback = function()
+-- 		vim.cmd([[startinsert]])
+-- 	end,
+-- 	group = "Terminal",
+-- })
 
-vim.api.nvim_create_autocmd("TermOpen", {
-	pattern = { "*" },
-	callback = function()
-		vim.opt_local.number = false
-		vim.opt_local.relativenumber = false
-		vim.opt_local.wrap = true
-		vim.opt_local.list = true
-		vim.opt_local.signcolumn = "no"
-	end,
-	group = "Terminal",
-})
+-- vim.api.nvim_create_autocmd("TermOpen", {
+-- 	pattern = { "*" },
+-- 	callback = function()
+-- 		vim.opt_local.number = false
+-- 		vim.opt_local.relativenumber = false
+-- 		vim.opt_local.wrap = true
+-- 		vim.opt_local.list = true
+-- 		vim.opt_local.signcolumn = "no"
+-- 	end,
+-- 	group = "Terminal",
+-- })
 
 vim.api.nvim_create_augroup("markdown", { clear = true })
 
