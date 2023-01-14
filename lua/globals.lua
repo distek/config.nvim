@@ -90,28 +90,29 @@ vim.g.netrw_hide = 0
 -- Disabled builtins {{{
 -- Improves startup time just ever so slightly
 local disabled_built_ins = {
-	-- Need netrw for certain things, like remote editing
-	-- "netrw",
-	-- "netrwPlugin",
-	-- "netrwSettings",
-	-- "netrwFileHandlers",
-	"gzip",
-	"zip",
-	"zipPlugin",
-	"tar",
-	"tarPlugin",
-	"getscript",
-	"getscriptPlugin",
-	"vimball",
-	"vimballPlugin",
-	"2html_plugin",
-	"logipat",
-	"rrhelper",
-	"spellfile_plugin",
-	"matchit",
+    -- Need netrw for certain things, like remote editing
+    -- "netrw",
+    -- "netrwPlugin",
+    -- "netrwSettings",
+    -- "netrwFileHandlers",
+    "gzip",
+    "zip",
+    "zipPlugin",
+    "tar",
+    "tarPlugin",
+    "getscript",
+    "getscriptPlugin",
+    "vimball",
+    "vimballPlugin",
+    "2html_plugin",
+    "logipat",
+    "rrhelper",
+    "spellfile_plugin",
+    "matchit",
 }
 
 for _, plugin in pairs(disabled_built_ins) do
-	vim.g["loaded_" .. plugin] = 1
+    vim.g["loaded_" .. plugin] = 1
 end
 --}}}
+TTOpen = false
