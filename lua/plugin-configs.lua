@@ -535,8 +535,8 @@ require("mkdnflow").setup({
         MkdnTableNewRowAbove = { "n", "<leader>iR" },
         MkdnTableNewColAfter = { "n", "<leader>ic" },
         MkdnTableNewColBefore = { "n", "<leader>iC" },
-        MkdnFoldSection = { "n", "<leader>f" },
-        MkdnUnfoldSection = { "n", "<leader>F" },
+        MkdnFoldSection = false,
+        MkdnUnfoldSection = false,
     },
 })
 -- }}}
