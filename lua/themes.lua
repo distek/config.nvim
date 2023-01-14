@@ -35,5 +35,5 @@ Themes["ayu"] = function()
     vim.api.nvim_set_hl(PanelNS, "CursorLine", { bg = Util.lighten(colors.panel_bg, 0.97) })
 end
 
--- Themes.tokyodark()
-Themes.ayu()
+Themes.tokyodark()
+-- Themes.ayu()
