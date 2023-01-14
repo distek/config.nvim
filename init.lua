@@ -2,10 +2,11 @@ require("plugins")
 require("util")
 require("themes")
 require("plugin-configs")
+require("terminal")
 require("globals")
 require("autocmds")
 require("mappings")
 
 if vim.g.neovide then
-	require("neovide-settings")
+    require("neovide-settings")
 end
