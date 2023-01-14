@@ -2,9 +2,9 @@
 local map = vim.keymap.set
 
 if vim.loop.os_uname().sysname == "Darwin" then
-	map("n", "gx", 'yiW:!open <C-R>"<CR><Esc>')
+    map("n", "gx", 'yiW:!open <C-R>"<CR><Esc>')
 elseif vim.loop.os_uname().sysname == "Linux" then
-	map("n", "gx", 'yiW:!xdg-open <C-R>"<CR><Esc>')
+    map("n", "gx", 'yiW:!xdg-open <C-R>"<CR><Esc>')
 end
 
 -- Remap for dealing with word wrap
@@ -27,18 +27,18 @@ map("n", "<leader><S-Tab>", ":tabprevious<cr>", { desc = "Previous Tab" })
 
 -- focus buffers
 map("n", "<Tab>", function()
-	Util.skipUnwantedBuffers("next")
+    Util.skipUnwantedBuffers("next")
 end)
 map("n", "<S-Tab>", function()
-	Util.skipUnwantedBuffers("prev")
+    Util.skipUnwantedBuffers("prev")
 end)
 
 -- move buffers
 map("n", "<A-Tab>", function()
-	require("bufferline").move(1)
+    require("bufferline").move(1)
 end)
 map("n", "<A-S-Tab>", function()
-	require("bufferline").move(-1)
+    require("bufferline").move(-1)
 end)
 
 -- Window/buffer stuff
@@ -50,21 +50,23 @@ map("n", "<leader>stv", "<cmd>vsplit term://" .. vim.o.shell, { desc = "Vertical
 map("n", "<leader>sts", "<cmd>split term://" .. vim.o.shell, { desc = "Horizontal Term" })
 
 -- Term escape
--- map("t", "<A-z>", "<c-\\><c-n>")
+map("t", "<A-z>", "<c-\\><c-n>")
+map("t", "<A-Tab>", TF.NextTerm)
+map("t", "<A-S-Tab>", TF.PrevTerm)
 
 -- Close window(split)
 map("n", "<A-q>", "<cmd>lua require('bufdelete').bufdelete(0, true)<CR>")
 
 -- Delete buffer
 map("n", "<A-S-q>", function()
-	local compCount, winCount = Util.compVsWinCount()
+    local compCount, winCount = Util.compVsWinCount()
 
-	if winCount - 1 == compCount then
-		vim.notify("Cannot close last editor window")
-		return
-	end
+    if winCount - 1 == compCount then
+        vim.notify("Cannot close last editor window")
+        return
+    end
 
-	vim.cmd("wincmd c")
+    vim.cmd("wincmd c")
 end)
 
 -- Window movement
@@ -75,81 +77,81 @@ map("n", "<A-S-l>", "<cmd>WinShift right<cr>")
 
 -- Navigate windows/panes incl. tmux
 map("n", "<A-j>", function()
-	Util.win_focus_bottom()
+    Util.win_focus_bottom()
 end)
 map("n", "<A-k>", function()
-	Util.win_focus_top()
+    Util.win_focus_top()
 end)
 map("n", "<A-l>", function()
-	Util.win_focus_right()
+    Util.win_focus_right()
 end)
 map("n", "<A-h>", function()
-	Util.win_focus_left()
+    Util.win_focus_left()
 end)
 
 map("v", "<A-j>", function()
-	Util.win_focus_bottom()
+    Util.win_focus_bottom()
 end)
 map("v", "<A-k>", function()
-	Util.win_focus_top()
+    Util.win_focus_top()
 end)
 map("v", "<A-l>", function()
-	Util.win_focus_right()
+    Util.win_focus_right()
 end)
 map("v", "<A-h>", function()
-	Util.win_focus_left()
+    Util.win_focus_left()
 end)
 
 map("t", "<A-j>", function()
-	Util.win_focus_bottom()
+    Util.win_focus_bottom()
 end)
 map("t", "<A-k>", function()
-	Util.win_focus_top()
+    Util.win_focus_top()
 end)
 map("t", "<A-l>", function()
-	Util.win_focus_right()
+    Util.win_focus_right()
 end)
 map("t", "<A-h>", function()
-	Util.win_focus_left()
+    Util.win_focus_left()
 end)
 
 map("n", "<A-C-j>", function()
-	Util.win_resize("bottom")
+    Util.win_resize("bottom")
 end)
 map("n", "<A-C-k>", function()
-	Util.win_resize("top")
+    Util.win_resize("top")
 end)
 map("n", "<A-C-l>", function()
-	Util.win_resize("right")
+    Util.win_resize("right")
 end)
 map("n", "<A-C-h>", function()
-	Util.win_resize("left")
+    Util.win_resize("left")
 end)
 
 map("v", "<A-C-j>", function()
-	Util.win_resize("bottom")
+    Util.win_resize("bottom")
 end)
 map("v", "<A-C-k>", function()
-	Util.win_resize("top")
+    Util.win_resize("top")
 end)
 map("v", "<A-C-l>", function()
-	Util.win_resize("right")
+    Util.win_resize("right")
 end)
 map("v", "<A-C-h>", function()
-	Util.win_resize("left")
+    Util.win_resize("left")
 end)
 
 map("t", "<A-C-j>", function()
-	Util.win_resize("bottom")
+    Util.win_resize("bottom")
 end)
 map("t", "<A-C-k>", function()
-	Util.win_resize("top")
+    Util.win_resize("top")
 end)
 map("t", "<A-C-l>", function()
-	Util.win_resize("right")
+    Util.win_resize("right")
 end)
 map("t", "<A-C-h>", function()
-	Util.win_resize("left")
+    Util.win_resize("left")
 end)
 
 -- Plugin maps
@@ -167,9 +169,9 @@ map("v", "<leader>cm", ":Commentary<cr><esc>", { desc = "Comment line(s)" })
 map("n", "<leader>aa", "<cmd>Telescope file_browser path=%:p:h<CR>", { desc = "File browser" })
 map("t", "<leader>aa", "<cmd>Telescope file_browser path=%:p:h<CR>", { desc = "File browser" })
 
-Terminal = require("nvim-terminal").DefaultTerminal
-map("n", "<leader>as", "<cmd>lua Terminal:toggle()<CR>", { desc = "Toggle terminal" })
-map("t", "<leader>as", "<cmd>lua Terminal:toggle()<CR>", { desc = "Toggle terminal" })
+-- Term is set in terminal.lua
+map("n", "<leader>as", "<cmd>lua TF.Toggle()<CR>", { desc = "Toggle terminal" })
+map("t", "<leader>as", "<cmd>lua TF.Toggle()<CR>", { desc = "Toggle terminal" })
 
 map("n", "<leader>ad", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle explorer panel" })
 map("t", "<leader>ad", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle explorer panel" })
@@ -197,7 +199,7 @@ map("n", "<leader>kh", require("telescope.builtin").help_tags, { desc = "Search 
 map("n", "<leader>kF", require("telescope.builtin").quickfix, { desc = "Quickfix list" })
 map("n", "<leader>kL", require("telescope.builtin").loclist, { desc = "Location list" })
 
-map("n", "<leader>ks", "<cmd>:Telescope termfinder find<cr>", { desc = "Find terminal" })
+map("n", "<leader>ks", TF.PickTerm, { desc = "Find terminal" })
 
 -- Debug maps
 map("n", "<leader>db", require("dap").toggle_breakpoint, { desc = "Toggle breakpoint" })
@@ -213,41 +215,41 @@ map("n", "<leader>dS", Util.dapStop, { desc = "Stop Debug" })
 
 -- refactoring.nvim
 map(
-	"v",
-	"<leader>re",
-	[[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
-	{ desc = "Extract function" }
+    "v",
+    "<leader>re",
+    [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
+    { desc = "Extract function" }
 )
 map(
-	"v",
-	"<leader>rf",
-	[[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]],
-	{ desc = "Extract function to file" }
+    "v",
+    "<leader>rf",
+    [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]],
+    { desc = "Extract function to file" }
 )
 map(
-	"v",
-	"<leader>rv",
-	[[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]],
-	{ desc = "Extract variable" }
+    "v",
+    "<leader>rv",
+    [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]],
+    { desc = "Extract variable" }
 )
 map(
-	"v",
-	"<leader>ri",
-	[[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
-	{ desc = "Inline variable" }
+    "v",
+    "<leader>ri",
+    [[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
+    { desc = "Inline variable" }
 )
 map(
-	"n",
-	"<leader>ri",
-	[[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
-	{ desc = "Inline variable" }
+    "n",
+    "<leader>ri",
+    [[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
+    { desc = "Inline variable" }
 )
 map("n", "<leader>rb", [[ <Cmd>lua require('refactoring').refactor('Extract Block')<CR>]], { desc = "Extact block" })
 map(
-	"n",
-	"<leader>rbf",
-	[[ <Cmd>lua require('refactoring').refactor('Extract Block To File')<CR>]],
-	{ desc = "Extract block to file" }
+    "n",
+    "<leader>rbf",
+    [[ <Cmd>lua require('refactoring').refactor('Extract Block To File')<CR>]],
+    { desc = "Extract block to file" }
 )
 
 -- Meta LSP stuff
