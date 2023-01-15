@@ -166,7 +166,8 @@ map("n", "<leader>f", function()
         }
     })
 end, { desc = "Fullscreen window" })
-map("t", "<localleader>f", function()
+
+local termFullscreen = function()
     -- an error about entering normal mode from terminal mode happens here but it's
     -- non-blocking so fuk it I guess
     local keys = vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true)
@@ -189,7 +190,10 @@ map("t", "<localleader>f", function()
 
     vim.api.nvim_feedkeys("i", "n", false)
     TF.UpdateWinbar()
-end, { desc = "Fullscreen window" })
+end
+
+map("t", "<localleader>f", termFullscreen, { desc = "Fullscreen window" })
+map("n", "<localleader>f", termFullscreen, { desc = "Fullscreen window" })
 
 -- Commentary
 map("n", "<leader>cm", ":Commentary<cr><esc>", { desc = "Comment line" })
