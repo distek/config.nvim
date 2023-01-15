@@ -91,7 +91,7 @@ vim.api.nvim_create_autocmd("WinEnter", {
 vim.api.nvim_create_augroup("Terminal", { clear = true })
 
 vim.api.nvim_create_autocmd("BufEnter", {
-    pattern = { "term://*", "component://Terminal:*" },
+    pattern = { "term://*" },
     callback = function()
         vim.cmd([[startinsert]])
     end,
@@ -133,12 +133,5 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
     pattern = { "*" },
     callback = function()
         vim.o.cursorline = false
-    end,
-})
-
-vim.api.nvim_create_autocmd({ "InsertEnter", "WinEnter", "BufEnter" }, {
-    pattern = { "*" },
-    callback = function()
-        vim.cmd("nohl")
     end,
 })
