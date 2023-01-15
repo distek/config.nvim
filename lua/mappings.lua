@@ -159,7 +159,37 @@ end)
 -- Zen
 map("n", "<leader>z", ":ZenMode<cr>", { desc = "Zen mode" })
 
-map("n", "<leader>f", Util.toggleFullscreen, { desc = "Fullscreen window" })
+map("n", "<leader>f", function()
+    require("zen-mode").toggle({
+        window = {
+            width = 1.0
+        }
+    })
+end, { desc = "Fullscreen window" })
+map("t", "<localleader>f", function()
+    -- an error about entering normal mode from terminal mode happens here but it's
+    -- non-blocking so fuk it I guess
+    local keys = vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true)
+    vim.api.nvim_feedkeys(keys, "t", false)
+
+    require("zen-mode").toggle({
+        window = {
+            width = 1.0
+        },
+        options = {
+            signcolumn = "no", -- disable signcolumn
+            statuscolumn = "", -- disable signcolumn
+            number = false, -- disable number column
+            relativenumber = false, -- disable relative numbers
+            cursorline = false, -- disable cursorline
+            cursorcolumn = false, -- disable cursor column
+            list = false, -- disable whitespace characters
+        },
+    })
+
+    vim.api.nvim_feedkeys("i", "n", false)
+    TF.UpdateWinbar()
+end, { desc = "Fullscreen window" })
 
 -- Commentary
 map("n", "<leader>cm", ":Commentary<cr><esc>", { desc = "Comment line" })
