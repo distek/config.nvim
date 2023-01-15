@@ -96,6 +96,7 @@ require("bufferline").setup({
                 text = "Neovim",
                 highlight = "Explorer",
                 text_align = "center",
+                padding = 1,
             },
         },
         color_icons = true, -- whether or not to add the filetype icon highlights
