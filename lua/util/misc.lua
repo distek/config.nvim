@@ -105,7 +105,7 @@ Util.inspect = function(vars, ...)
     print(vim.inspect(vars, ...))
 end
 
-local function getNeighbors()
+Util.getNeighbors = function()
     local ret = {
         top = false,
         bottom = false,

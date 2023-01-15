@@ -1,5 +1,5 @@
 Util.win_resize = function(dir)
-    local n = getNeighbors()
+    local n = Util.getNeighbors()
 
     -- I wish lua had a switch case
     if dir == "top" then
