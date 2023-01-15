@@ -49,7 +49,7 @@ end
 
 Util.dapStart = function()
     local dapui = require("dapui")
-    dapui.open()
+    dapui.open({})
 end
 
 Util.dapStop = function()
