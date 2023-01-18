@@ -1117,18 +1117,9 @@ require("which-key").setup({
 -- Zen-mode{{{
 require("zen-mode").setup({
     window = {
-        backdrop = 0.95,
+        backdrop = 0.75,
         width = 120,
         height = 1, -- >1 dicates height of the actual window
-        options = {
-            signcolumn = "no",
-            number = true,
-            relativenumber = true,
-            cursorline = true,
-            cursorcolumn = false,
-            foldcolumn = "0",
-            list = false,
-        },
     },
     plugins = {
         options = {
@@ -1140,14 +1131,5 @@ require("zen-mode").setup({
         gitsigns = { enabled = true },
         tmux = { enabled = false },
     },
-    on_open = function(win)
-        -- can be used to completely disable/enable completion and lsp diags
-        -- vim.cmd[[LspStop]]
-        -- require('cmp').setup.buffer { enabled = false }
-    end,
-    on_close = function()
-        -- vim.cmd[[LspStart]]
-        -- require('cmp').setup.buffer { enabled = true }
-    end,
 })
 -- }}}
