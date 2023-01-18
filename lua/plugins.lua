@@ -38,6 +38,7 @@ require("lazy").setup({
     { "folke/zen-mode.nvim" },
     { "folke/twilight.nvim" },
     { "distek/session-tabs.nvim" },
+    -- { dir = "~/Programming/neovim-plugs/session-tabs.nvim" },
     { "kyazdani42/nvim-web-devicons" },
     { "smiteshp/nvim-navic", dependencies = "neovim/nvim-lspconfig" },
     {
@@ -116,6 +117,7 @@ require("lazy").setup({
     { "luukvbaal/statuscol.nvim" },
     { "distek/nvim-terminal" },
     -- { dir = "~/Programming/neovim-plugs/nvim-terminal" },
+    -- { dir = "~/Programming/neovim-plugs/dap-buttons" },
 
     -- Themes
     { "tiagovla/tokyodark.nvim" },

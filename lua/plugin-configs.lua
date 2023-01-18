@@ -24,8 +24,6 @@ addHook({
     desc = "Automatically close nvim if only remaining windows is the configured filetree",
     event = { "WinClosed" },
     run = function()
-        local currentWin = vim.api.nvim_get_current_win()
-
         if not vim.bo.filetype == "NvimTree"
             or not vim.bo.filetype == "Outline"
             or not vim.bo.filetype == "toggleterm"
@@ -40,6 +38,7 @@ addHook({
         end
     end,
 })
+
 
 require("aftermath").setup()
 -- }}}
@@ -136,15 +135,6 @@ require("colorful-winsep").setup({
 
 local cmp = require("cmp")
 local luasnip = require("luasnip")
-
-local has_words_before = function()
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-
-local feedkey = function(key, mode)
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
-end
 
 cmp.setup({
     snippet = {
@@ -355,7 +345,7 @@ require("mason-null-ls").setup({
 
 require("null-ls").setup()
 
-require("mason-null-ls").setup_handlers()
+require("mason-null-ls").setup_handlers({})
 -- local prettier = require("prettier")
 
 -- prettier.setup({
@@ -550,7 +540,7 @@ vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "red" })
 vim.fn.sign_define("DapLogPoint", { text = "", texthl = "yellow" })
 vim.fn.sign_define("DapStopped", { text = "", texthl = "green" })
 
-dap.adapters.go = function(callback, config)
+dap.adapters.go = function(callback, _)
     local handle
     local port = 38697
     handle, _ = vim.loop.spawn("dlv", {
@@ -598,9 +588,26 @@ require("dapui").setup({
             position = "bottom",
         },
     },
+    controls = {
+        -- Requires Neovim nightly (or 0.8 when released)
+        enabled = true,
+        -- Display controls in this element
+        element = "console",
+        icons = {
+            pause = "",
+            play = "",
+            step_into = "",
+            step_over = "",
+            step_out = "",
+            step_back = "",
+            run_last = "",
+            terminate = "",
+        },
+    },
     floating = {
-        max_height = nil, -- These can be integers or a float between 0 and 1.
-        max_width = nil, -- Floats will be treated as percentage of your screen.
+        max_height = 1, -- These can be integers or a float between 0 and 1.
+        max_width = 19, -- Floats will be treated as percentage of your screen.
+        border = "single", -- Border style. Can be "single", "double" or "rounded"
         mappings = {
             close = { "q", "<Esc>" },
         },
@@ -673,7 +680,7 @@ dap.configurations.go = {
     },
 }
 
-require("nvim-dap-virtual-text").setup()
+require("nvim-dap-virtual-text").setup({})
 
 -- }}}
 -- -- nvim-ide{{{
@@ -731,6 +738,7 @@ require("nvim-dap-virtual-text").setup()
 -- nvim-tree {{{
 require("nvim-tree").setup({
     sort_by = "case_sensitive",
+    sync_root_with_cwd = true,
     view = {
         adaptive_size = true,
         -- mappings = {
@@ -745,6 +753,16 @@ require("nvim-tree").setup({
     filters = {
         dotfiles = true,
     },
+    tab = {
+        sync = {
+            open = false,
+            close = false,
+            ignore = {},
+        },
+    },
+    update_focused_file = {
+        update_root = true
+    }
 })
 -- }}}
 -- scope.nvim {{{
@@ -756,7 +774,7 @@ require("session-tabs").setup({
 })
 -- }}}
 -- statuscol {{{
-function statuscolConfig()
+local function statuscolConfig()
     local builtin = require("statuscol.builtin")
     local cfg = {
         separator = " │", -- separator between line number and buffer text ("│" or extra " " padding)
