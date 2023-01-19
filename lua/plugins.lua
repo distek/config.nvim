@@ -85,6 +85,7 @@ require("lazy").setup({
     { "onsails/lspkind-nvim" },
     { "dnlhc/glance.nvim" },
     { "simrat39/symbols-outline.nvim" },
+    { "ray-x/lsp_signature.nvim" },
 
     -- dap
     { "mfussenegger/nvim-dap" },

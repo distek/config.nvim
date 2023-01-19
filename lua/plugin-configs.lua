@@ -44,7 +44,10 @@ addHook({
 require("aftermath").setup()
 -- }}}
 -- autopairs {{{
-require("nvim-autopairs").setup()
+require("nvim-autopairs").setup({
+    disable_in_macro = true,
+    enable_check_bracket_line = true,
+})
 -- }}}
 -- Bufferline {{{
 require("bufferline").setup({
@@ -135,7 +138,13 @@ require("colorful-winsep").setup({
 -- Completion{{{
 
 local cmp = require("cmp")
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local luasnip = require("luasnip")
+
+cmp.event:on(
+    'confirm_done',
+    cmp_autopairs.on_confirm_done()
+)
 
 cmp.setup({
     snippet = {
