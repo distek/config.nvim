@@ -787,9 +787,9 @@ require("session-tabs").setup({
 local function statuscolConfig()
     local builtin = require("statuscol.builtin")
     local cfg = {
-        separator = " │", -- separator between line number and buffer text ("│" or extra " " padding)
+        separator = " ", -- separator between line number and buffer text ("│" or extra " " padding)
         setopt = true, -- whether to set the 'statuscolumn', providing builtin click actions
-        order = "SNFs", -- order of the fold, sign, line number and separator segments
+        order = "SFNs", -- order of the fold, sign, line number and separator segments
         -- Builtin line number string options for ScLn() segment
         thousands = false, -- or line number thousands separator string ("." / ",")
         relculright = true, -- whether to right-align the cursor line number with 'relativenumber' set
@@ -818,7 +818,7 @@ local function statuscolConfig()
 
     require("statuscol").setup(cfg)
 
-    vim.o.statuscolumn = vim.o.statuscolumn .. "  "
+    vim.o.statuscolumn = vim.o.statuscolumn .. "%#Title#│  "
 end
 
 statuscolConfig()
