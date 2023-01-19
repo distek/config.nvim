@@ -62,6 +62,11 @@ TF.Toggle = function()
     end
 
     TF.Term[vim.api.nvim_get_current_tabpage()]:toggle()
+    local winid = TF.Term[vim.api.nvim_get_current_tabpage()].window.winid
+    if vim.api.nvim_win_is_valid(winid) then
+        vim.api.nvim_win_set_hl_ns(winid, PanelNS)
+    end
+
     TF.UpdateWinbar()
 
     if nvt then
