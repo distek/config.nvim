@@ -20,7 +20,7 @@ require("lazy").setup({
     { "nvim-treesitter/playground" },
     { "nvim-treesitter/nvim-treesitter-context" },
     { "nvim-treesitter/nvim-treesitter-textobjects" },
-    { "p00f/nvim-ts-rainbow" },
+    { "mrjones2014/nvim-ts-rainbow" },
     { "windwp/nvim-ts-autotag" },
 
     -- Layout/UI
