@@ -11,6 +11,7 @@ addHook({
         local exists, window = Util.ifNameExists("NvimTree_")
         if exists then
             vim.api.nvim_win_set_width(window, panelWidth)
+            vim.api.nvim_win_set_option(window, "statuscolumn", "")
         end
 
         if TF.Term[vim.api.nvim_get_current_tabpage()] ~= nil then
