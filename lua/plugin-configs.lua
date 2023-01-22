@@ -147,11 +147,9 @@ cmp.event:on(
 
 cmp.setup({
     snippet = {
-        snippet = {
-            expand = function(args)
-                luasnip.lsp_expand(args.body)
-            end,
-        },
+        expand = function(args)
+            luasnip.lsp_expand(args.body)
+        end,
     },
     formatting = {
         format = require("lspkind").cmp_format({
