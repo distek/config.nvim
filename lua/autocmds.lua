@@ -77,6 +77,14 @@ vim.api.nvim_create_autocmd("FileType", {
     group = "qf",
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "NvimTree" },
+    callback = function()
+        vim.wo.statuscolumn = ""
+    end,
+})
+
+
 vim.api.nvim_create_autocmd("WinEnter", {
     pattern = { "*" },
     callback = function()
