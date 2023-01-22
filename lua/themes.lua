@@ -24,6 +24,11 @@ Themes["tokyodark"] = function()
 
     vim.api.nvim_set_hl(PanelNS, "Normal", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.70) })
 
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
+    vim.api.nvim_set_hl(0, "FloatBorder", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
+
+    vim.api.nvim_set_hl(0, "Pmenu", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.60) })
+
     vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
     vim.api.nvim_set_hl(0, "NvimTreeEndOfBuffer", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
     vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
