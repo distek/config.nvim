@@ -183,3 +183,13 @@ Util.ifNameExists = function(n)
     end
     return false, nil
 end
+
+Util.vimCmdToBuffer = function(cmd)
+    local output = vim.api.nvim_command_output(cmd)
+
+    vim.cmd("vnew")
+
+    for line in string.gmatch(output, "([^\n]+)") do
+        vim.api.nvim_buf_set_lines(0, 0, 0, false, { line })
+    end
+end
