@@ -1030,6 +1030,15 @@ require("nvim-treesitter.configs").setup({
             },
         },
     },
+    context_commentstring = {
+        enable = true,
+        commentary_integration = {
+            -- change default mapping
+            Commentary = false,
+            -- disable default mapping
+            CommentaryLine = false,
+        },
+    }
 })
 
 require("treesitter-context").setup({

@@ -104,6 +104,7 @@ require("lazy").setup({
     -- misc
     { "jakewvincent/mkdnflow.nvim" },
     { "tpope/vim-commentary" },
+    { "JoosepAlviste/nvim-ts-context-commentstring" },
     { "ThePrimeagen/refactoring.nvim", dependencies = {
         "nvim-lua/plenary.nvim",
     } },

@@ -196,8 +196,8 @@ map("t", "<localleader>f", termFullscreen, { desc = "Fullscreen window" })
 map("n", "<localleader>f", termFullscreen, { desc = "Fullscreen window" })
 
 -- Commentary
-map("n", "<leader>cm", ":Commentary<cr><esc>", { desc = "Comment line" })
-map("v", "<leader>cm", ":Commentary<cr><esc>", { desc = "Comment line(s)" })
+map("n", "<leader>cm", "<Plug>ContextCommentary", { desc = "Comment line" })
+map("v", "<leader>cm", "<Plug>ContextCommentary", { desc = "Comment line(s)" })
 
 -- nvim-tree
 map("n", "<leader>aa", "<cmd>Telescope file_browser path=%:p:h<CR>", { desc = "File browser" })
