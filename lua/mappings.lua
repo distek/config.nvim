@@ -207,6 +207,7 @@ map("t", "<localleader>aa", "<cmd>Telescope file_browser path=%:p:h<CR>", { desc
 map("n", "<leader>as", TF.Toggle, { desc = "Toggle terminal" })
 map("t", "<localleader>as", TF.Toggle, { desc = "Toggle terminal" })
 map("t", "<localleader>an", TF.NewTerm, { desc = "Create new terminal" })
+map("t", "<localleader>aN", TF.RenameTerm, { desc = "Create new terminal" })
 map("t", "<localleader><Tab>", TF.NextTerm, { desc = "Next terminal" })
 map("t", "<localleader><S-Tab>", TF.PrevTerm, { desc = "Previous terminal" })
 
