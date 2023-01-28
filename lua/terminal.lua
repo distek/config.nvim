@@ -164,7 +164,7 @@ TF.UpdateWinbar = function()
         wb = wb .. "%" .. i .. "@v:lua.TF.HandleClickTab@"
         wb = wb .. vim.api.nvim_buf_get_var(v, "name") .. "%X"
         wb = wb .. "%" .. i .. "@v:lua.TF.HandleClickClose@"
-        wb = wb .. " %X"
+        wb = wb .. " %X"
         wb = wb .. " %#Normal#"
     end
 
