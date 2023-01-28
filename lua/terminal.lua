@@ -145,8 +145,8 @@ TF.RenameTerm = function()
 end
 
 TF.UpdateWinbar = function()
-    local winid = vim.fn.bufwinid(TF.Term[vim.api.nvim_get_current_tabpage()].bufs[
-        TF.Term[vim.api.nvim_get_current_tabpage()].last_term])
+    local tp = vim.api.nvim_get_current_tabpage()
+    local winid = vim.fn.bufwinid(TF.Term[tp].bufs[TF.Term[tp].last_term])
 
     if winid < 0 then
         return
@@ -154,19 +154,35 @@ TF.UpdateWinbar = function()
 
     local wb = ""
 
-    for _, v in ipairs(TF.Term[vim.api.nvim_get_current_tabpage()].bufs) do
+    for i, v in ipairs(TF.Term[vim.api.nvim_get_current_tabpage()].bufs) do
         if v == TF.Term[vim.api.nvim_get_current_tabpage()].bufs[TF.Term[vim.api.nvim_get_current_tabpage()].last_term] then
             wb = wb .. "%#Normal# "
         else
             wb = wb .. "%#TabLine# "
         end
-        wb = wb .. vim.api.nvim_buf_get_var(v, "name")
+
+        wb = wb .. "%" .. i .. "@v:lua.TF.HandleClickTab@"
+        wb = wb .. vim.api.nvim_buf_get_var(v, "name") .. "%X"
+        wb = wb .. "%" .. i .. "@v:lua.TF.HandleClickClose@"
+        wb = wb .. " %X"
         wb = wb .. " %#Normal#"
     end
 
     wb = wb .. "%#TabLineFill#"
 
     vim.wo[winid].winbar = wb
+end
+
+TF.HandleClickTab = function(minwid, clicks, btn, mods)
+    TF.Term[vim.api.nvim_get_current_tabpage()]:open(minwid)
+    TF.UpdateWinbar()
+end
+
+TF.HandleClickClose = function(minwid, clicks, btn, mods)
+    local tp = vim.api.nvim_get_current_tabpage()
+    if TF.Term[tp]:delete(minwid) then
+        TF.UpdateWinbar()
+    end
 end
 
 TF.NextTerm = function()
