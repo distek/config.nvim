@@ -116,7 +116,6 @@ require("lazy").setup({
     { "distek/aftermath.nvim" },
     { "nvim-zh/colorful-winsep.nvim" },
     { "famiu/bufdelete.nvim" },
-    { "luukvbaal/statuscol.nvim" },
     { "distek/nvim-terminal" },
     -- { dir = "~/Programming/neovim-plugs/nvim-terminal" },
     -- { dir = "~/Programming/neovim-plugs/dap-buttons" },

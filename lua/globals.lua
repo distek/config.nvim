@@ -40,8 +40,6 @@ vim.o.shiftwidth = 4
 vim.o.showbreak = "↪ "
 vim.o.showmode = false
 vim.o.showtabline = 2
--- vim.o.signcolumn = "yes:2"
--- vim.o.statuscolumn = "%@v:lua.ScFa@%C%T%@v:lua.ScLa@%s%T@v:lua.ScNa@%=%{v:lua.ScLn()}%T"
 vim.o.smartcase = true
 vim.o.softtabstop = 0
 vim.opt.spell = false
