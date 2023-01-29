@@ -147,6 +147,7 @@ end
 TF.UpdateWinbar = function()
     local tp = vim.api.nvim_get_current_tabpage()
     local winid = vim.fn.bufwinid(TF.Term[tp].bufs[TF.Term[tp].last_term])
+    local count = len(TF.Term[tp].bufs)
 
     if winid < 0 then
         return
@@ -154,21 +155,27 @@ TF.UpdateWinbar = function()
 
     local wb = ""
 
-    for i, v in ipairs(TF.Term[vim.api.nvim_get_current_tabpage()].bufs) do
-        if v == TF.Term[vim.api.nvim_get_current_tabpage()].bufs[TF.Term[vim.api.nvim_get_current_tabpage()].last_term] then
-            wb = wb .. "%#Normal# "
+    for i, v in ipairs(TF.Term[tp].bufs) do
+        if v == TF.Term[tp].bufs[TF.Term[tp].last_term] then
+            wb = wb .. "%#BufferLineTabSelected#▎"
+            wb = wb .. "%#BufferLineHintSelected# "
         else
-            wb = wb .. "%#TabLine# "
+            wb = wb .. "%#BufferLineSeparatorVisible#▎%#BufferLineHintVisible# "
         end
 
-        wb = wb .. "%" .. i .. "@v:lua.TF.HandleClickTab@"
-        wb = wb .. vim.api.nvim_buf_get_var(v, "name") .. "%X"
+        wb = wb .. "%" .. i .. "@v:lua.TF.HandleClickTab@ "
+        wb = wb .. vim.api.nvim_buf_get_var(v, "name") .. " %X"
         wb = wb .. "%" .. i .. "@v:lua.TF.HandleClickClose@"
         wb = wb .. " %X"
-        wb = wb .. " %#Normal#"
+        if count > 1 and i ~= count then
+            wb = wb .. " %#BufferLineFill# "
+        else
+            wb = wb .. " "
+        end
+        wb = wb .. "%#Normal#"
     end
 
-    wb = wb .. "%#TabLineFill#"
+    wb = wb .. "%#BufferLineFill#"
 
     vim.wo[winid].winbar = wb
 end

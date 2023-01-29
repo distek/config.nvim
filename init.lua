@@ -1,7 +1,6 @@
 require("plugins")
 require("util")
 require("themes")
-require("plugin-configs")
 require("statuscolumn")
 require("terminal")
 require("globals")

@@ -79,8 +79,14 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
     pattern = { "NvimTree" },
-    callback = function()
-        vim.wo.statuscolumn = ""
+    callback = function(args)
+        vim.defer_fn(function()
+            local wid = vim.fn.bufwinid(args.buf)
+            vim.api.nvim_set_option_value(
+                "statuscolumn", "",
+                { scope = 'local', win = wid }
+            )
+        end, 1)
     end,
 })
 
@@ -141,5 +147,55 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
     pattern = { "*" },
     callback = function()
         vim.o.cursorline = false
+    end,
+})
+
+vim.api.nvim_create_autocmd({ "VimResized", "WinEnter", "WinClosed" }, {
+    callback = function()
+        vim.defer_fn(function()
+            local panelWidth = 30
+
+            local exists, window = Util.ifNameExists("NvimTree_")
+            if exists then
+                vim.api.nvim_win_set_width(window, panelWidth)
+            end
+
+            if TF.Term[vim.api.nvim_get_current_tabpage()] ~= nil then
+                TF.Term[vim.api.nvim_get_current_tabpage()].window:update_size()
+            end
+        end, 1)
+    end,
+})
+
+vim.api.nvim_create_autocmd({ "WinClosed" }, {
+    callback = function()
+        vim.defer_fn(function()
+            if not vim.bo.filetype == "NvimTree"
+                or not vim.bo.filetype == "Outline"
+                or not vim.bo.filetype == "toggleterm"
+            then
+                return
+            end
+
+            local winCount = 0
+            local compCount = 0
+
+            for _, v in ipairs(vim.api.nvim_list_wins()) do
+                if vim.api.nvim_win_get_config(v).relative == "" then
+                    local ft = vim.api.nvim_win_call(v, function()
+                        return vim.bo.filetype
+                    end)
+
+                    if ft == "NvimTree" or ft == "toggleterm" or ft == "Outline" then
+                        compCount = compCount + 1
+                    end
+                    winCount = winCount + 1
+                end
+            end
+
+            if winCount == compCount then
+                vim.cmd("qa!")
+            end
+        end, 1)
     end,
 })
