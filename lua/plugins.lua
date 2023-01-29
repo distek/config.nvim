@@ -332,8 +332,7 @@ require("lazy").setup({
     }, -- }}}
 
     { "folke/which-key.nvim", -- {{{
-        lazy = true,
-        keys = "<space>",
+        event = "VeryLazy",
         config = function()
             require("which-key").setup({
                 triggers_blacklist = {
