@@ -121,7 +121,6 @@ _G.get_statuscol = function()
         "diagnostics",
         "sep",
         "breakpoints",
-        "fold",
         "sep",
         "num",
         "space",
