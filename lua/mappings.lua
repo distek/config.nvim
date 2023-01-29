@@ -205,6 +205,7 @@ map("n", "<leader>aa", "<cmd>Telescope file_browser path=%:p:h<CR>", { desc = "F
 -- Term is set in terminal.lua
 map("n", "<leader>as", TF.Toggle, { desc = "Toggle terminal" })
 map("t", "<localleader>as", TF.Toggle, { desc = "Toggle terminal" })
+map("n", "<M-CR>", TF.NewTerm, { desc = "Create new terminal" })
 map("t", "<M-CR>", TF.NewTerm, { desc = "Create new terminal" })
 map("t", "<M-q>", TF.DeleteCurrentTerm, { desc = "Create new terminal" })
 map("t", "<M-r>", TF.RenameTerm, { desc = "Create new terminal" })
