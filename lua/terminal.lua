@@ -192,6 +192,14 @@ TF.HandleClickClose = function(minwid, clicks, btn, mods)
     end
 end
 
+TF.DeleteCurrentTerm = function()
+    local tp = vim.api.nvim_get_current_tabpage()
+    local lt = TF.Term[tp].last_term
+    if TF.Term[tp]:delete(lt) then
+        TF.UpdateWinbar()
+    end
+end
+
 TF.NextTerm = function()
     local nextTerm = TF.Term[vim.api.nvim_get_current_tabpage()].last_term + 1
 
