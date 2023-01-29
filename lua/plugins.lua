@@ -16,12 +16,47 @@ vim.opt.rtp:prepend(lazypath)
 -- Plugins
 require("lazy").setup({
     -- Treesitter{{{
+
     { "nvim-treesitter/nvim-treesitter",
         event = "VeryLazy",
         config = function()
             require("nvim-treesitter.configs").setup({
-                ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-                ignore_install = { "haskell", "phpdoc", "norg" }, -- List of parsers to ignore installing
+                ensure_installed = {
+                    "bash",
+                    "c",
+                    "cpp",
+                    "css",
+                    "diff",
+                    "git_rebase",
+                    "gitattributes",
+                    "gitcommit",
+                    "gitignore",
+                    "go",
+                    "gomod",
+                    "help",
+                    "html",
+                    "ini",
+                    "javascript",
+                    "jq",
+                    "jsonc",
+                    "lua",
+                    "make",
+                    "markdown",
+                    "markdown_inline",
+                    "python",
+                    "regex",
+                    "rust",
+                    "scss",
+                    "sql",
+                    "svelte",
+                    "swift",
+                    "terraform",
+                    "todotxt",
+                    "tsx",
+                    "typescript",
+                    "vim",
+                    "yaml",
+                },
                 highlight = {
                     enable = true,
                     additional_vim_regex_highlighting = true,
@@ -100,8 +135,6 @@ require("lazy").setup({
     },
     -- Treesitter playground{{{
     { "nvim-treesitter/playground",
-        cmd = "TSPlaygroundToggle",
-        lazy = true,
         event = "VeryLazy",
     },
     -- }}}
@@ -199,6 +232,10 @@ require("lazy").setup({
         event = "VeryLazy",
     },
     -- }}}
+
+    { "JoosepAlviste/nvim-ts-context-commentstring",
+    },
+
     -- }}}
 
     -- Layout/UI{{{
@@ -324,7 +361,6 @@ require("lazy").setup({
     -- }}}
 
     { "kevinhwang91/nvim-hlslens", -- {{{
-        lazy = true,
         event = "VeryLazy",
         config = function()
             require("hlslens").setup()
@@ -344,7 +380,6 @@ require("lazy").setup({
     }, -- }}}
 
     { "kwkarlwang/bufresize.nvim", -- {{{
-        lazy = true,
         event = "VeryLazy",
         config = function()
             require("bufresize").setup()
@@ -366,7 +401,6 @@ require("lazy").setup({
     { "lewis6991/gitsigns.nvim", -- {{{
         event = "VeryLazy",
 
-        lazy = true,
         config = function()
             require("gitsigns").setup()
         end
@@ -374,7 +408,6 @@ require("lazy").setup({
 
     { "nvim-tree/nvim-tree.lua", -- {{{
         cmd = "NvimTreeToggle",
-        lazy = true,
         config = function()
             require("nvim-tree").setup({
                 sort_by = "case_sensitive",
@@ -412,7 +445,6 @@ require("lazy").setup({
 
     { "tiagovla/scope.nvim", -- {{{
         event = "VeryLazy",
-        lazy = true,
         config = function()
             require("scope").setup()
         end
@@ -420,11 +452,9 @@ require("lazy").setup({
 
     { "sindrets/winshift.nvim", -- {{{
         cmd = "WinShift",
-        lazy = true,
     }, -- }}}
 
     { "folke/zen-mode.nvim", -- {{{
-        lazy = true,
         cmd = "ZenMode",
         config = function()
             require("zen-mode").setup({
@@ -449,7 +479,6 @@ require("lazy").setup({
 
     { "folke/twilight.nvim", -- {{{
         cmd = "Twilight",
-        lazy = true,
         config = function()
             require("twilight").setup({
                 dimming = {
@@ -576,7 +605,6 @@ require("lazy").setup({
         },
         cmd = "Telescope",
         event = "VeryLazy",
-        lazy = true,
         config = function()
             CommandPaletteAllTheThings = function()
                 vim.cmd("NvimTreeOpen")
@@ -656,7 +684,6 @@ require("lazy").setup({
     -- LSP{{{
     { "neovim/nvim-lspconfig", -- {{{
         event = "BufReadPre",
-        lazy = true,
         config = function()
             local lspconfig = require("lspconfig")
 
@@ -873,8 +900,7 @@ require("lazy").setup({
             "rafamadriz/friendly-snippets",
             "honza/vim-snippets",
         },
-        lazy = true,
-        event = { "InsertEnter" },
+        event = { "InsertEnter", "CmdlineEnter" },
         config = function()
             local cmp = require("cmp")
             local cmp_autopairs = require('nvim-autopairs.completion.cmp')
@@ -976,13 +1002,12 @@ require("lazy").setup({
     }, -- }}}
 
     { "onsails/lspkind-nvim",
-        lazy = true,
         event = "InsertEnter"
     },
 
     { "dnlhc/glance.nvim",
+        event = "VeryLazy",
         cmd = "Glance",
-        lazy = true,
         config = function()
             require("glance").setup({
                 border = {
@@ -995,7 +1020,6 @@ require("lazy").setup({
     },
 
     { "simrat39/symbols-outline.nvim", -- {{{
-        lazy = true,
         event = "InsertEnter",
         config = function()
             require("symbols-outline").setup({
@@ -1063,7 +1087,6 @@ require("lazy").setup({
     }, -- }}}
 
     { "ray-x/lsp_signature.nvim",
-        lazy = true,
         event = "InsertEnter"
     },
     -- }}}
@@ -1222,17 +1245,14 @@ require("lazy").setup({
 
             require("nvim-dap-virtual-text").setup({})
         end,
-        lazy = true,
     }, -- }}}
 
     { "rcarriga/nvim-dap-ui",
         event = "VeryLazy",
-        lazy = true,
     },
 
     { "theHamsta/nvim-dap-virtual-text",
         event = "VeryLazy",
-        lazy = true,
     },
 
     { "mfussenegger/nvim-dap-python",
@@ -1293,18 +1313,9 @@ require("lazy").setup({
         end
     }, -- }}}
 
-    { "tpope/vim-commentary",
-        cmd = "Commentary",
-        lazy = true,
-    },
-
-    { "JoosepAlviste/nvim-ts-context-commentstring",
-        lazy = true,
-        event = "VeryLazy",
-    },
+    { "tpope/vim-commentary" },
 
     { "ThePrimeagen/refactoring.nvim",
-        lazy = true,
         event = "VeryLazy",
         dependencies = {
             "nvim-lua/plenary.nvim",
@@ -1322,24 +1333,21 @@ require("lazy").setup({
     },
 
     { "tpope/vim-fugitive",
-        lazy = true,
+        event = "VeryLazy",
         cmd = "Git"
     },
 
     { "ThePrimeagen/git-worktree.nvim",
         event = "VeryLazy",
-        lazy = true,
     },
 
     { "powerman/vim-plugin-AnsiEsc",
         event = "VeryLazy",
-        lazy = true,
     },
 
     { "norcalli/nvim-colorizer.lua",
         cmd = "ColorizerToggle",
         event = "VeryLazy",
-        lazy = true,
     },
 
     { "nvim-zh/colorful-winsep.nvim",
@@ -1348,6 +1356,10 @@ require("lazy").setup({
             require("colorful-winsep").setup({
                 -- symbols = { "█", "█", "█", "█", "█", "█" },
                 symbols = { "━", "┃", "┏", "┓", "┗", "┛" },
+                highlight = {
+                    fg = Util.getColor("Title", "fg"),
+                    bg = Util.darken(Util.getColor("Normal", "bg"), 0.94),
+                }
             })
         end
     },
@@ -1373,12 +1385,10 @@ require("lazy").setup({
     -- Themes{{{
     { "tiagovla/tokyodark.nvim",
         event = "VeryLazy",
-        lazy = true
     },
 
     { "Shatur/neovim-ayu",
         event = "VeryLazy",
-        lazy = true
     },
     -- }}}
 })
