@@ -201,15 +201,15 @@ map("v", "<leader>cm", "<Plug>ContextCommentary", { desc = "Comment line(s)" })
 
 -- nvim-tree
 map("n", "<leader>aa", "<cmd>Telescope file_browser path=%:p:h<CR>", { desc = "File browser" })
-map("t", "<localleader>aa", "<cmd>Telescope file_browser path=%:p:h<CR>", { desc = "File browser" })
 
 -- Term is set in terminal.lua
 map("n", "<leader>as", TF.Toggle, { desc = "Toggle terminal" })
 map("t", "<localleader>as", TF.Toggle, { desc = "Toggle terminal" })
-map("t", "<localleader>an", TF.NewTerm, { desc = "Create new terminal" })
-map("t", "<localleader>aN", TF.RenameTerm, { desc = "Create new terminal" })
-map("t", "<localleader><Tab>", TF.NextTerm, { desc = "Next terminal" })
-map("t", "<localleader><S-Tab>", TF.PrevTerm, { desc = "Previous terminal" })
+map("t", "<M-CR>", TF.NewTerm, { desc = "Create new terminal" })
+map("t", "<M-q>", TF.DeleteCurrentTerm, { desc = "Create new terminal" })
+map("t", "<M-r>", TF.RenameTerm, { desc = "Create new terminal" })
+map("t", "<M-Tab>", TF.NextTerm, { desc = "Next terminal" })
+map("t", "<M-S-Tab>", TF.PrevTerm, { desc = "Previous terminal" })
 
 map("n", "<leader>ad", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle explorer panel" })
 map("t", "<localleader>ad", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle explorer panel" })
