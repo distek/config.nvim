@@ -13,7 +13,6 @@ vim.o.encoding = "utf-8"
 vim.o.expandtab = true
 vim.o.fileformats = "unix,dos,mac"
 vim.cmd([[filetype plugin indent on]])
-vim.o.fillchars = "vert:│,fold:─,eob: "
 vim.o.foldmethod = "marker"
 vim.o.foldcolumn = "auto"
 vim.o.hidden = true
@@ -32,6 +31,18 @@ vim.o.pumblend = 15
 vim.o.relativenumber = true
 vim.o.ruler = true
 vim.o.scrolloff = 2
+vim.opt.fillchars = {
+    horiz = "━",
+    horizup = "┻",
+    horizdown = "┳",
+    vert = "┃",
+    vertleft = "┫",
+    vertright = "┣",
+    verthoriz = "╋",
+    fold = "─",
+    eob = " "
+}
+
 -- Vimterm = vim.fn.expand("~/.config/nvim/vimterm.sh")
 -- vim.o.shell = Vimterm
 vim.o.shell = os.getenv("SHELL")
