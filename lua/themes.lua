@@ -34,6 +34,7 @@ Themes["tokyodark"] = function()
     vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
     vim.api.nvim_set_hl(0, "NvimTreeCursorLine", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.99) })
 
+    vim.api.nvim_set_hl(0, "VertSplit", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.94) })
 end
 
 Themes["ayu"] = function()
