@@ -869,16 +869,16 @@ require("lazy").setup({
     }, -- }}}
 
     { "williamboman/mason.nvim",
-        event = "VeryLazy",
+        event = "BufReadPRe",
     },
 
     { "williamboman/mason-lspconfig.nvim",
-        event = "VeryLazy",
+        event = "BufReadPre",
     },
 
     {
         "jayp0521/mason-null-ls.nvim",
-        event = "VeryLazy",
+        event = "BufReadPre",
         dependencies = {
             "jose-elias-alvarez/null-ls.nvim",
         },
@@ -1370,12 +1370,6 @@ require("lazy").setup({
 
     { "distek/nvim-terminal",
         event = "VeryLazy",
-        config = function()
-            require("nvim-terminal").setup({
-                disable_default_keymaps = true,
-                terminals = {},
-            })
-        end
     },
 
     -- { dir = "~/Programming/neovim-plugs/nvim-terminal" },

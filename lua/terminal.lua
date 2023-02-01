@@ -1,4 +1,3 @@
--- Term Framework
 T = require("nvim-terminal")
 
 -- initial tab setup
