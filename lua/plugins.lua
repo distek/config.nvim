@@ -443,13 +443,6 @@ require("lazy").setup({
         end
     }, -- }}}
 
-    { "tiagovla/scope.nvim", -- {{{
-        event = "VeryLazy",
-        config = function()
-            require("scope").setup()
-        end
-    }, -- }}}
-
     { "sindrets/winshift.nvim", -- {{{
         cmd = "WinShift",
     }, -- }}}
@@ -499,15 +492,17 @@ require("lazy").setup({
         end
     }, -- }}}
 
-    { "distek/session-tabs.nvim", -- {{{
+    { "distek/sessions.nvim", -- {{{
         event = "VeryLazy",
         config = function()
-            require("session-tabs").setup({
-                rename_tab = "bufferline",
-            })
+            require("sessions").setup({})
         end
     },
-    -- { dir = "~/Programming/neovim-plugs/session-tabs.nvim" },
+    -- { dir = "~/Programming/neovim-plugs/sessions.nvim",
+    --     config = function()
+    --         require("sessions").setup({})
+    --     end
+    -- },
     -- }}}
 
     { "kyazdani42/nvim-web-devicons", },

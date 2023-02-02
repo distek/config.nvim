@@ -308,9 +308,9 @@ map("v", "<leader>gs", ":Gitsigns stage_hunk<cr>", { desc = "Stage hunk" })
 map("v", "<leader>gu", ":Gitsigns reset_hunk<cr>", { desc = "Reset hunk" })
 
 -- Sessions
-map("n", "<leader>Ss", require("session-tabs").saveSession, { desc = "Save session" })
-map("n", "<leader>Sl", require("session-tabs").selectSession, { desc = "Load session" })
-map("n", "<leader>Sd", require("session-tabs").deleteSession, { desc = "Delete session" })
+map("n", "<leader>Ss", require("sessions").saveSession, { desc = "Save session" })
+map("n", "<leader>Sl", require("sessions").selectSession, { desc = "Load session" })
+map("n", "<leader>Sd", require("sessions").deleteSession, { desc = "Delete session" })
 
 -- Shift block
 map("v", "<C-K>", "xkP`[V`]")
