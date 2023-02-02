@@ -104,8 +104,8 @@ vim.api.nvim_create_autocmd("WinEnter", {
 -- Terminal
 vim.api.nvim_create_augroup("Terminal", { clear = true })
 
-vim.api.nvim_create_autocmd("BufEnter", {
-    pattern = { "term://*" },
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "toggleterm" },
     callback = function()
         vim.cmd([[startinsert]])
     end,
@@ -121,6 +121,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
         vim.opt_local.list = false
         vim.opt_local.signcolumn = "no"
         vim.opt_local.statuscolumn = ""
+        vim.cmd([[startinsert]])
     end,
     group = "Terminal",
 })
@@ -198,4 +199,16 @@ vim.api.nvim_create_autocmd({ "WinClosed" }, {
             end
         end, 1)
     end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = {
+        "help",
+        "fugitive",
+        "gitcommit",
+    },
+    -- command = "nnoremap <buffer> q :close<cr>"
+    callback = function()
+        vim.keymap.set("n", "q", ":close<cr>", { buffer = true, silent = true })
+    end
 })

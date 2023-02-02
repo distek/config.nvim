@@ -61,7 +61,11 @@ function TermToggle()
         require("nvim-tree.api").tree.close()
     end
 
-    TF.Toggle()
+    local winid = TF.Toggle()
+
+    if vim.api.nvim_win_is_valid(winid) then
+        vim.api.nvim_win_set_hl_ns(winid, PanelNS)
+    end
 
     if nvt then
         require("nvim-tree.api").tree.open()
