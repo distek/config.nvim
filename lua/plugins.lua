@@ -710,7 +710,7 @@ require("lazy").setup({
             })
 
             require("mason-lspconfig").setup({
-                ensure_installed = { "bashls", "clangd", "gopls", "sumneko_lua", "golangci_lint_ls", "tsserver" },
+                ensure_installed = { "bashls", "clangd", "gopls", "sumneko_lua", "tsserver" },
                 automatic_installation = true,
             })
 
