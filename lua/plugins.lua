@@ -1336,9 +1336,7 @@ require("lazy").setup({
         event = "VeryLazy",
     },
 
-    { "powerman/vim-plugin-AnsiEsc",
-        event = "VeryLazy",
-    },
+    { "powerman/vim-plugin-AnsiEsc" },
 
     { "norcalli/nvim-colorizer.lua",
         cmd = "ColorizerToggle",
