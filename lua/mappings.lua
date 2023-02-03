@@ -46,8 +46,8 @@ map("n", "<leader>ss", "<cmd>split<cr>", { desc = "Split horizontal" })
 map("n", "<leader>sv", "<cmd>vsplit<cr>", { desc = "Split Vertical" })
 
 -- Split Terminal
-map("n", "<leader>stv", "<cmd>vsplit term://" .. vim.o.shell, { desc = "Vertical Term" })
-map("n", "<leader>sts", "<cmd>split term://" .. vim.o.shell, { desc = "Horizontal Term" })
+map("n", "<leader>stv", "<cmd>vsplit term://" .. vim.o.shell .. "<CR>", { desc = "Vertical Term" })
+map("n", "<leader>sts", "<cmd>split term://" .. vim.o.shell .. "<CR>", { desc = "Horizontal Term" })
 
 -- Term escape
 map("t", "<A-z>", "<c-\\><c-n>")
