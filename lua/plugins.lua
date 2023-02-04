@@ -864,7 +864,7 @@ require("lazy").setup({
     }, -- }}}
 
     { "williamboman/mason.nvim",
-        event = "BufReadPRe",
+        event = "BufReadPre",
     },
 
     { "williamboman/mason-lspconfig.nvim",
