@@ -32,15 +32,15 @@ vim.o.relativenumber = true
 vim.o.ruler = true
 vim.o.scrolloff = 2
 vim.opt.fillchars = {
-    horiz = "━",
-    horizup = "┻",
-    horizdown = "┳",
-    vert = "┃",
-    vertleft = "┫",
-    vertright = "┣",
-    verthoriz = "╋",
-    fold = "─",
-    eob = " "
+	horiz = "━",
+	horizup = "┻",
+	horizdown = "┳",
+	vert = "┃",
+	vertleft = "┫",
+	vertright = "┣",
+	verthoriz = "╋",
+	fold = "─",
+	eob = " ",
 }
 
 -- Vimterm = vim.fn.expand("~/.config/nvim/vimterm.sh")
@@ -101,56 +101,56 @@ vim.g.netrw_hide = 0
 -- Disabled builtins {{{
 -- Improves startup time just ever so slightly
 local disabled_built_ins = {
-    -- Need netrw for certain things, like remote editing
-    -- "netrw",
-    -- "netrwPlugin",
-    -- "netrwSettings",
-    -- "netrwFileHandlers",
-    "gzip",
-    "zip",
-    "zipPlugin",
-    "tar",
-    "tarPlugin",
-    "getscript",
-    "getscriptPlugin",
-    "vimball",
-    "vimballPlugin",
-    "2html_plugin",
-    "logipat",
-    "rrhelper",
-    "spellfile_plugin",
-    "matchit",
+	-- Need netrw for certain things, like remote editing
+	-- "netrw",
+	-- "netrwPlugin",
+	-- "netrwSettings",
+	-- "netrwFileHandlers",
+	"gzip",
+	"zip",
+	"zipPlugin",
+	"tar",
+	"tarPlugin",
+	"getscript",
+	"getscriptPlugin",
+	"vimball",
+	"vimballPlugin",
+	"2html_plugin",
+	"logipat",
+	"rrhelper",
+	"spellfile_plugin",
+	"matchit",
 }
 
 for _, plugin in pairs(disabled_built_ins) do
-    vim.g["loaded_" .. plugin] = 1
+	vim.g["loaded_" .. plugin] = 1
 end
 --}}}
 
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-    opts = opts or {}
-    opts.border = opts.border or 'single'
-    opts.max_width = opts.max_width or 80
-    opts.max_height = opts.max_height or 20
-    return orig_util_open_floating_preview(contents, syntax, opts, ...)
+	opts = opts or {}
+	opts.border = opts.border or "single"
+	opts.max_width = opts.max_width or 80
+	opts.max_height = opts.max_height or 20
+	return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
 local border = {
-    { "🭽", "FloatBorder" },
-    { "▔", "FloatBorder" },
-    { "🭾", "FloatBorder" },
-    { "▕", "FloatBorder" },
-    { "🭿", "FloatBorder" },
-    { "▁", "FloatBorder" },
-    { "🭼", "FloatBorder" },
-    { "▏", "FloatBorder" },
+	{ "🭽", "FloatBorder" },
+	{ "▔", "FloatBorder" },
+	{ "🭾", "FloatBorder" },
+	{ "▕", "FloatBorder" },
+	{ "🭿", "FloatBorder" },
+	{ "▁", "FloatBorder" },
+	{ "🭼", "FloatBorder" },
+	{ "▏", "FloatBorder" },
 }
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-    border = border,
+	border = border,
 })
 
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-    border = border,
+	border = border,
 })

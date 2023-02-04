@@ -8,5 +8,5 @@ require("autocmds")
 require("mappings")
 
 if vim.g.neovide then
-    require("neovide-settings")
+	require("neovide-settings")
 end

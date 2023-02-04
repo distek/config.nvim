@@ -2,7 +2,7 @@ vim.api.nvim_create_augroup("Go", { clear = true })
 
 local opts = { noremap = true, silent = true }
 local map = function(mode, keys, command)
-    vim.api.nvim_set_keymap(mode, keys, command, opts)
+	vim.api.nvim_set_keymap(mode, keys, command, opts)
 end
 
 map("n", "<leader>Gfs", ":GoFillStruct<cr>")
@@ -10,11 +10,11 @@ map("n", "<leader>Gie", ":GoIfErr<cr>")
 map("n", "<leader>Gat", ":GoAddTest<cr>")
 
 vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { "*go" },
-    callback = function()
-        vim.cmd("GoImport")
-    end,
-    group = "Go",
+	pattern = { "*go" },
+	callback = function()
+		vim.cmd("GoImport")
+	end,
+	group = "Go",
 })
 
 -- Add test for function under cursor
