@@ -510,12 +510,15 @@ require("lazy").setup({
 			require("sessions").setup({})
 		end,
 	},
-	-- { dir = "~/Programming/neovim-plugs/sessions.nvim",
-	--     config = function()
-	--         require("sessions").setup({})
-	--     end
-	-- },
 	-- }}}
+	-- {
+	-- 	dir = "~/Programming/neovim-plugs/sessions.nvim", --{{{
+	-- 	config = function()
+	-- 		require("sessions").setup({})
+	-- 	end,
+	-- },
+	-- -- }}}
+	--
 
 	{ "kyazdani42/nvim-web-devicons" },
 
@@ -718,13 +721,20 @@ require("lazy").setup({
 			})
 
 			require("mason-lspconfig").setup({
-				ensure_installed = { "bashls", "clangd", "gopls", "sumneko_lua", "tsserver" },
+				ensure_installed = { "bashls", "clangd", "cssls", "gopls", "sumneko_lua", "tsserver" },
 				automatic_installation = true,
 			})
 
 			require("mason-lspconfig").setup_handlers({
 				function(server_name)
 					lspconfig[server_name].setup({})
+				end,
+				["cssls"] = function()
+					local capabilities = vim.lsp.protocol.make_client_capabilities()
+					capabilities.textDocument.completion.completionItem.snippetSupport = true
+					require("lspconfig").cssls.setup({
+						capabilities = capabilities,
+					})
 				end,
 				["gopls"] = function()
 					lspconfig.gopls.setup({
