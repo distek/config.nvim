@@ -17,13 +17,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("BufWritePost", {
-	pattern = { "*" },
-	callback = function()
-		vim.cmd("normal! zv")
-	end,
-})
-
 -- LSP - documentHighlight
 -- highlight - normal
 vim.api.nvim_create_autocmd("CursorHold", {
