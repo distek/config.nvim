@@ -23,6 +23,7 @@ Themes["tokyodark"] = function()
 	vim.cmd("colorscheme tokyodark")
 
 	vim.api.nvim_set_hl(PanelNS, "Normal", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.70) })
+	vim.api.nvim_set_hl(PanelNS, "EndOfBuffer", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.70) })
 
 	vim.api.nvim_set_hl(0, "NormalFloat", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
 	vim.api.nvim_set_hl(0, "FloatBorder", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
