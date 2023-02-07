@@ -10,10 +10,10 @@ local gitsigns_hl_pool = {
 }
 
 local diag_signs_icons = {
-	DiagnosticSignError = "",
-	DiagnosticSignWarn = "",
-	DiagnosticSignInfo = "",
-	DiagnosticSignHint = "",
+	DiagnosticSignError = "",
+	DiagnosticSignWarn = "",
+	DiagnosticSignInfo = "",
+	DiagnosticSignHint = "",
 	DiagnosticSignOk = "",
 }
 
