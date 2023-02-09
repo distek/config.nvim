@@ -693,10 +693,6 @@ require("lazy").setup({
 		config = function()
 			local lspconfig = require("lspconfig")
 
-			vim.diagnostic.config({
-				virtual_text = true,
-			})
-
 			-- Formatting
 			-- Map :Format to vim.lsp.buf.formatting()
 			vim.cmd([[command! Format execute 'lua vim.lsp.buf.format { async = true }']])
