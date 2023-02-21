@@ -722,6 +722,13 @@ require("lazy").setup({
 				function(server_name)
 					lspconfig[server_name].setup({})
 				end,
+				["clangd"] = function()
+					local capabilities = vim.lsp.protocol.make_client_capabilities()
+					capabilities.offsetEncoding = { "utf-16" }
+					require("lspconfig").clangd.setup({
+						capabilities = capabilities,
+					})
+				end,
 				["cssls"] = function()
 					local capabilities = vim.lsp.protocol.make_client_capabilities()
 					capabilities.textDocument.completion.completionItem.snippetSupport = true
