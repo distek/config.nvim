@@ -1,43 +1,30 @@
-Util.win_focus_bottom = function()
-	local currentWin = vim.fn.winnr()
-
-	if currentWin == vim.fn.winnr("j") then
-		vim.cmd("silent !tmux select-pane -D")
-		return
+Util.win_focus = function(dir)
+	local function getStuff(d)
+		if d == "left" then
+			return "h", "L", "left"
+		elseif d == "down" then
+			return "j", "D", "down"
+		elseif d == "up" then
+			return "k", "U", "up"
+		else --right
+			return "l", "R", "right"
+		end
 	end
 
-	vim.cmd("wincmd j")
-end
-
-Util.win_focus_top = function()
 	local currentWin = vim.fn.winnr()
+	local vimLetter, tmuxLetter, weztermWord = getStuff(dir)
 
-	if currentWin == vim.fn.winnr("k") then
-		vim.cmd("silent !tmux select-pane -U")
-		return
+	if currentWin == vim.fn.winnr(vimLetter) then
+		if os.getenv("TMUX") ~= nil then
+			print("here")
+			vim.cmd("silent !tmux select-pane -" .. tmuxLetter)
+			return
+		end
+
+		if os.getenv("TERM_PROGRAM") == "WezTerm" then
+			print("here2")
+			vim.cmd("silent !wezterm cli activate-pane-direction " .. weztermWord)
+			return
+		end
 	end
-
-	vim.cmd("wincmd k")
-end
-
-Util.win_focus_left = function()
-	local currentWin = vim.fn.winnr()
-
-	if currentWin == vim.fn.winnr("h") then
-		vim.cmd("silent !tmux select-pane -L")
-		return
-	end
-
-	vim.cmd("wincmd h")
-end
-
-Util.win_focus_right = function()
-	local currentWin = vim.fn.winnr()
-
-	if currentWin ~= vim.fn.winnr("l") then
-		vim.cmd("wincmd l")
-		return
-	end
-
-	vim.cmd("silent !tmux select-pane -R")
 end
