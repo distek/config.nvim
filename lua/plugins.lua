@@ -1239,6 +1239,18 @@ require("lazy").setup({
 				},
 			}
 
+			dap.configurations.c = {
+				{
+					name = "codelldb server",
+					type = "server",
+					port = "${port}",
+					executable = {
+						command = vim.fn.stdpath("data") .. "/mason/bin/codelldb",
+						args = { "--port", "${port}" },
+					},
+				},
+			}
+
 			require("nvim-dap-virtual-text").setup({})
 		end,
 	}, -- }}}
