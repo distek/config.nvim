@@ -741,12 +741,12 @@ require("lazy").setup({
 						root_dir = lspconfig.util.root_pattern("go.mod", ".git", "main.go"),
 					})
 				end,
-				["sumneko_lua"] = function()
+				["lua_ls"] = function()
 					local runtime_path = vim.split(package.path, ";")
 					table.insert(runtime_path, "lua/?.lua")
 					table.insert(runtime_path, "lua/?/init.lua")
 
-					lspconfig.sumneko_lua.setup({
+					lspconfig.lua_ls.setup({
 						settings = {
 							Lua = {
 								runtime = {
