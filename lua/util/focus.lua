@@ -16,15 +16,15 @@ Util.win_focus = function(dir)
 
 	if currentWin == vim.fn.winnr(vimLetter) then
 		if os.getenv("TMUX") ~= nil then
-			print("here")
 			vim.cmd("silent !tmux select-pane -" .. tmuxLetter)
 			return
 		end
 
 		if os.getenv("TERM_PROGRAM") == "WezTerm" then
-			print("here2")
 			vim.cmd("silent !wezterm cli activate-pane-direction " .. weztermWord)
 			return
 		end
+	else
+		vim.cmd("wincmd " .. vimLetter)
 	end
 end
