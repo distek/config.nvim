@@ -240,8 +240,8 @@ map("n", "<leader>kF", "<cmd> lua require('telescope.builtin').find_files()<cr>"
 map("n", "<leader>kf", "<cmd> lua require('telescope.builtin').buffers()<cr>", { desc = "Find buffers" })
 map("n", "<leader>kh", "<cmd> lua require('telescope.builtin').help_tags()<cr>", { desc = "Search help" })
 
-map("n", "<leader>kF", "<cmd> lua require('telescope.builtin').quickfix()<cr>", { desc = "Quickfix list" })
-map("n", "<leader>kL", "<cmd> lua require('telescope.builtin').loclist()<cr>", { desc = "Location list" })
+map("n", "<leader>kq", "<cmd> lua require('telescope.builtin').quickfix()<cr>", { desc = "Quickfix list" })
+map("n", "<leader>kl", "<cmd> lua require('telescope.builtin').loclist()<cr>", { desc = "Location list" })
 
 map("n", "<leader>ks", TF.PickTerm, { desc = "Find terminal" })
 
