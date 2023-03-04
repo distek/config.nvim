@@ -1359,7 +1359,7 @@ require("lazy").setup({
 
 	{ "famiu/bufdelete.nvim", event = "VeryLazy" },
 
-	{ "distek/nvim-terminal", event = "VeryLazy" },
+	{ "distek/nvim-terminal" },
 
 	-- { dir = "~/Programming/neovim-plugs/nvim-terminal" },
 	-- { dir = "~/Programming/neovim-plugs/dap-buttons" },
