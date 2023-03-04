@@ -784,8 +784,17 @@ require("lazy").setup({
 			})
 
 			require("mason-null-ls").setup({
-				ensure_installed = { "jq", "prettier", "golangci_lint", "clang_format", "shfmt", "goimports", "stylua" },
-				automatic_installation = false,
+				ensure_installed = {
+					"clang_format",
+					"goimports",
+					"golangci_lint",
+					"jq",
+					"prettier",
+					"rust_analyzer",
+					"shfmt",
+					"stylua",
+				},
+				automatic_installation = true,
 				automatic_setup = true, -- Recommended, but optional
 			})
 
