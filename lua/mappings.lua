@@ -200,7 +200,7 @@ map("n", "<leader>cm", "<Plug>ContextCommentary", { desc = "Comment line" })
 map("v", "<leader>cm", "<Plug>ContextCommentary", { desc = "Comment line(s)" })
 
 -- nvim-tree
-map("n", "<leader>aa", "<cmd>Telescope file_browser path=%:p:h<CR>", { desc = "File browser" })
+map("n", "<leader>aa", "<cmd>Telescope file_browser path=%:p:h hidden=true<CR>", { desc = "File browser" })
 
 -- Term is set in terminal.lua
 map("n", "<leader>as", TermToggle, { desc = "Toggle terminal" })
