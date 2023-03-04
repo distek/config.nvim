@@ -23,7 +23,9 @@ vim.api.nvim_create_autocmd({ "TabNewEntered" }, {
 vim.api.nvim_create_autocmd("WinResized", {
 	pattern = "*",
 	callback = function()
-		TF.Term[vim.api.nvim_get_current_tabpage()].window:update_size()
+		if TF.Term[vim.api.nvim_get_current_tabpage()] ~= nil then
+			TF.Term[vim.api.nvim_get_current_tabpage()].window:update_size()
+		end
 	end,
 })
 
