@@ -193,3 +193,51 @@ Util.vimCmdToBuffer = function(cmd)
 		vim.api.nvim_buf_set_lines(0, 0, 0, false, { line })
 	end
 end
+
+Util.bdelete = function(all, force)
+	local ignoreFiletypes = { "Outline", "toggleterm", "NvimTree" }
+	local bufs = vim.api.nvim_list_bufs()
+
+	if all then
+		local foundBufs = {}
+		for _, v in ipairs(bufs) do
+			local buf = vim.fn.getbufinfo(v)[1]
+
+			if buf == nil or #buf.windows == 0 then
+				goto continue
+			end
+
+			local ft = vim.bo[v].filetype
+			if buf.hidden == 1 then
+				goto continue
+			end
+
+			for _, f in ipairs(ignoreFiletypes) do
+				if f == ft then
+					vim.api.nvim_win_close(vim.fn.bufwinid(v), false)
+					goto continue
+				end
+			end
+
+			table.insert(foundBufs, v)
+
+			::continue::
+		end
+
+		for _, v in ipairs(foundBufs) do
+			vim.cmd(v .. "Bdelete")
+		end
+	else
+		for _, f in ipairs(ignoreFiletypes) do
+			if f == vim.bo.filetype then
+				return
+			end
+		end
+
+		if force then
+			vim.cmd("Bdelete!")
+		else
+			vim.cmd("Bdelete")
+		end
+	end
+end

@@ -328,5 +328,11 @@ map("n", "<A-Space>", "<cmd>Telescope command_palette<CR>")
 -- wont work if you take too long to do perform the action, but that's fine
 map("n", "q:", "<nop>")
 
+vim.cmd([[
+cabbrev q <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'lua Util.bdelete(false, false)' : 'q')<CR>
+cabbrev qa <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'lua Util.bdelete(true, false)' : 'qa')<CR>
+cabbrev qa! <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'lua Util.bdelete(true, true)' : 'qa!')<CR>
+]])
+
 -- AmBiGuOuS UsE oF UsEr-dEfInEd cOmMaNd
 vim.api.nvim_create_user_command("W", "w", {})
