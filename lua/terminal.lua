@@ -23,44 +23,45 @@ vim.api.nvim_create_autocmd({ "TabNewEntered" }, {
 vim.api.nvim_create_autocmd("WinResized", {
 	pattern = "*",
 	callback = function()
-		if TF.Term[vim.api.nvim_get_current_tabpage()] ~= nil then
+		if TF.Term ~= nil then
 			TF.Term[vim.api.nvim_get_current_tabpage()].window:update_size()
 		end
 	end,
 })
 
 function TermNew()
-	local nvt = require("nvim-tree.view").is_visible()
+	local nvt = Util.is_neotree_open()
+
 	if nvt then
-		require("nvim-tree.api").tree.close()
+		vim.cmd("Neotree close")
 	end
 
 	TF.NewTerm()
 
 	if nvt then
-		require("nvim-tree.api").tree.open()
-		vim.cmd("wincmd p")
+		vim.cmd("Neotree show")
 	end
 end
 
 function TermOpen()
-	local nvt = require("nvim-tree.view").is_visible()
+	local nvt = Util.is_neotree_open()
+
 	if nvt then
-		require("nvim-tree.api").tree.close()
+		vim.cmd("Neotree close")
 	end
 
 	TF.Open()
 
 	if nvt then
-		require("nvim-tree.api").tree.open()
-		vim.cmd("wincmd p")
+		vim.cmd("Neotree show")
 	end
 end
 
 function TermToggle()
-	local nvt = require("nvim-tree.view").is_visible()
+	local nvt = Util.is_neotree_open()
+
 	if nvt then
-		require("nvim-tree.api").tree.close()
+		vim.cmd("Neotree close")
 	end
 
 	local winid = TF.Toggle()
@@ -70,22 +71,20 @@ function TermToggle()
 	end
 
 	if nvt then
-		require("nvim-tree.api").tree.open()
-		vim.cmd("wincmd p")
+		vim.cmd("Neotree show")
 	end
 end
 
 function TermPick()
+	local nvt = Util.is_neotree_open()
+
 	TF.PickTerm(function()
-		local nvt = require("nvim-tree.view").is_visible()
 		if nvt then
-			require("nvim-tree.api").tree.close()
+			vim.cmd("Neotree close")
 		end
 	end, function()
-		local nvt = require("nvim-tree.view").is_visible()
 		if nvt then
-			require("nvim-tree.api").tree.open()
-			vim.cmd("wincmd p")
+			vim.cmd("Neotree show")
 		end
 	end)
 end

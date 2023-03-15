@@ -212,8 +212,8 @@ map("t", "<M-r>", TF.RenameTerm, { desc = "Create new terminal" })
 map("t", "<M-Tab>", TF.NextTerm, { desc = "Next terminal" })
 map("t", "<M-S-Tab>", TF.PrevTerm, { desc = "Previous terminal" })
 
-map("n", "<leader>ad", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle explorer panel" })
-map("t", "<localleader>ad", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle explorer panel" })
+map("n", "<leader>ad", "<cmd>Neotree toggle<CR>", { desc = "Toggle explorer panel" })
+map("t", "<localleader>ad", "<cmd>Neotree toggle<CR>", { desc = "Toggle explorer panel" })
 
 map("n", "<leader>af", "<cmd>SymbolsOutline<CR>", { desc = "Toggle outline panel" })
 

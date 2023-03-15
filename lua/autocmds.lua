@@ -72,7 +72,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = {
-		"NvimTree",
+		"neo-tree",
 		"Outline",
 	},
 	callback = function(args)
@@ -182,7 +182,7 @@ vim.api.nvim_create_autocmd({ "WinClosed" }, {
 	callback = function()
 		vim.defer_fn(function()
 			if
-				not vim.bo.filetype == "NvimTree"
+				not vim.bo.filetype == "neo-tree"
 				or not vim.bo.filetype == "Outline"
 				or not vim.bo.filetype == "toggleterm"
 			then
@@ -198,7 +198,7 @@ vim.api.nvim_create_autocmd({ "WinClosed" }, {
 						return vim.bo.filetype
 					end)
 
-					if ft == "NvimTree" or ft == "toggleterm" or ft == "Outline" then
+					if ft == "neo-tree" or ft == "toggleterm" or ft == "Outline" then
 						compCount = compCount + 1
 					end
 					winCount = winCount + 1

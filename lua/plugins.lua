@@ -357,7 +357,7 @@ require("lazy").setup({
 		end,
 
 		dependencies = {
-			"kyazdani42/nvim-web-devicons",
+			"nvim-tree/nvim-web-devicons",
 		},
 	},
 	-- }}}
@@ -413,38 +413,18 @@ require("lazy").setup({
 	}, -- }}}
 
 	{
-		"nvim-tree/nvim-tree.lua", -- {{{
-		cmd = "NvimTreeToggle",
+		"nvim-neo-tree/neo-tree.nvim", -- {{{
+		branch = "v2.x",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+			"MunifTanjim/nui.nvim",
+		},
 		config = function()
-			require("nvim-tree").setup({
-				sort_by = "case_sensitive",
-				sync_root_with_cwd = true,
-				view = {
-					width = {
-						min = 30,
-						max = 30,
-					},
-					-- mappings = {
-					--   list = {
-					--     { key = "u", action = "dir_up" },
-					--   },
-					-- },
-				},
-				renderer = {
-					group_empty = true,
-				},
-				filters = {
-					dotfiles = true,
-				},
-				tab = {
-					sync = {
-						open = false,
-						close = false,
-						ignore = {},
-					},
-				},
-				update_focused_file = {
-					update_root = true,
+			require("neo-tree").setup({
+				source_selector = {
+					winbar = true,
+					statusline = false,
 				},
 			})
 		end,
@@ -519,12 +499,10 @@ require("lazy").setup({
 	-- -- }}}
 	--
 
-	{ "kyazdani42/nvim-web-devicons" },
-
 	{
 		"distek/bufferline.nvim", -- {{{
 		branch = "tabpage-rename",
-		dependencies = { "kyazdani42/nvim-web-devicons" },
+		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			require("bufferline").setup({
 				options = {
@@ -571,7 +549,7 @@ require("lazy").setup({
 					-- end,
 					offsets = {
 						{
-							filetype = "NvimTree",
+							filetype = "neo-tree",
 							text = "Neovim",
 							highlight = "Explorer",
 							text_align = "center",
@@ -618,7 +596,7 @@ require("lazy").setup({
 		event = "VeryLazy",
 		config = function()
 			CommandPaletteAllTheThings = function()
-				vim.cmd("NvimTreeOpen")
+				vim.cmd("NeoTree")
 				TF.Open()
 			end
 
@@ -644,6 +622,10 @@ require("lazy").setup({
 							{ "Load", "lua require('session-tabs').selectSession()" },
 						},
 					},
+				},
+				source_selector = {
+					winbar = false,
+					statusline = false,
 				},
 			})
 
