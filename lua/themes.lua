@@ -30,10 +30,10 @@ Themes["tokyodark"] = function()
 
 	vim.api.nvim_set_hl(0, "Pmenu", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.60) })
 
-	vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
-	vim.api.nvim_set_hl(0, "NvimTreeEndOfBuffer", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
-	vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
-	vim.api.nvim_set_hl(0, "NvimTreeCursorLine", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.99) })
+	vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
+	vim.api.nvim_set_hl(0, "NeoTreeEndOfBuffer", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
+	vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
+	vim.api.nvim_set_hl(0, "NeoTreeCursorLine", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.99) })
 
 	vim.api.nvim_set_hl(0, "VertSplit", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.94) })
 end
