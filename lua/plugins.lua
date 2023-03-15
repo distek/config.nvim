@@ -613,13 +613,13 @@ require("lazy").setup({
 						{
 							"IDE",
 							{ "All the things", "lua CommandPaletteAllTheThings()" },
-							{ "New Term", ":Workspace TerminalBrowser New" },
+							{ "New Term", "lua TermNew()" },
 						},
 						{
 							"Session",
-							{ "Delete", "lua require('session-tabs').deleteSession()" },
-							{ "Save", "lua require('session-tabs').saveSession()" },
-							{ "Load", "lua require('session-tabs').selectSession()" },
+							{ "Delete", "lua require('sessions').deleteSession()" },
+							{ "Save", "lua require('sessions').saveSession()" },
+							{ "Load", "lua require('sessions').selectSession()" },
 						},
 					},
 				},
