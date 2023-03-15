@@ -1,10 +1,12 @@
 T = require("nvim-terminal")
 
+TF.Height = 15
+
 -- initial tab setup
 TF.Term[vim.api.nvim_get_current_tabpage()] = T.NewTerminalInstance({
 	pos = "botright",
 	split = "sp",
-	height = 15,
+	height = TF.Height,
 })
 
 vim.api.nvim_create_autocmd({ "TabNewEntered" }, {
@@ -14,7 +16,7 @@ vim.api.nvim_create_autocmd({ "TabNewEntered" }, {
 			TF.Term[vim.api.nvim_get_current_tabpage()] = T.NewTerminalInstance({
 				pos = "botright",
 				split = "sp",
-				height = 15,
+				height = TF.Height,
 			})
 		end
 	end,
@@ -24,6 +26,7 @@ vim.api.nvim_create_autocmd("WinResized", {
 	pattern = "*",
 	callback = function()
 		if TF.Term ~= nil then
+			TF.Term[vim.api.nvim_get_current_tabpage()].window.height = TF.Height
 			TF.Term[vim.api.nvim_get_current_tabpage()].window:update_size()
 		end
 	end,
