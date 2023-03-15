@@ -225,7 +225,11 @@ Util.bdelete = function(all, force)
 		end
 
 		for _, v in ipairs(foundBufs) do
-			vim.cmd(v .. "Bdelete")
+			local forceStr = ""
+			if force then
+				forceStr = "!"
+			end
+			vim.cmd(v .. "Bdelete" .. forceStr)
 		end
 	else
 		for _, f in ipairs(ignoreFiletypes) do
@@ -234,11 +238,11 @@ Util.bdelete = function(all, force)
 			end
 		end
 
+		local forceStr = ""
 		if force then
-			vim.cmd("Bdelete!")
-		else
-			vim.cmd("Bdelete")
+			forceStr = "!"
 		end
+		vim.cmd("Bdelete" .. forceStr)
 	end
 end
 
