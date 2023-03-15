@@ -166,12 +166,13 @@ vim.api.nvim_create_autocmd({ "VimResized", "WinEnter", "WinClosed" }, {
 		vim.defer_fn(function()
 			local panelWidth = 30
 
-			local exists, window = Util.ifNameExists("NvimTree_")
+			local exists, window = Util.ifNameExists("neo-tree")
 			if exists then
 				vim.api.nvim_win_set_width(window, panelWidth)
 			end
 
 			if TF.Term[vim.api.nvim_get_current_tabpage()] ~= nil then
+				TF.Term[vim.api.nvim_get_current_tabpage()].window.height = TF.Height
 				TF.Term[vim.api.nvim_get_current_tabpage()].window:update_size()
 			end
 		end, 1)
