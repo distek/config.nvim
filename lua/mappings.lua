@@ -294,7 +294,7 @@ map(
 	[[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
 	{ desc = "Inline variable" }
 )
-map("n", "<leader>rb", [[ <Cmd>lua require('refactoring').refactor('Extract Block')<CR>]], { desc = "Extact block" })
+map("n", "<leader>rb", [[ <Cmd>lua require('refactoring').refactor('Extract Block')<CR>]], { desc = "Extract block" })
 map(
 	"n",
 	"<leader>rbf",
