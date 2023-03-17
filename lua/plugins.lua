@@ -430,6 +430,12 @@ require("lazy").setup({
 					follow_current_file = true,
 					use_libuv_file_watcher = true,
 				},
+				window = {
+					width = 40,
+				},
+                buffers = {
+                    follow_current_file = true,
+                }
 			})
 		end,
 	}, -- }}}
