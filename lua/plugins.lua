@@ -1376,25 +1376,8 @@ require("lazy").setup({
 
 	{ "distek/nvim-terminal" },
 
-	-- {
-	-- 	"distek/fnote.nvim",
-	-- 	config = function()
-	-- 		require("fnote").setup({
-	-- 			anchor = "NE",
-	-- 			window = {
-	-- 				offset = {
-	-- 					x = 4,
-	-- 					y = 2,
-	-- 				},
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- },
-
-	-- { dir = "~/Programming/neovim-plugs/nvim-terminal" },
-	-- { dir = "~/Programming/neovim-plugs/dap-buttons" },
 	{
-		dir = "~/Programming/neovim-plugs/fnote",
+		"distek/fnote.nvim",
 		config = function()
 			require("fnote").setup({
 				anchor = "NE",
@@ -1407,6 +1390,23 @@ require("lazy").setup({
 			})
 		end,
 	},
+
+	-- { dir = "~/Programming/neovim-plugs/nvim-terminal" },
+	-- { dir = "~/Programming/neovim-plugs/dap-buttons" },
+	-- {
+	-- 	dir = "~/Programming/neovim-plugs/fnote",
+	-- 	config = function()
+	-- 		require("fnote").setup({
+	-- 			anchor = "NE",
+	-- 			window = {
+	-- 				offset = {
+	-- 					x = 4,
+	-- 					y = 2,
+	-- 				},
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
 	-- }}}
 
 	-- Themes{{{
