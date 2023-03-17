@@ -433,9 +433,9 @@ require("lazy").setup({
 				window = {
 					width = 40,
 				},
-                buffers = {
-                    follow_current_file = true,
-                }
+				buffers = {
+					follow_current_file = true,
+				},
 			})
 		end,
 	}, -- }}}
@@ -1367,6 +1367,7 @@ require("lazy").setup({
 					fg = Util.getColor("Title", "fg"),
 					bg = Util.darken(Util.getColor("Normal", "bg"), 0.94),
 				},
+				no_exec_files = { "lazy", "TelescopePrompt", "mason", "neo-tree", "" },
 			})
 		end,
 	},
@@ -1375,8 +1376,37 @@ require("lazy").setup({
 
 	{ "distek/nvim-terminal" },
 
+	-- {
+	-- 	"distek/fnote.nvim",
+	-- 	config = function()
+	-- 		require("fnote").setup({
+	-- 			anchor = "NE",
+	-- 			window = {
+	-- 				offset = {
+	-- 					x = 4,
+	-- 					y = 2,
+	-- 				},
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
+
 	-- { dir = "~/Programming/neovim-plugs/nvim-terminal" },
 	-- { dir = "~/Programming/neovim-plugs/dap-buttons" },
+	{
+		dir = "~/Programming/neovim-plugs/fnote",
+		config = function()
+			require("fnote").setup({
+				anchor = "NE",
+				window = {
+					offset = {
+						x = 4,
+						y = 2,
+					},
+				},
+			})
+		end,
+	},
 	-- }}}
 
 	-- Themes{{{

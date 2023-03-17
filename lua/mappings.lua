@@ -165,7 +165,7 @@ end)
 -- Zen
 map("n", "<leader>z", ":ZenMode<cr>", { desc = "Zen mode" })
 
-map("n", "<leader>f", function()
+map("n", "<A-f>", function()
 	require("zen-mode").toggle({
 		window = {
 			width = 1.0,
@@ -198,8 +198,7 @@ local termFullscreen = function()
 	TF.UpdateWinbar()
 end
 
-map("t", "<localleader>f", termFullscreen, { desc = "Fullscreen window" })
-map("n", "<localleader>f", termFullscreen, { desc = "Fullscreen window" })
+map("t", "<A-f>", termFullscreen, { desc = "Fullscreen window" })
 
 -- Commentary
 map("n", "<leader>cm", "<Plug>ContextCommentary", { desc = "Comment line" })
@@ -322,6 +321,8 @@ map("v", "<leader>gu", ":Gitsigns reset_hunk<cr>", { desc = "Reset hunk" })
 map("n", "<leader>Ss", require("sessions").saveSession, { desc = "Save session" })
 map("n", "<leader>Sl", require("sessions").selectSession, { desc = "Load session" })
 map("n", "<leader>Sd", require("sessions").deleteSession, { desc = "Delete session" })
+
+map("n", "<A-n>", require("fnote").toggle)
 
 -- Shift block
 map("v", "<C-K>", "xkP`[V`]")
