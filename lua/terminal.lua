@@ -32,6 +32,20 @@ vim.api.nvim_create_autocmd("WinResized", {
 	end,
 })
 
+vim.api.nvim_create_autocmd("TermClose", {
+	callback = function()
+		local tp = vim.api.nvim_get_current_tabpage()
+		local lastTerm = TF.Term[tp].last_term
+		if #TF.Term[tp].bufs > 1 then
+			TF.NextTerm()
+			TF.Term[vim.api.nvim_get_current_tabpage()]:delete(lastTerm)
+			TF.UpdateWinbar()
+		else
+			TF.Term[tp]:delete(lastTerm)
+		end
+	end,
+})
+
 function TermNew()
 	local nvt = Util.is_neotree_open()
 
