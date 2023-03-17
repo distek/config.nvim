@@ -171,7 +171,7 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
 vim.api.nvim_create_autocmd({ "VimResized", "WinEnter", "WinClosed" }, {
 	callback = function()
 		vim.defer_fn(function()
-			local panelWidth = 30
+			local panelWidth = 40
 
 			local exists, window = Util.ifNameExists("neo-tree")
 			if exists then
