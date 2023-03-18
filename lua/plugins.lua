@@ -691,7 +691,6 @@ require("lazy").setup({
 	-- LSP{{{
 	{
 		"neovim/nvim-lspconfig", -- {{{
-		event = "BufReadPre",
 		config = function()
 			local lspconfig = require("lspconfig")
 
@@ -805,7 +804,7 @@ require("lazy").setup({
 
 			require("null-ls").setup()
 
-			require("mason-null-ls").setup_handlers({})
+			require("mason-null-ls").setup_handlers()
 			-- local prettier = require("prettier")
 
 			-- prettier.setup({
