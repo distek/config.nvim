@@ -145,6 +145,16 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	group = "Terminal",
 })
 
+vim.api.nvim_create_autocmd("WinEnter", {
+	pattern = { "*" },
+	callback = function(ev)
+		if vim.bo[ev.buf].buftype == "terminal" then
+			vim.cmd([[startinsert]])
+		end
+	end,
+	group = "Terminal",
+})
+
 vim.api.nvim_create_autocmd("BufEnter", {
 	pattern = { "*.md" },
 	callback = function()
