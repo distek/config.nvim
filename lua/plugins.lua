@@ -1367,6 +1367,11 @@ require("lazy").setup({
 					bg = Util.darken(Util.getColor("Normal", "bg"), 0.94),
 				},
 				no_exec_files = { "lazy", "TelescopePrompt", "mason", "neo-tree", "" },
+				create_event = function()
+					if vim.api.nvim_win_get_config(vim.api.nvim_get_current_win()).relative == "editor" then
+						require("colorful-winsep").NvimSeparatorDel()
+					end
+				end,
 			})
 		end,
 	},
