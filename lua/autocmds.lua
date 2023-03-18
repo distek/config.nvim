@@ -10,17 +10,9 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = { "*" },
 	callback = function()
-		-- vim.cmd("mkview")
 		vim.lsp.buf.format({
 			async = false,
 		})
-	end,
-})
-
-vim.api.nvim_create_autocmd("BufWritePost", {
-	pattern = { "*" },
-	callback = function()
-		vim.cmd(":e")
 	end,
 })
 
