@@ -35,6 +35,11 @@ Themes["tokyodark"] = function()
 	vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
 	vim.api.nvim_set_hl(0, "NeoTreeCursorLine", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.99) })
 
+	vim.api.nvim_set_hl(0, "FNoteNormal", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
+	vim.api.nvim_set_hl(0, "FNoteEndOfBuffer", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
+	vim.api.nvim_set_hl(0, "FNoteNormalNC", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
+	vim.api.nvim_set_hl(0, "FNoteCursorLine", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.99) })
+
 	vim.api.nvim_set_hl(0, "VertSplit", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.94) })
 end
 

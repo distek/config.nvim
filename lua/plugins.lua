@@ -436,6 +436,7 @@ require("lazy").setup({
 				buffers = {
 					follow_current_file = true,
 				},
+				popup_border_style = "rounded",
 			})
 		end,
 	}, -- }}}

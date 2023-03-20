@@ -1,5 +1,7 @@
 T = require("nvim-terminal")
 
+TF = TF
+
 TF.Height = 15
 
 -- initial tab setup
