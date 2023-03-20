@@ -307,11 +307,13 @@ map("n", "<leader>Lr", "<cmd>LspRestart<CR>", { desc = "Restart LSP" })
 map("n", "<leader>Ls", "<cmd>LspStart<CR>", { desc = "Start LSP" })
 map("n", "<leader>LS", "<cmd>LspStop<CR>", { desc = "Stop LSP" })
 
--- Fugitive
+-- Git
 map("n", "<leader>gg", "<cmd>vert Git<cr>", { desc = "Git stage" })
 map("n", "<leader>gc", "<cmd>Git commit<cr>", { desc = "Git commit" })
 map("n", "<leader>gp", "<cmd>Git push<cr>", { desc = "Git push" })
-map("n", "<leader>gl", "<cmd>Gclog<cr>", { desc = "Git commit log" })
+
+map("n", "<leader>gl", ":Gitsigns next_hunk<cr>", { desc = "Next hunk" })
+map("n", "<leader>gh", ":Gitsigns next_hunk<cr>", { desc = "Previous hunk" })
 
 -- gitsigns
 map("v", "<leader>gs", ":Gitsigns stage_hunk<cr>", { desc = "Stage hunk" })
