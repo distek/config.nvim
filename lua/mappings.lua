@@ -212,10 +212,26 @@ map("n", "<leader>as", TermToggle, { desc = "Toggle terminal" })
 map("t", "<localleader>as", TermToggle, { desc = "Toggle terminal" })
 map("n", "<M-CR>", TermNew, { desc = "Create new terminal" })
 map("t", "<M-CR>", TermNew, { desc = "Create new terminal" })
-map("t", "<M-q>", TF.DeleteCurrentTerm, { desc = "Create new terminal" })
-map("t", "<M-r>", TF.RenameTerm, { desc = "Create new terminal" })
-map("t", "<M-Tab>", TF.NextTerm, { desc = "Next terminal" })
-map("t", "<M-S-Tab>", TF.PrevTerm, { desc = "Previous terminal" })
+
+map("t", "<M-q>", function()
+	TF.DeleteCurrentTerm()
+	UpdateTerm()
+end, { desc = "Create new terminal" })
+
+map("t", "<M-r>", function()
+	TF.RenameTerm()
+	UpdateTerm()
+end, { desc = "Create new terminal" })
+
+map("t", "<M-Tab>", function()
+	TF.NextTerm()
+	UpdateTerm()
+end, { desc = "Next terminal" })
+
+map("t", "<M-S-Tab>", function()
+	TF.PrevTerm()
+	UpdateTerm()
+end, { desc = "Previous terminal" })
 
 map("n", "<leader>ad", "<cmd>Neotree toggle<CR>", { desc = "Toggle explorer panel" })
 map("t", "<localleader>ad", "<cmd>Neotree toggle<CR>", { desc = "Toggle explorer panel" })
@@ -323,6 +339,7 @@ map("v", "<leader>gu", ":Gitsigns reset_hunk<cr>", { desc = "Reset hunk" })
 map("n", "<leader>Ss", require("sessions").saveSession, { desc = "Save session" })
 map("n", "<leader>Sl", require("sessions").selectSession, { desc = "Load session" })
 map("n", "<leader>Sd", require("sessions").deleteSession, { desc = "Delete session" })
+map("n", "<leader>Sn", require("sessions").newSession, { desc = "New session" })
 
 map("n", "<A-n>", require("fnote").toggle)
 
