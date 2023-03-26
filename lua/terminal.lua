@@ -33,6 +33,12 @@ vim.api.nvim_create_autocmd("WinResized", {
 		if TF.Term ~= nil then
 			TF.Term[vim.api.nvim_get_current_tabpage()].window.height = TF.Height
 			TF.Term[vim.api.nvim_get_current_tabpage()].window:update_size()
+
+			if termListWinid ~= nil then
+				if vim.api.nvim_win_is_valid(termListWinid) then
+					vim.api.nvim_win_set_width(termListWinid, 20)
+				end
+			end
 		end
 	end,
 })
@@ -76,48 +82,6 @@ local function updateBufs(bufnr)
 	vim.api.nvim_buf_set_lines(bufnr, 0, 0, false, bufs)
 	vim.api.nvim_buf_set_option(bufnr, "readonly", true)
 	vim.api.nvim_buf_set_option(bufnr, "modifiable", false)
-end
-
-function TermNew()
-	local nvt = Util.is_neotree_open()
-
-	if nvt then
-		vim.cmd("Neotree close")
-	end
-
-	TF.NewTerm()
-
-	updateBufs(termListBufid)
-	if nvt then
-		vim.cmd("Neotree show")
-	end
-end
-
-function TermOpen()
-	local nvt = Util.is_neotree_open()
-
-	if nvt then
-		vim.cmd("Neotree close")
-	end
-
-	TF.Open()
-
-	updateBufs(termListBufid)
-	if nvt then
-		vim.cmd("Neotree show")
-	end
-end
-
-function UpdateTerm()
-	local tp = vim.api.nvim_get_current_tabpage()
-	local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
-
-	TF.Term[vim.api.nvim_get_current_tabpage()]:open(row)
-	updateBufs(termListBufid)
-
-	vim.api.nvim_win_set_cursor(0, { row, 0 })
-
-	TF.UpdateWinbar()
 end
 
 local function openTermList(winid)
@@ -173,6 +137,48 @@ local function openTermList(winid)
 	vim.api.nvim_buf_set_option(bufnr, "modifiable", false)
 	vim.api.nvim_buf_set_option(bufnr, "readonly", true)
 	-- vim.bo[lastTerm].modfiable = false
+end
+
+function UpdateTerm()
+	local tp = vim.api.nvim_get_current_tabpage()
+	local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
+
+	TF.Term[vim.api.nvim_get_current_tabpage()]:open(row)
+	updateBufs(termListBufid)
+
+	vim.api.nvim_win_set_cursor(0, { row, 0 })
+
+	TF.UpdateWinbar()
+end
+
+function TermNew()
+	local nvt = Util.is_neotree_open()
+
+	if nvt then
+		vim.cmd("Neotree close")
+	end
+
+	TF.NewTerm()
+
+	updateBufs(termListBufid)
+	if nvt then
+		vim.cmd("Neotree show")
+	end
+end
+
+function TermOpen()
+	local nvt = Util.is_neotree_open()
+
+	if nvt then
+		vim.cmd("Neotree close")
+	end
+
+	TF.Open()
+
+	openTermList(TF.Term[vim.api.nvim_get_current_tabpage()].window.winid)
+	if nvt then
+		vim.cmd("Neotree show")
+	end
 end
 
 function TermToggle()
