@@ -197,6 +197,7 @@ vim.api.nvim_create_autocmd({ "WinClosed" }, {
 				not vim.bo.filetype == "neo-tree"
 				or not vim.bo.filetype == "Outline"
 				or not vim.bo.filetype == "toggleterm"
+				or not vim.bo.filetype == "termlist"
 			then
 				return
 			end
@@ -210,7 +211,7 @@ vim.api.nvim_create_autocmd({ "WinClosed" }, {
 						return vim.bo.filetype
 					end)
 
-					if ft == "neo-tree" or ft == "toggleterm" or ft == "Outline" then
+					if ft == "neo-tree" or ft == "toggleterm" or ft == "Outline" or ft == "termlist" then
 						compCount = compCount + 1
 					end
 					winCount = winCount + 1
