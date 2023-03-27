@@ -1,6 +1,7 @@
 Themes = {}
 
-PanelNS = vim.api.nvim_create_namespace("custom")
+TerminalNS = vim.api.nvim_create_namespace("customTerminal")
+TerminalListNS = vim.api.nvim_create_namespace("customTerminalList")
 
 Themes["tokyodark"] = function()
 	local function gammaSet()
@@ -22,8 +23,10 @@ Themes["tokyodark"] = function()
 
 	vim.cmd("colorscheme tokyodark")
 
-	vim.api.nvim_set_hl(PanelNS, "Normal", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.70) })
-	vim.api.nvim_set_hl(PanelNS, "EndOfBuffer", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.70) })
+	vim.api.nvim_set_hl(TerminalNS, "Normal", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.70) })
+	vim.api.nvim_set_hl(TerminalNS, "EndOfBuffer", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.70) })
+	vim.api.nvim_set_hl(TerminalListNS, "Normal", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
+	vim.api.nvim_set_hl(TerminalListNS, "EndOfBuffer", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
 
 	vim.api.nvim_set_hl(0, "NormalFloat", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
 	vim.api.nvim_set_hl(0, "FloatBorder", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
@@ -52,8 +55,8 @@ Themes["ayu"] = function()
 
 	local colors = require("ayu.colors")
 
-	vim.api.nvim_set_hl(PanelNS, "Normal", { bg = Util.lighten(colors.panel_bg, 0.96) })
-	vim.api.nvim_set_hl(PanelNS, "CursorLine", { bg = Util.lighten(colors.panel_bg, 0.97) })
+	vim.api.nvim_set_hl(TerminalNS, "Normal", { bg = Util.lighten(colors.panel_bg, 0.96) })
+	vim.api.nvim_set_hl(TerminalNS, "CursorLine", { bg = Util.lighten(colors.panel_bg, 0.97) })
 end
 
 Themes.tokyodark()

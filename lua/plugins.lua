@@ -1029,6 +1029,28 @@ require("lazy").setup({
 					end, { "c" }),
 				},
 			})
+			-- require("cmp").setup.cmdline("@", {
+			-- 	sources = cmp.config.sources({
+			-- 		{ name = "cmdline" },
+			-- 		{ name = "path" },
+			-- 	}),
+			-- 	mapping = {
+			-- 		["<Tab>"] = cmp.mapping(function(fallback)
+			-- 			if cmp.visible() then
+			-- 				cmp.select_next_item()
+			-- 			else
+			-- 				fallback()
+			-- 			end
+			-- 		end, { "c" }),
+			-- 		["<S-Tab>"] = cmp.mapping(function(fallback)
+			-- 			if cmp.visible() then
+			-- 				cmp.select_prev_item()
+			-- 			else
+			-- 				fallback()
+			-- 			end
+			-- 		end, { "c" }),
+			-- 	},
+			-- })
 
 			require("luasnip.loaders.from_vscode").lazy_load()
 			require("luasnip.loaders.from_snipmate").lazy_load()
@@ -1402,7 +1424,7 @@ require("lazy").setup({
 
 	{ "famiu/bufdelete.nvim", event = "VeryLazy" },
 
-	{ "distek/nvim-terminal" },
+	-- { "distek/nvim-terminal" },
 
 	{
 		"distek/fnote.nvim",
@@ -1419,7 +1441,7 @@ require("lazy").setup({
 		end,
 	},
 
-	-- { dir = "~/Programming/neovim-plugs/nvim-terminal" },
+	{ dir = "~/Programming/neovim-plugs/nvim-terminal" },
 	-- { dir = "~/Programming/neovim-plugs/dap-buttons" },
 	-- {
 	-- 	dir = "~/Programming/neovim-plugs/fnote",

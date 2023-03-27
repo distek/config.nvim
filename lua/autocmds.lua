@@ -140,8 +140,10 @@ vim.api.nvim_create_autocmd("TermOpen", {
 vim.api.nvim_create_autocmd("WinEnter", {
 	pattern = { "*" },
 	callback = function(ev)
-		if vim.bo[ev.buf].buftype == "terminal" then
-			vim.cmd([[startinsert]])
+		if vim.api.nvim_buf_is_valid(ev.buf) then
+			if vim.bo[ev.buf].buftype == "terminal" then
+				vim.cmd([[startinsert]])
+			end
 		end
 	end,
 	group = "Terminal",

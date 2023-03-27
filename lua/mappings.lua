@@ -213,24 +213,19 @@ map("t", "<localleader>as", TermToggle, { desc = "Toggle terminal" })
 map("n", "<M-CR>", TermNew, { desc = "Create new terminal" })
 map("t", "<M-CR>", TermNew, { desc = "Create new terminal" })
 
-map("t", "<M-q>", function()
-	TF.DeleteCurrentTerm()
-	UpdateTerm()
-end, { desc = "Create new terminal" })
-
 map("t", "<M-r>", function()
 	TF.RenameTerm()
-	UpdateTerm()
-end, { desc = "Create new terminal" })
+	UpdateTermList()
+end, { desc = "Rename terminal" })
 
 map("t", "<M-Tab>", function()
 	TF.NextTerm()
-	UpdateTerm()
+	UpdateTermList()
 end, { desc = "Next terminal" })
 
 map("t", "<M-S-Tab>", function()
 	TF.PrevTerm()
-	UpdateTerm()
+	UpdateTermList()
 end, { desc = "Previous terminal" })
 
 map("n", "<leader>ad", "<cmd>Neotree toggle<CR>", { desc = "Toggle explorer panel" })

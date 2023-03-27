@@ -51,8 +51,11 @@ vim.api.nvim_create_autocmd("TermClose", {
 			TF.NextTerm()
 			TF.Term[vim.api.nvim_get_current_tabpage()]:delete(lastTerm)
 			TF.UpdateWinbar()
+			UpdateTermList()
 		else
 			TF.Term[tp]:delete(lastTerm)
+			vim.api.nvim_win_close(termListWinid, true)
+			vim.api.nvim_buf_delete(termListBufid, { force = true, unload = true })
 		end
 	end,
 })
@@ -78,10 +81,17 @@ local function updateBufs(bufnr)
 
 	vim.api.nvim_buf_set_option(bufnr, "readonly", false)
 	vim.api.nvim_buf_set_option(bufnr, "modifiable", true)
-	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, {})
-	vim.api.nvim_buf_set_lines(bufnr, 0, 0, false, bufs)
+	vim.api.nvim_buf_set_lines(bufnr, 0, 0, false, {})
+	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, bufs)
 	vim.api.nvim_buf_set_option(bufnr, "readonly", true)
 	vim.api.nvim_buf_set_option(bufnr, "modifiable", false)
+
+	if termListWinid ~= nil then
+		if vim.api.nvim_win_is_valid(termListWinid) then
+			vim.api.nvim_win_set_width(termListWinid, 20)
+			vim.api.nvim_win_set_hl_ns(termListWinid, TerminalListNS)
+		end
+	end
 end
 
 local function openTermList(winid)
@@ -114,11 +124,14 @@ local function openTermList(winid)
 	local bufs = getBufNames()
 
 	vim.api.nvim_buf_set_name(bufnr, "termlist")
-	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, {})
+	vim.api.nvim_buf_set_lines(bufnr, 0, 0, false, {})
 	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, bufs)
 	vim.api.nvim_buf_set_option(bufnr, "modified", false)
 
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "<cr>", "<cmd>lua UpdateTerm()<cr>", { noremap = true })
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<cr>", "<cmd>lua OpenTermUnderCursor()<cr>", { noremap = true })
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "r", "<cmd>lua TF.RenameTerm()<cr>", { noremap = true })
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "n", "<cmd>lua TermNew()<cr>", { noremap = true })
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "dd", "<cmd>lua TermDelete()<cr>", { noremap = true })
 
 	termListWinid = vim.api.nvim_get_current_win()
 
@@ -130,39 +143,53 @@ local function openTermList(winid)
 	vim.opt_local.statuscolumn = ""
 
 	vim.api.nvim_win_set_option(termListWinid, "winbar", "Terminals")
+	vim.api.nvim_win_set_hl_ns(termListWinid, TerminalListNS)
 
 	vim.cmd("stopinsert")
 	vim.cmd("wincmd p")
 
 	vim.api.nvim_buf_set_option(bufnr, "modifiable", false)
 	vim.api.nvim_buf_set_option(bufnr, "readonly", true)
-	-- vim.bo[lastTerm].modfiable = false
 end
 
-function UpdateTerm()
-	local tp = vim.api.nvim_get_current_tabpage()
+function OpenTermUnderCursor()
 	local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
 
 	TF.Term[vim.api.nvim_get_current_tabpage()]:open(row)
-	updateBufs(termListBufid)
+
+	UpdateTermList()
 
 	vim.api.nvim_win_set_cursor(0, { row, 0 })
+end
+
+function UpdateTermList()
+	updateBufs(termListBufid)
 
 	TF.UpdateWinbar()
 end
 
+function TermDelete()
+	if TF.DeleteCurrentTerm() then
+		vim.api.nvim_win_close(termListWinid, true)
+		vim.api.nvim_buf_delete(termListBufid, { force = true, unload = true })
+	end
+end
+
 function TermNew()
 	local nvt = Util.is_neotree_open()
-
-	if nvt then
-		vim.cmd("Neotree close")
+	if not TF.Term[vim.api.nvim_get_current_tabpage()].window:is_valid() then
+		if nvt then
+			vim.cmd("Neotree close")
+		end
 	end
 
 	TF.NewTerm()
 
 	updateBufs(termListBufid)
-	if nvt then
-		vim.cmd("Neotree show")
+	if not TF.Term[vim.api.nvim_get_current_tabpage()].window:is_valid() then
+		if nvt then
+			vim.cmd("Neotree show")
+		end
 	end
 end
 
@@ -175,7 +202,14 @@ function TermOpen()
 
 	TF.Open()
 
-	openTermList(TF.Term[vim.api.nvim_get_current_tabpage()].window.winid)
+	local winid = TF.Term[vim.api.nvim_get_current_tabpage()].window.winid
+
+	openTermList(winid)
+
+	if vim.api.nvim_win_is_valid(winid) then
+		vim.api.nvim_win_set_hl_ns(winid, TerminalNS)
+	end
+
 	if nvt then
 		vim.cmd("Neotree show")
 	end
@@ -196,7 +230,7 @@ function TermToggle()
 	local winid = TF.Toggle()
 
 	if vim.api.nvim_win_is_valid(winid) then
-		vim.api.nvim_win_set_hl_ns(winid, PanelNS)
+		vim.api.nvim_win_set_hl_ns(winid, TerminalNS)
 	end
 
 	openTermList(winid)
