@@ -243,7 +243,12 @@ vim.api.nvim_create_autocmd("BufEnter", {
 									nextBuf = TF.Term[tp].bufs[TF.Term[tp].last_term + 1]
 								end
 							end
-							vim.api.nvim_win_set_buf(TF.Term[tp].window.winid, TF.Term[tp].bufs[TF.Term[tp].last_term])
+							if vim.api.nvim_win_is_valid(TF.Term[tp].window.winid) then
+								vim.api.nvim_win_set_buf(
+									TF.Term[tp].window.winid,
+									TF.Term[tp].bufs[TF.Term[tp].last_term]
+								)
+							end
 						end
 					end, 1)
 				end

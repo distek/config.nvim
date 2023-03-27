@@ -213,10 +213,15 @@ map("t", "<localleader>as", TermToggle, { desc = "Toggle terminal" })
 map("n", "<M-CR>", TermNew, { desc = "Create new terminal" })
 map("t", "<M-CR>", TermNew, { desc = "Create new terminal" })
 
+map("t", "<M-q>", function()
+	TermDelete()
+	UpdateTermList()
+end, { desc = "Close current terminal" })
+
 map("t", "<M-r>", function()
 	TF.RenameTerm()
 	UpdateTermList()
-end, { desc = "Rename terminal" })
+end, { desc = "Create new terminal" })
 
 map("t", "<M-Tab>", function()
 	TF.NextTerm()
