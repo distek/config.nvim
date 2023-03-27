@@ -169,10 +169,13 @@ function UpdateTermList()
 end
 
 function TermDelete()
-	if TF.DeleteCurrentTerm() then
-		vim.api.nvim_win_close(termListWinid, true)
-		vim.api.nvim_buf_delete(termListBufid, { force = true, unload = true })
-	end
+	TF.Term[vim.api.nvim_get_current_tabpage()]:close()
+
+	TF.Term[vim.api.nvim_get_current_tabpage()]:delete(TF.Term[vim.api.nvim_get_current_tabpage()].last_term)
+
+	vim.api.nvim_win_close(termListWinid, true)
+
+	TermOpen()
 end
 
 function TermNew()
