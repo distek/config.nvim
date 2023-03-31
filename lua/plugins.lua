@@ -499,7 +499,7 @@ require("lazy").setup({
 		config = function()
 			require("sessions").setup({
 				post_exec = function()
-					TermOpen()
+					TF.TermOpen()
 
 					vim.cmd("Neotree show")
 

@@ -172,23 +172,23 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "VimResized", "WinEnter", "WinClosed" }, {
-	callback = function()
-		vim.defer_fn(function()
-			local panelWidth = 40
+-- vim.api.nvim_create_autocmd({ "VimResized", "WinEnter", "WinClosed" }, {
+-- 	callback = function()
+-- 		vim.defer_fn(function(ev)
+-- 			local panelWidth = 40
 
-			local exists, window = Util.ifNameExists("neo-tree")
-			if exists then
-				vim.api.nvim_win_set_width(window, panelWidth)
-			end
+-- 			local exists, window = Util.ifNameExists("neo-tree")
+-- 			if exists then
+-- 				vim.api.nvim_win_set_width(window, panelWidth)
+-- 			end
 
-			if TF.Term[vim.api.nvim_get_current_tabpage()] ~= nil then
-				TF.Term[vim.api.nvim_get_current_tabpage()].window.height = TF.Height
-				TF.Term[vim.api.nvim_get_current_tabpage()].window:update_size()
-			end
-		end, 1)
-	end,
-})
+-- 			if TF.Term[vim.api.nvim_get_current_tabpage()] ~= nil then
+-- 				TF.Term[vim.api.nvim_get_current_tabpage()].window.height = TF.Height
+-- 				TF.Term[vim.api.nvim_get_current_tabpage()].window:update_size()
+-- 			end
+-- 		end, 1)
+-- 	end,
+-- })
 
 vim.api.nvim_create_autocmd({ "WinClosed" }, {
 	callback = function()
@@ -244,10 +244,12 @@ vim.api.nvim_create_autocmd("BufEnter", {
 								end
 							end
 							if vim.api.nvim_win_is_valid(TF.Term[tp].window.winid) then
-								vim.api.nvim_win_set_buf(
-									TF.Term[tp].window.winid,
-									TF.Term[tp].bufs[TF.Term[tp].last_term]
-								)
+								if vim.api.nvim_buf_is_valid(TF.Term[tp].bufs[TF.Term[tp].last_term]) then
+									vim.api.nvim_win_set_buf(
+										TF.Term[tp].window.winid,
+										TF.Term[tp].bufs[TF.Term[tp].last_term]
+									)
+								end
 							end
 						end
 					end, 1)

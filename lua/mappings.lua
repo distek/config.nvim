@@ -208,29 +208,29 @@ map("v", "<leader>cm", "<Plug>ContextCommentary", { desc = "Comment line(s)" })
 map("n", "<leader>aa", "<cmd>Telescope file_browser path=%:p:h hidden=true<CR>", { desc = "File browser" })
 
 -- Term is set in terminal.lua
-map("n", "<leader>as", TermToggle, { desc = "Toggle terminal" })
-map("t", "<localleader>as", TermToggle, { desc = "Toggle terminal" })
-map("n", "<M-CR>", TermNew, { desc = "Create new terminal" })
-map("t", "<M-CR>", TermNew, { desc = "Create new terminal" })
+map("n", "<leader>as", Util.TermToggle, { desc = "Toggle terminal" })
+map("t", "<localleader>as", Util.TermToggle, { desc = "Toggle terminal" })
+map("n", "<M-CR>", Util.TermNew, { desc = "Create new terminal" })
+map("t", "<M-CR>", Util.TermNew, { desc = "Create new terminal" })
 
-map("t", "<M-q>", function()
-	TermDelete()
-	UpdateTermList()
+map("t", "<A-q>", function()
+	local tp = vim.api.nvim_get_current_tabpage()
+	TF.Term[tp]:delete(TF.Term[tp].last_term)
 end, { desc = "Close current terminal" })
 
 map("t", "<M-r>", function()
 	TF.RenameTerm()
-	UpdateTermList()
+	TF.UpdateTermList()
 end, { desc = "Create new terminal" })
 
 map("t", "<M-Tab>", function()
 	TF.NextTerm()
-	UpdateTermList()
+	TF.UpdateTermList()
 end, { desc = "Next terminal" })
 
 map("t", "<M-S-Tab>", function()
 	TF.PrevTerm()
-	UpdateTermList()
+	TF.UpdateTermList()
 end, { desc = "Previous terminal" })
 
 map("n", "<leader>ad", "<cmd>Neotree toggle<CR>", { desc = "Toggle explorer panel" })
@@ -264,7 +264,7 @@ map("n", "<leader>kh", "<cmd> lua require('telescope.builtin').help_tags()<cr>",
 map("n", "<leader>kq", "<cmd> lua require('telescope.builtin').quickfix()<cr>", { desc = "Quickfix list" })
 map("n", "<leader>kl", "<cmd> lua require('telescope.builtin').loclist()<cr>", { desc = "Location list" })
 
-map("n", "<leader>ks", TF.PickTerm, { desc = "Find terminal" })
+map("n", "<leader>ks", Util.TermPick, { desc = "Find terminal" })
 
 -- Debug maps
 map("n", "<leader>db", require("dap").toggle_breakpoint, { desc = "Toggle breakpoint" })
