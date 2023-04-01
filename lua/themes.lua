@@ -1,8 +1,5 @@
 Themes = {}
 
-TerminalNS = vim.api.nvim_create_namespace("customTerminal")
-TerminalListNS = vim.api.nvim_create_namespace("customTerminalList")
-
 Themes["tokyodark"] = function()
 	local function gammaSet()
 		local hour = tonumber(os.date("%H"))
@@ -22,11 +19,6 @@ Themes["tokyodark"] = function()
 	vim.g.tokyodark_color_gamma = 1.3 -- I wish everyone did this
 
 	vim.cmd("colorscheme tokyodark")
-
-	vim.api.nvim_set_hl(TerminalNS, "Normal", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.70) })
-	vim.api.nvim_set_hl(TerminalNS, "EndOfBuffer", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.70) })
-	vim.api.nvim_set_hl(TerminalListNS, "Normal", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
-	vim.api.nvim_set_hl(TerminalListNS, "EndOfBuffer", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
 
 	vim.api.nvim_set_hl(0, "NormalFloat", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
 	vim.api.nvim_set_hl(0, "FloatBorder", { bg = Util.darken(Util.getColor("Normal", "bg"), 0.80) })
