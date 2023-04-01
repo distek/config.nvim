@@ -1,63 +1,25 @@
-T = require("nvim-terminal")
-
-TF = TF
-
-Util.TermToggle = function()
-	NeoTreeWasOpen = false
-	local preCB = function()
+NeoTreeWasOpen = false
+TF = require("nvim-terminal")
+TF.setup({
+	termlist = true,
+	termlist_side = "right",
+	focus_on_select = false,
+	winbar_tabs = false,
+	pre_cb = function()
 		NeoTreeWasOpen = Util.is_neotree_open()
 
 		if NeoTreeWasOpen then
 			vim.cmd("Neotree close")
 		end
-	end
-
-	local postCB = function()
+	end,
+	post_cb = function()
 		if NeoTreeWasOpen then
 			vim.cmd("Neotree open")
 			NeoTreeWasOpen = false
 		end
-	end
+	end,
 
-	TF.TermToggle(preCB, postCB)
-end
+	terminal_bg = Util.darken(Util.getColor("Normal", "bg"), 0.70),
 
-Util.TermPick = function()
-	NeoTreeWasOpen = false
-	local preCB = function()
-		NeoTreeWasOpen = Util.is_neotree_open()
-
-		if NeoTreeWasOpen then
-			vim.cmd("Neotree close")
-		end
-	end
-
-	local postCB = function()
-		if NeoTreeWasOpen then
-			vim.cmd("Neotree open")
-			NeoTreeWasOpen = false
-		end
-	end
-
-	TF.TermPick(preCB, postCB)
-end
-
-Util.TermNew = function()
-	NeoTreeWasOpen = false
-	local preCB = function()
-		NeoTreeWasOpen = Util.is_neotree_open()
-
-		if NeoTreeWasOpen then
-			vim.cmd("Neotree close")
-		end
-	end
-
-	local postCB = function()
-		if NeoTreeWasOpen then
-			vim.cmd("Neotree open")
-			NeoTreeWasOpen = false
-		end
-	end
-
-	TF.TermNew(preCB, postCB)
-end
+	terminal_list_bg = Util.darken(Util.getColor("Normal", "bg"), 0.80),
+})

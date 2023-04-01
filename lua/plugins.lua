@@ -447,7 +447,8 @@ require("lazy").setup({
 	}, -- }}}
 
 	{
-		"folke/zen-mode.nvim", -- {{{
+		"distek/zen-mode.nvim", -- {{{
+		-- dir = "~/Programming/neovim-plugs/zen-mode.nvim",
 		cmd = "ZenMode",
 		config = function()
 			require("zen-mode").setup({
@@ -1424,7 +1425,7 @@ require("lazy").setup({
 
 	{ "famiu/bufdelete.nvim", event = "VeryLazy" },
 
-	-- { "distek/nvim-terminal" },
+	{ "distek/nvim-terminal" },
 
 	{
 		"distek/fnote.nvim",
@@ -1441,7 +1442,9 @@ require("lazy").setup({
 		end,
 	},
 
-	{ dir = "~/Programming/neovim-plugs/nvim-terminal" },
+	-- {
+	-- 	dir = "~/Programming/neovim-plugs/nvim-terminal",
+	-- },
 	-- { dir = "~/Programming/neovim-plugs/dap-buttons" },
 	-- {
 	-- 	dir = "~/Programming/neovim-plugs/fnote",
