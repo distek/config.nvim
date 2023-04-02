@@ -224,37 +224,3 @@ vim.api.nvim_create_autocmd({ "WinClosed" }, {
 		end, 1)
 	end,
 })
-
-vim.api.nvim_create_autocmd("BufEnter", {
-	pattern = {
-		"*",
-	},
-	callback = function()
-		local tp = vim.api.nvim_get_current_tabpage()
-		if TF.Term[tp] ~= nil then
-			if TF.Term[tp].window:is_valid() then
-				if vim.api.nvim_get_current_win() == TF.Term[tp].window.winid then
-					vim.defer_fn(function()
-						if #TF.Term[tp].bufs > 0 then
-							local nextBuf = TF.Term[tp].bufs[TF.Term[tp].last_term]
-							if not nextBuf then
-								nextBuf = TF.Term[tp].bufs[TF.Term[tp].last_term - 1]
-								if not nextBuf then
-									nextBuf = TF.Term[tp].bufs[TF.Term[tp].last_term + 1]
-								end
-							end
-							if vim.api.nvim_win_is_valid(TF.Term[tp].window.winid) then
-								if vim.api.nvim_buf_is_valid(TF.Term[tp].bufs[TF.Term[tp].last_term]) then
-									vim.api.nvim_win_set_buf(
-										TF.Term[tp].window.winid,
-										TF.Term[tp].bufs[TF.Term[tp].last_term]
-									)
-								end
-							end
-						end
-					end, 1)
-				end
-			end
-		end
-	end,
-})
