@@ -15,6 +15,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Plugins
 require("lazy").setup({
+	{ "rktjmp/lush.nvim" },
 	-- Treesitter{{{
 
 	{
