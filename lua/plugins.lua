@@ -1438,12 +1438,14 @@ require("lazy").setup({
 						y = 2,
 					},
 				},
+
+				border = Border,
 			})
 		end,
 	},
 
 	-- {
-	-- 	dir = "~/Programming/neovim-plugs/nvim-terminal",
+	-- dir = "~/Programming/neovim-plugs/nvim-terminal",
 	-- },
 	-- { dir = "~/Programming/neovim-plugs/dap-buttons" },
 	-- {
