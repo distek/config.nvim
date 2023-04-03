@@ -172,23 +172,36 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
 	end,
 })
 
--- vim.api.nvim_create_autocmd({ "VimResized", "WinEnter", "WinClosed" }, {
--- 	callback = function()
--- 		vim.defer_fn(function(ev)
--- 			local panelWidth = 40
+vim.api.nvim_create_autocmd({ "VimResized", "WinEnter", "WinClosed" }, {
+	callback = function()
+		vim.defer_fn(function(ev)
+			local panelWidth = 35
 
--- 			local exists, window = Util.ifNameExists("neo-tree")
--- 			if exists then
--- 				vim.api.nvim_win_set_width(window, panelWidth)
--- 			end
+			local offset = math.floor(panelWidth / 2 - #"Neovim") + 2
 
--- 			if TF.Term[vim.api.nvim_get_current_tabpage()] ~= nil then
--- 				TF.Term[vim.api.nvim_get_current_tabpage()].window.height = TF.Height
--- 				TF.Term[vim.api.nvim_get_current_tabpage()].window:update_size()
--- 			end
--- 		end, 1)
--- 	end,
--- })
+			local header = ""
+			for _ = 0, offset do
+				header = header .. " "
+			end
+
+			header = header .. "Neovim"
+
+			local exists, window = Util.ifNameExists("neo-tree")
+			if exists then
+				require("bufferline.api").set_offset(panelWidth + 1, header)
+				vim.api.nvim_win_set_width(window, panelWidth)
+			else
+				require("bufferline.api").set_offset(0, "")
+			end
+
+			local tp = vim.api.nvim_get_current_tabpage()
+			if TF.Term[tp] ~= nil then
+				TF.Term[tp].window.height = TF.Height
+				TF.Term[tp].window:update_size()
+			end
+		end, 1)
+	end,
+})
 
 vim.api.nvim_create_autocmd({ "WinClosed" }, {
 	callback = function()

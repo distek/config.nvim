@@ -1,4 +1,4 @@
-NeoTreeWasOpen = false
+NeoTreeToggle = false
 TF = require("nvim-terminal")
 TF.setup({
 	termlist = true,
@@ -6,16 +6,16 @@ TF.setup({
 	focus_on_select = false,
 	winbar_tabs = false,
 	pre_cb = function()
-		NeoTreeWasOpen = Util.is_neotree_open()
+		NeoTreeToggle = Util.is_neotree_open()
 
-		if NeoTreeWasOpen then
-			vim.cmd("Neotree close")
+		if NeoTreeToggle then
+			vim.cmd("NeoTreeShowToggle")
 		end
 	end,
 	post_cb = function()
-		if NeoTreeWasOpen then
-			vim.cmd("Neotree open")
-			NeoTreeWasOpen = false
+		if NeoTreeToggle then
+			vim.cmd("NeoTreeShowToggle")
+			NeoTreeToggle = false
 		end
 	end,
 

@@ -1321,10 +1321,6 @@ require("lazy").setup({
 			require("colorful-winsep").setup({
 				-- symbols = { "█", "█", "█", "█", "█", "█" },
 				symbols = { "━", "┃", "┏", "┓", "┗", "┛" },
-				highlight = {
-					fg = Util.getColor("Title", "fg"),
-					bg = Util.darken(Util.getColor("Normal", "bg"), 0.94),
-				},
 				no_exec_files = { "lazy", "TelescopePrompt", "mason", "neo-tree", "" },
 				create_event = function()
 					if vim.api.nvim_win_get_config(vim.api.nvim_get_current_win()).relative == "editor" then
@@ -1337,10 +1333,14 @@ require("lazy").setup({
 
 	{ "famiu/bufdelete.nvim", event = "VeryLazy" },
 
-	{ "distek/nvim-terminal" },
+	{
+		-- "distek/nvim-terminal"
+		dir = "~/Programming/neovim-plugs/nvim-terminal",
+	},
 
 	{
 		"distek/fnote.nvim",
+		-- 	dir = "~/Programming/neovim-plugs/fnote",
 		config = function()
 			require("fnote").setup({
 				anchor = "NE",

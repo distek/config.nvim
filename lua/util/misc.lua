@@ -241,10 +241,6 @@ Util.bdelete = function(all, force)
 end
 
 Util.is_neotree_open = function()
-	for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-		if vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(win), "ft") == "neo-tree" then
-			return true
-		end
-	end
-	return false
+	local exists, _ = Util.ifNameExists("neo-tree")
+	return exists
 end

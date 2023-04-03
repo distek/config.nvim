@@ -35,10 +35,10 @@ end)
 
 -- move buffers
 map("n", "<A-Tab>", function()
-	require("bufferline").move(1)
+	vim.cmd("BufferMoveNext")
 end)
 map("n", "<A-S-Tab>", function()
-	require("bufferline").move(-1)
+	vim.cmd("BufferMovePrevious")
 end)
 
 -- Window/buffer stuff
