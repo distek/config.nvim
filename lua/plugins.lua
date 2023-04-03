@@ -1334,8 +1334,8 @@ require("lazy").setup({
 	{ "famiu/bufdelete.nvim", event = "VeryLazy" },
 
 	{
-		-- "distek/nvim-terminal"
-		dir = "~/Programming/neovim-plugs/nvim-terminal",
+		"distek/nvim-terminal",
+		-- dir = "~/Programming/neovim-plugs/nvim-terminal",
 	},
 
 	{
