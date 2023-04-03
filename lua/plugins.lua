@@ -15,7 +15,6 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Plugins
 require("lazy").setup({
-	{ "rktjmp/lush.nvim" },
 	-- Treesitter{{{
 
 	{
@@ -1427,29 +1426,11 @@ require("lazy").setup({
 		end,
 	},
 
-	-- {
-	-- dir = "~/Programming/neovim-plugs/nvim-terminal",
-	-- },
-	-- { dir = "~/Programming/neovim-plugs/dap-buttons" },
-	-- {
-	-- 	dir = "~/Programming/neovim-plugs/fnote",
-	-- 	config = function()
-	-- 		require("fnote").setup({
-	-- 			anchor = "NE",
-	-- 			window = {
-	-- 				offset = {
-	-- 					x = 4,
-	-- 					y = 2,
-	-- 				},
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- },
-	-- }}}
-
 	-- Themes{{{
 	{ "tiagovla/tokyodark.nvim", event = "VeryLazy" },
 
 	{ "Shatur/neovim-ayu", event = "VeryLazy" },
+
+	{ "rktjmp/lush.nvim" },
 	-- }}}
 })
