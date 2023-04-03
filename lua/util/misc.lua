@@ -1,11 +1,3 @@
-function len(t)
-	local count = 0
-	for _ in pairs(t) do
-		count = count + 1
-	end
-	return count
-end
-
 -- Returns to previous position in file
 Util.line_return = function()
 	local line = vim.fn.line
@@ -21,10 +13,12 @@ Util.skipUnwantedBuffers = function(dir)
 	-- Util.bufFocus(dir)
 	if dir == "next" then
 		-- require('tabline').buffer_next()
-		require("bufferline").cycle(1)
+		-- require("bufferline").cycle(1)
+		vim.cmd("BufferNext")
 	else
 		-- require('tabline').buffer_previous()
-		require("bufferline").cycle(-1)
+		-- require("bufferline").cycle(-1)
+		vim.cmd("BufferPrevious")
 	end
 
 	local buftype = vim.api.nvim_buf_get_option(0, "buftype")
@@ -32,7 +26,7 @@ Util.skipUnwantedBuffers = function(dir)
 	if buftype == "quickfix" or buftype == "terminal" then
 		if buftype == "terminal" then
 			-- if the terminal is not open elsewhere
-			if len(vim.fn.win_findbuf(vim.fn.bufnr("%"))) == 1 then
+			if #vim.fn.win_findbuf(vim.fn.bufnr("%")) == 1 then
 				return
 			end
 
@@ -113,7 +107,7 @@ Util.getNeighbors = function()
 		right = false,
 	}
 
-	if len(vim.api.nvim_list_wins()) == 1 then
+	if #vim.api.nvim_list_wins() == 1 then
 		return ret
 	end
 
