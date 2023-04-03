@@ -497,6 +497,7 @@ require("lazy").setup({
 
 	{
 		"distek/sessions.nvim", -- {{{
+		-- dir = "~/Programming/neovim-plugs/sessions.nvim",
 		event = "VeryLazy",
 		config = function()
 			require("sessions").setup({
@@ -514,25 +515,6 @@ require("lazy").setup({
 		end,
 	},
 	-- }}}
-	-- {
-	-- 	dir = "~/Programming/neovim-plugs/sessions.nvim", --{{{
-	-- 	config = function()
-	-- 		require("sessions").setup({
-	-- 			post_exec = function()
-	-- 				TermOpen()
-
-	-- 				vim.cmd("Neotree show")
-
-	-- 				vim.defer_fn(function()
-	-- 					vim.cmd("wincmd k")
-	-- 					vim.cmd("stopinsert")
-	-- 				end, 100)
-	-- 			end,
-	-- 		})
-	-- 	end,
-	-- },
-	-- -- }}}
-	--
 
 	{
 		"distek/bufferline.nvim", -- {{{
