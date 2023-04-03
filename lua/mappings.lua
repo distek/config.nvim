@@ -53,7 +53,7 @@ map("n", "<leader>sts", "<cmd>split term://" .. vim.o.shell .. "<CR>", { desc = 
 map("t", "<A-z>", "<c-\\><c-n>")
 
 -- Close window(split)
-map("n", "<A-q>", "<cmd>lua require('bufdelete').bufdelete(0, true)<CR>")
+map("n", "<A-q>", "<cmd>BufferDelete<CR>")
 
 -- Delete buffer
 map("n", "<A-S-q>", function()
