@@ -756,8 +756,6 @@ require("lazy").setup({
 			})
 
 			require("null-ls").setup()
-
-			require("mason-null-ls").setup_handlers()
 			-- local prettier = require("prettier")
 
 			-- prettier.setup({
