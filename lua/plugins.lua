@@ -436,7 +436,23 @@ require("lazy").setup({
 				buffers = {
 					follow_current_file = true,
 				},
-				popup_border_style = "rounded",
+				popup_border_style = {
+					{ "🭽", "FloatBorder" },
+
+					{ "☂", "FloatBorder" },
+
+					{ "🭾", "FloatBorder" },
+
+					{ "◼", "FloatBorder" },
+
+					{ "☀", "FloatBorder" },
+
+					{ "☁", "FloatBorder" },
+
+					{ "◿", "FloatBorder" },
+
+					{ "◻", "FloatBorder" },
+				},
 			})
 		end,
 	}, -- }}}
