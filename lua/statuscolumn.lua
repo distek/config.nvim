@@ -1,12 +1,12 @@
 local gitsigns_bar = "▌"
 
 local gitsigns_hl_pool = {
-	GitSignsAdd = "DiagnosticOk",
-	GitSignsChange = "DiagnosticWarn",
-	GitSignsChangedelete = "DiagnosticWarn",
-	GitSignsDelete = "DiagnosticError",
-	GitSignsTopdelete = "DiagnosticError",
-	GitSignsUntracked = "NonText",
+	GitSignsAdd = "GitSignsAdd",
+	GitSignsChange = "GitSignsChange",
+	GitSignsChangedelete = "GitSignsChangedelete",
+	GitSignsDelete = "GitSignsDelete",
+	GitSignsTopdelete = "GitSignsTopdelete",
+	GitSignsUntracked = "GitSignsUntracked",
 }
 
 local diag_signs_icons = {
@@ -113,7 +113,8 @@ _G.get_statuscol = function()
 		["num"] = "%{v:relnum?v:relnum:v:lnum}",
 		["sep"] = "%=",
 		["space"] = "%{%v:lua.statuscol_gen_space()%}",
-		["lastSep"] = "%#Title#│%#Normal#",
+		["lastSep"] = "%#WinSeparator#│%#Normal#",
+		["clear"] = "%#Normal# ",
 	}
 
 	local order = {
@@ -125,7 +126,7 @@ _G.get_statuscol = function()
 		"num",
 		"space",
 		"lastSep",
-		"space",
+		"clear",
 	}
 
 	for _, val in ipairs(order) do
