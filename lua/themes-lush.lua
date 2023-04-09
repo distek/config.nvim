@@ -101,7 +101,7 @@ local theme = lush(function(injected_functions)
 		NormalFloat({ Normal }), -- Normal text in floating windows.
 		NormalNC({ Normal }), -- normal text in non-current windows
 		ColorColumn({ bg = norm_bg.lighten(10) }), -- Columns set with 'colorcolumn'
-		-- Conceal      { }, -- Placeholder characters substituted for concealed text (see 'conceallevel')
+		Conceal({ fg = yellow, bg = norm_bg }), -- Placeholder characters substituted for concealed text (see 'conceallevel')
 		-- Cursor       { }, -- Character under the cursor
 		-- lCursor      { }, -- Character under the cursor when |language-mapping| is used (see 'guicursor')
 		-- CursorIM     { }, -- Like Cursor, but used when in IME mode |CursorIM|
@@ -143,7 +143,7 @@ local theme = lush(function(injected_functions)
 		Title({}), -- Titles for output from ":set all", ":autocmd" etc.
 		Visual({ bg = norm_bg.lighten(25) }), -- Visual mode selection
 		-- VisualNOS    { }, -- Visual mode selection when vim is "Not Owning the Selection".
-		-- WarningMsg   { }, -- Warning messages
+		WarningMsg({ fg = yellow }), -- Warning messages
 		-- Whitespace   { }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
 		Winseparator({ fg = norm_fg, bg = "NONE" }), -- Separator between window splits. Inherts from |hl-VertSplit| by default, which it will replace eventually.
 		WildMenu({}), -- Current match in 'wildmenu' completion
@@ -404,6 +404,8 @@ local theme = lush(function(injected_functions)
 		-- colorful-winsep
 		--
 		NvimSeparator({ fg = yellow, bg = norm_bg }),
+
+		StatusColSep({ fg = yellow, bg = statusColBG }),
 	}
 end)
 

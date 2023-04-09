@@ -5,6 +5,7 @@ TF.setup({
 	termlist_side = "right",
 	focus_on_select = false,
 	winbar_tabs = false,
+
 	pre_cb = function()
 		NeoTreeToggle = Util.is_neotree_open()
 
@@ -12,6 +13,7 @@ TF.setup({
 			vim.cmd("NeoTreeShowToggle")
 		end
 	end,
+
 	post_cb = function()
 		if NeoTreeToggle then
 			vim.cmd("NeoTreeShowToggle")

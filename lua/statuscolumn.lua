@@ -113,7 +113,7 @@ _G.get_statuscol = function()
 		["num"] = "%{v:relnum?v:relnum:v:lnum}",
 		["sep"] = "%=",
 		["space"] = "%{%v:lua.statuscol_gen_space()%}",
-		["lastSep"] = "%#WinSeparator#│%#Normal#",
+		["lastSep"] = "%#StatusColSep#◼%#Normal#",
 		["clear"] = "%#Normal# ",
 	}
 

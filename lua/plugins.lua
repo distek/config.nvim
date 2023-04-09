@@ -516,15 +516,23 @@ require("lazy").setup({
 		event = "VeryLazy",
 		config = function()
 			require("sessions").setup({
+				pre_exec = function() end,
 				post_exec = function()
+					local tp = vim.api.nvim_get_current_tabpage()
+					local focusMe = vim.api.nvim_get_current_win()
+
+					for _ in ipairs(TF.Term[tp].bufs) do
+						TF.Term[tp]:delete(TF.Term[tp].last_term)
+					end
+
 					TF.TermOpen()
 
 					vim.cmd("Neotree show")
 
 					vim.defer_fn(function()
-						vim.cmd("wincmd k")
+						vim.api.nvim_set_current_win(focusMe)
 						vim.cmd("stopinsert")
-					end, 100)
+					end, 500)
 				end,
 			})
 		end,
@@ -740,6 +748,7 @@ require("lazy").setup({
 				},
 				automatic_installation = true,
 				automatic_setup = true, -- Recommended, but optional
+				handlers = {},
 			})
 
 			require("null-ls").setup()
@@ -1324,6 +1333,7 @@ require("lazy").setup({
 			require("colorful-winsep").setup({
 				-- symbols = { "█", "█", "█", "█", "█", "█" },
 				symbols = { "━", "┃", "┏", "┓", "┗", "┛" },
+
 				no_exec_files = { "lazy", "TelescopePrompt", "mason", "neo-tree", "" },
 				create_event = function()
 					if vim.api.nvim_win_get_config(vim.api.nvim_get_current_win()).relative == "editor" then
