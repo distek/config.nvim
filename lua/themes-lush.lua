@@ -406,6 +406,8 @@ local theme = lush(function(injected_functions)
 		NvimSeparator({ fg = yellow, bg = norm_bg }),
 
 		StatusColSep({ fg = yellow, bg = statusColBG }),
+
+		TermListCurrent({ fg = norm_bg, bg = yellow }),
 	}
 end)
 
