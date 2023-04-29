@@ -432,9 +432,31 @@ require("lazy").setup({
 				},
 				window = {
 					width = 40,
+					mappings = {
+						["l"] = "next_source",
+						["h"] = "prev_source",
+					},
 				},
 				buffers = {
 					follow_current_file = true,
+				},
+				git_status = {
+					window = {
+						mappings = {
+							["<CR>"] = "open_gdiff",
+						},
+					},
+					commands = {
+						open_gdiff = function(state)
+							local node = state.tree:get_node()
+							local path = node:get_id()
+
+							local cmds = require("neo-tree.sources.filesystem.commands")
+							cmds.open(state)
+
+							vim.cmd("Gvdiffsplit!")
+						end,
+					},
 				},
 				popup_border_style = {
 					{ "🭽", "FloatBorder" },
