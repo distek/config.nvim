@@ -102,15 +102,15 @@ local theme = lush(function(injected_functions)
 		NormalNC({ Normal }), -- normal text in non-current windows
 		ColorColumn({ bg = norm_bg.lighten(10) }), -- Columns set with 'colorcolumn'
 		Conceal({ fg = yellow, bg = norm_bg }), -- Placeholder characters substituted for concealed text (see 'conceallevel')
-		-- Cursor       { }, -- Character under the cursor
-		-- lCursor      { }, -- Character under the cursor when |language-mapping| is used (see 'guicursor')
+		Cursor({ gui = "reverse" }), -- Character under the cursor
+		lCursor({ gui = "reverse" }), -- Character under the cursor when |language-mapping| is used (see 'guicursor')
 		-- CursorIM     { }, -- Like Cursor, but used when in IME mode |CursorIM|
 		CursorColumn({ bg = norm_bg.lighten(10) }), -- Screen-column at the cursor, when 'cursorcolumn' is set.
 		CursorLine({ bg = norm_bg.lighten(10) }), -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
 		Directory({ fg = blue }), -- Directory names (and other special names in listings)
 		EndOfBuffer({ Normal }), -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
-		-- TermCursor   { }, -- Cursor in a focused terminal
-		-- TermCursorNC { }, -- Cursor in an unfocused terminal
+		-- TermCursor({ gui = "reverse" }), -- Cursor in a focused terminal
+		-- TermCursorNC({ gui = "reverse" }), -- Cursor in an unfocused terminal
 		ErrorMsg({ fg = red }), -- Error messages on the command line
 		-- VertSplit    { }, -- Column separating vertically split windows
 		Folded({ bg = norm_bg.lighten(15), fg = norm_fg }), -- Line used for closed folds
