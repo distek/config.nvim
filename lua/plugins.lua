@@ -34,7 +34,6 @@ require("lazy").setup({
 					"gitignore",
 					"go",
 					"gomod",
-					"help",
 					"html",
 					"ini",
 					"javascript",
