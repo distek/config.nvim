@@ -102,8 +102,8 @@ local theme = lush(function(injected_functions)
 		NormalNC({ Normal }), -- normal text in non-current windows
 		ColorColumn({ bg = norm_bg.lighten(10) }), -- Columns set with 'colorcolumn'
 		Conceal({ fg = yellow, bg = norm_bg }), -- Placeholder characters substituted for concealed text (see 'conceallevel')
-		Cursor({ gui = "reverse" }), -- Character under the cursor
-		lCursor({ gui = "reverse" }), -- Character under the cursor when |language-mapping| is used (see 'guicursor')
+		-- Cursor({ gui = "reverse" }), -- Character under the cursor
+		-- lCursor({ gui = "reverse" }), -- Character under the cursor when |language-mapping| is used (see 'guicursor')
 		-- CursorIM     { }, -- Like Cursor, but used when in IME mode |CursorIM|
 		CursorColumn({ bg = norm_bg.lighten(10) }), -- Screen-column at the cursor, when 'cursorcolumn' is set.
 		CursorLine({ bg = norm_bg.lighten(10) }), -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
@@ -120,7 +120,7 @@ local theme = lush(function(injected_functions)
 		Substitute({ bg = norm_bg.lighten(30) }), -- |:substitute| replacement text highlighting
 		LineNr({ bg = norm_bg.lighten(10), fg = norm_fg.darken(20) }), -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
 		CursorLineNr({ bg = norm_bg.lighten(10), fg = norm_fg.lighten(30) }), -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-		MatchParen({ gui = "reverse" }), -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+		-- MatchParen({ gui = "reverse" }), -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
 		ModeMsg({ Normal }), -- 'showmode' message (e.g., "-- INSERT -- ")
 		MsgArea({ Normal }), -- Area for messages and cmdline
 		MsgSeparator({ Normal }), -- Separator for scrolled messages, `msgsep` flag of 'display'
