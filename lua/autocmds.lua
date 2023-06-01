@@ -111,43 +111,43 @@ vim.api.nvim_create_autocmd("WinEnter", {
 })
 
 -- Terminal
-vim.api.nvim_create_augroup("Terminal", { clear = true })
+-- vim.api.nvim_create_augroup("Terminal", { clear = true })
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "toggleterm" },
-	callback = function()
-		vim.cmd([[startinsert]])
-	end,
-	group = "Terminal",
-})
+-- vim.api.nvim_create_autocmd("FileType", {
+-- 	pattern = { "toggleterm" },
+-- 	callback = function()
+-- 		vim.cmd([[startinsert]])
+-- 	end,
+-- 	group = "Terminal",
+-- })
+
+-- vim.api.nvim_create_autocmd("TermOpen", {
+-- 	pattern = { "*" },
+-- 	callback = function()
+-- 		vim.opt_local.number = false
+-- 		vim.opt_local.relativenumber = false
+-- 		vim.opt_local.wrap = true
+-- 		vim.opt_local.list = false
+-- 		vim.opt_local.signcolumn = "no"
+-- 		vim.opt_local.statuscolumn = ""
+-- 		vim.cmd([[startinsert]])
+-- 	end,
+-- 	group = "Terminal",
+-- })
+
+-- vim.api.nvim_create_autocmd("WinEnter", {
+-- 	pattern = { "*" },
+-- 	callback = function(ev)
+-- 		if vim.api.nvim_buf_is_valid(ev.buf) then
+-- 			if vim.bo[ev.buf].buftype == "terminal" then
+-- 				vim.cmd([[startinsert]])
+-- 			end
+-- 		end
+-- 	end,
+-- 	group = "Terminal",
+-- })
 
 vim.api.nvim_create_augroup("markdown", { clear = true })
-
-vim.api.nvim_create_autocmd("TermOpen", {
-	pattern = { "*" },
-	callback = function()
-		vim.opt_local.number = false
-		vim.opt_local.relativenumber = false
-		vim.opt_local.wrap = true
-		vim.opt_local.list = false
-		vim.opt_local.signcolumn = "no"
-		vim.opt_local.statuscolumn = ""
-		vim.cmd([[startinsert]])
-	end,
-	group = "Terminal",
-})
-
-vim.api.nvim_create_autocmd("WinEnter", {
-	pattern = { "*" },
-	callback = function(ev)
-		if vim.api.nvim_buf_is_valid(ev.buf) then
-			if vim.bo[ev.buf].buftype == "terminal" then
-				vim.cmd([[startinsert]])
-			end
-		end
-	end,
-	group = "Terminal",
-})
 
 vim.api.nvim_create_autocmd("BufEnter", {
 	pattern = { "*.md" },
@@ -194,11 +194,11 @@ vim.api.nvim_create_autocmd({ "VimResized", "WinEnter", "WinClosed" }, {
 				require("bufferline.api").set_offset(0, "")
 			end
 
-			local tp = vim.api.nvim_get_current_tabpage()
-			if TF.Term[tp] ~= nil then
-				TF.Term[tp].window.height = TF.Height
-				TF.Term[tp].window:update_size()
-			end
+			-- local tp = vim.api.nvim_get_current_tabpage()
+			-- if TF.Term[tp] ~= nil then
+			-- 	TF.Term[tp].window.height = TF.Height
+			-- 	TF.Term[tp].window:update_size()
+			-- end
 		end, 1)
 	end,
 })

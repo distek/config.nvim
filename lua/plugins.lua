@@ -539,14 +539,14 @@ require("lazy").setup({
 			require("sessions").setup({
 				pre_exec = function() end,
 				post_exec = function()
-					local tp = vim.api.nvim_get_current_tabpage()
+					-- local tp = vim.api.nvim_get_current_tabpage()
 					local focusMe = vim.api.nvim_get_current_win()
 
-					for _ in ipairs(TF.Term[tp].bufs) do
-						TF.Term[tp]:delete(TF.Term[tp].last_term)
-					end
+					-- for _ in ipairs(TF.Term[tp].bufs) do
+					-- 	TF.Term[tp]:delete(TF.Term[tp].last_term)
+					-- end
 
-					TF.TermOpen()
+					-- TF.TermOpen()
 
 					vim.cmd("Neotree show")
 
@@ -687,7 +687,7 @@ require("lazy").setup({
 			})
 
 			require("mason-lspconfig").setup({
-				ensure_installed = { "bashls", "clangd", "cssls", "gopls", "lua_ls", "tsserver" },
+				ensure_installed = { "bashls", "clangd", "cssls", "gopls", "lua_ls", "tsserver", "vls" },
 				automatic_installation = true,
 			})
 
@@ -752,6 +752,28 @@ require("lazy").setup({
 								},
 							},
 						},
+					})
+				end,
+				["tsserver"] = function()
+					local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+					local capabilitiesWithoutFomatting = vim.lsp.protocol.make_client_capabilities()
+					capabilitiesWithoutFomatting.textDocument.formatting = false
+					capabilitiesWithoutFomatting.textDocument.rangeFormatting = false
+					capabilitiesWithoutFomatting.textDocument.range_formatting = false
+
+					lspconfig.tsserver.setup({
+						capabilities = capabilitiesWithoutFomatting,
+						settings = {
+							documentFormatting = false,
+						},
+					})
+				end,
+				["vls"] = function()
+					local trimmedCapabilities = vim.lsp.protocol.make_client_capabilities()
+
+					lspconfig.vls.setup({
+						capabilities = trimmedCapabilities,
 					})
 				end,
 			})
@@ -1408,10 +1430,10 @@ require("lazy").setup({
 
 	{ "famiu/bufdelete.nvim", event = "VeryLazy" },
 
-	{
-		"distek/nvim-terminal",
-		-- dir = "~/Programming/neovim-plugs/nvim-terminal",
-	},
+	-- {
+	-- 	"distek/nvim-terminal",
+	-- 	-- dir = "~/Programming/neovim-plugs/nvim-terminal",
+	-- },
 
 	{
 		"distek/fnote.nvim",

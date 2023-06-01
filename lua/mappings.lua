@@ -45,9 +45,9 @@ end)
 map("n", "<leader>ss", "<cmd>split<cr>", { desc = "Split horizontal" })
 map("n", "<leader>sv", "<cmd>vsplit<cr>", { desc = "Split Vertical" })
 
--- Split Terminal
-map("n", "<leader>stv", "<cmd>vsplit term://" .. vim.o.shell .. "<CR>", { desc = "Vertical Term" })
-map("n", "<leader>sts", "<cmd>split term://" .. vim.o.shell .. "<CR>", { desc = "Horizontal Term" })
+-- -- Split Terminal
+-- map("n", "<leader>stv", "<cmd>vsplit term://" .. vim.o.shell .. "<CR>", { desc = "Vertical Term" })
+-- map("n", "<leader>sts", "<cmd>split term://" .. vim.o.shell .. "<CR>", { desc = "Horizontal Term" })
 
 -- Term escape
 map("t", "<A-z>", "<c-\\><c-n>")
@@ -171,31 +171,31 @@ map("n", "<A-f>", function()
 	})
 end, { desc = "Fullscreen window" })
 
-local termFullscreen = function()
-	-- an error about entering normal mode from terminal mode happens here but it's
-	-- non-blocking so fuk it I guess
-	-- local keys = vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true)
-	-- vim.api.nvim_feedkeys(keys, "t", false)
+-- local termFullscreen = function()
+-- 	-- an error about entering normal mode from terminal mode happens here but it's
+-- 	-- non-blocking so fuk it I guess
+-- 	-- local keys = vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true)
+-- 	-- vim.api.nvim_feedkeys(keys, "t", false)
 
-	require("zen-mode").toggle({
-		window = {
-			width = 1.0,
-		},
-		options = {
-			signcolumn = "no", -- disable signcolumn
-			statuscolumn = "", -- disable signcolumn
-			number = false, -- disable number column
-			relativenumber = false, -- disable relative numbers
-			cursorline = false, -- disable cursorline
-			cursorcolumn = false, -- disable cursor column
-			list = false, -- disable whitespace characters
-		},
-	})
+-- 	require("zen-mode").toggle({
+-- 		window = {
+-- 			width = 1.0,
+-- 		},
+-- 		options = {
+-- 			signcolumn = "no", -- disable signcolumn
+-- 			statuscolumn = "", -- disable signcolumn
+-- 			number = false, -- disable number column
+-- 			relativenumber = false, -- disable relative numbers
+-- 			cursorline = false, -- disable cursorline
+-- 			cursorcolumn = false, -- disable cursor column
+-- 			list = false, -- disable whitespace characters
+-- 		},
+-- 	})
 
-	vim.api.nvim_feedkeys("i", "t", false)
-end
+-- 	vim.api.nvim_feedkeys("i", "t", false)
+-- end
 
-map("t", "<A-f>", termFullscreen, { desc = "Fullscreen window" })
+-- map("t", "<A-f>", termFullscreen, { desc = "Fullscreen window" })
 
 -- Commentary
 map("n", "<leader>cm", "<Plug>ContextCommentary", { desc = "Comment line" })
@@ -205,91 +205,91 @@ map("v", "<leader>cm", "<Plug>ContextCommentary", { desc = "Comment line(s)" })
 map("n", "<leader>aa", "<cmd>Telescope file_browser path=%:p:h hidden=true<CR>", { desc = "File browser" })
 
 -- Term is set in terminal.lua
-map("n", "<leader>as", TF.TermToggle, { desc = "Toggle terminal" })
-map("t", "<localleader>as", TF.TermToggle, { desc = "Toggle terminal" })
-map("n", "<M-CR>", TF.TermNew, { desc = "Create new terminal" })
-map("t", "<M-CR>", TF.TermNew, { desc = "Create new terminal" })
+-- map("n", "<leader>as", TF.TermToggle, { desc = "Toggle terminal" })
+-- map("t", "<localleader>as", TF.TermToggle, { desc = "Toggle terminal" })
+-- map("n", "<M-CR>", TF.TermNew, { desc = "Create new terminal" })
+-- map("t", "<M-CR>", TF.TermNew, { desc = "Create new terminal" })
 
-map("t", "<A-q>", function()
-	local tp = vim.api.nvim_get_current_tabpage()
-	TF.Term[tp]:delete(TF.Term[tp].last_term)
-end, { desc = "Close current terminal" })
-
-map("t", "<M-r>", function()
-	TF.RenameTerm()
-end, { desc = "Create new terminal" })
-
-map("t", "<M-Tab>", function()
-	TF.NextTerm()
-end, { desc = "Next terminal" })
-
-map("t", "<M-S-Tab>", function()
-	TF.PrevTerm()
-end, { desc = "Previous terminal" })
-
-map("t", "<A-1>", function()
-	TF.SelectTerm(1)
-end, { desc = "Select term 1" })
-map("t", "<A-2>", function()
-	TF.SelectTerm(2)
-end, { desc = "Select term 2" })
-map("t", "<A-3>", function()
-	TF.SelectTerm(3)
-end, { desc = "Select term 3" })
-map("t", "<A-4>", function()
-	TF.SelectTerm(4)
-end, { desc = "Select term 4" })
-map("t", "<A-5>", function()
-	TF.SelectTerm(5)
-end, { desc = "Select term 5" })
-map("t", "<A-6>", function()
-	TF.SelectTerm(6)
-end, { desc = "Select term 6" })
-map("t", "<A-7>", function()
-	TF.SelectTerm(7)
-end, { desc = "Select term 7" })
-map("t", "<A-8>", function()
-	TF.SelectTerm(8)
-end, { desc = "Select term 8" })
-map("t", "<A-9>", function()
-	TF.SelectTerm(9)
-end, { desc = "Select term 9" })
-map("t", "<A-0>", function()
-	TF.SelectTerm(10)
-end, { desc = "Select term 10" })
-map("n", "<A-1>", function()
-	TF.SelectTerm(1)
-end, { desc = "Select term 1" })
-map("n", "<A-2>", function()
-	TF.SelectTerm(2)
-end, { desc = "Select term 2" })
-map("n", "<A-3>", function()
-	TF.SelectTerm(3)
-end, { desc = "Select term 3" })
-map("n", "<A-4>", function()
-	TF.SelectTerm(4)
-end, { desc = "Select term 4" })
-map("n", "<A-5>", function()
-	TF.SelectTerm(5)
-end, { desc = "Select term 5" })
-map("n", "<A-6>", function()
-	TF.SelectTerm(6)
-end, { desc = "Select term 6" })
-map("n", "<A-7>", function()
-	TF.SelectTerm(7)
-end, { desc = "Select term 7" })
-map("n", "<A-8>", function()
-	TF.SelectTerm(8)
-end, { desc = "Select term 8" })
-map("n", "<A-9>", function()
-	TF.SelectTerm(9)
-end, { desc = "Select term 9" })
-map("n", "<A-0>", function()
-	TF.SelectTerm(10)
-end, { desc = "Select term 10" })
+-- map("t", "<A-q>", function()
+-- 	local tp = vim.api.nvim_get_current_tabpage()
+-- 	TF.Term[tp]:delete(TF.Term[tp].last_term)
+-- end, { desc = "Close current terminal" })
+--
+-- map("t", "<M-r>", function()
+-- 	TF.RenameTerm()
+-- end, { desc = "Create new terminal" })
+--
+-- map("t", "<M-Tab>", function()
+-- 	TF.NextTerm()
+-- end, { desc = "Next terminal" })
+--
+-- map("t", "<M-S-Tab>", function()
+-- 	TF.PrevTerm()
+-- end, { desc = "Previous terminal" })
+--
+-- map("t", "<A-1>", function()
+-- 	TF.SelectTerm(1)
+-- end, { desc = "Select term 1" })
+-- map("t", "<A-2>", function()
+-- 	TF.SelectTerm(2)
+-- end, { desc = "Select term 2" })
+-- map("t", "<A-3>", function()
+-- 	TF.SelectTerm(3)
+-- end, { desc = "Select term 3" })
+-- map("t", "<A-4>", function()
+-- 	TF.SelectTerm(4)
+-- end, { desc = "Select term 4" })
+-- map("t", "<A-5>", function()
+-- 	TF.SelectTerm(5)
+-- end, { desc = "Select term 5" })
+-- map("t", "<A-6>", function()
+-- 	TF.SelectTerm(6)
+-- end, { desc = "Select term 6" })
+-- map("t", "<A-7>", function()
+-- 	TF.SelectTerm(7)
+-- end, { desc = "Select term 7" })
+-- map("t", "<A-8>", function()
+-- 	TF.SelectTerm(8)
+-- end, { desc = "Select term 8" })
+-- map("t", "<A-9>", function()
+-- 	TF.SelectTerm(9)
+-- end, { desc = "Select term 9" })
+-- map("t", "<A-0>", function()
+-- 	TF.SelectTerm(10)
+-- end, { desc = "Select term 10" })
+-- map("n", "<A-1>", function()
+-- 	TF.SelectTerm(1)
+-- end, { desc = "Select term 1" })
+-- map("n", "<A-2>", function()
+-- 	TF.SelectTerm(2)
+-- end, { desc = "Select term 2" })
+-- map("n", "<A-3>", function()
+-- 	TF.SelectTerm(3)
+-- end, { desc = "Select term 3" })
+-- map("n", "<A-4>", function()
+-- 	TF.SelectTerm(4)
+-- end, { desc = "Select term 4" })
+-- map("n", "<A-5>", function()
+-- 	TF.SelectTerm(5)
+-- end, { desc = "Select term 5" })
+-- map("n", "<A-6>", function()
+-- 	TF.SelectTerm(6)
+-- end, { desc = "Select term 6" })
+-- map("n", "<A-7>", function()
+-- 	TF.SelectTerm(7)
+-- end, { desc = "Select term 7" })
+-- map("n", "<A-8>", function()
+-- 	TF.SelectTerm(8)
+-- end, { desc = "Select term 8" })
+-- map("n", "<A-9>", function()
+-- 	TF.SelectTerm(9)
+-- end, { desc = "Select term 9" })
+-- map("n", "<A-0>", function()
+-- 	TF.SelectTerm(10)
+-- end, { desc = "Select term 10" })
 
 map("n", "<leader>ad", "<cmd>Neotree toggle<CR>", { desc = "Toggle explorer panel" })
-map("t", "<localleader>ad", "<cmd>Neotree toggle<CR>", { desc = "Toggle explorer panel" })
+-- map("t", "<localleader>ad", "<cmd>Neotree toggle<CR>", { desc = "Toggle explorer panel" })
 
 map("n", "<leader>af", "<cmd>SymbolsOutline<CR>", { desc = "Toggle outline panel" })
 
@@ -319,7 +319,7 @@ map("n", "<leader>kh", "<cmd> lua require('telescope.builtin').help_tags()<cr>",
 map("n", "<leader>kq", "<cmd> lua require('telescope.builtin').quickfix()<cr>", { desc = "Quickfix list" })
 map("n", "<leader>kl", "<cmd> lua require('telescope.builtin').loclist()<cr>", { desc = "Location list" })
 
-map("n", "<leader>ks", TF.TermPick, { desc = "Find terminal" })
+-- map("n", "<leader>ks", TF.TermPick, { desc = "Find terminal" })
 
 -- Debug maps
 map("n", "<leader>db", require("dap").toggle_breakpoint, { desc = "Toggle breakpoint" })
