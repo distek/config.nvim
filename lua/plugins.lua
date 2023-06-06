@@ -532,35 +532,6 @@ require("lazy").setup({
 	}, -- }}}
 
 	{
-		"distek/sessions.nvim", -- {{{
-		-- dir = "~/Programming/neovim-plugs/sessions.nvim",
-		event = "VeryLazy",
-		config = function()
-			require("sessions").setup({
-				pre_exec = function() end,
-				post_exec = function()
-					-- local tp = vim.api.nvim_get_current_tabpage()
-					local focusMe = vim.api.nvim_get_current_win()
-
-					-- for _ in ipairs(TF.Term[tp].bufs) do
-					-- 	TF.Term[tp]:delete(TF.Term[tp].last_term)
-					-- end
-
-					-- TF.TermOpen()
-
-					vim.cmd("Neotree show")
-
-					vim.defer_fn(function()
-						vim.api.nvim_set_current_win(focusMe)
-						vim.cmd("stopinsert")
-					end, 500)
-				end,
-			})
-		end,
-	},
-	-- }}}
-
-	{
 		"romgrk/barbar.nvim", -- {{{
 		dependencies = "nvim-tree/nvim-web-devicons",
 		opts = {
@@ -578,7 +549,6 @@ require("lazy").setup({
 			"nvim-telescope/telescope-file-browser.nvim",
 			"nvim-telescope/telescope-ui-select.nvim",
 			"nvim-telescope/telescope-dap.nvim",
-			"LinArcX/telescope-command-palette.nvim",
 			"tknightz/telescope-termfinder.nvim",
 		},
 		cmd = "Telescope",
@@ -597,29 +567,13 @@ require("lazy").setup({
 						},
 					},
 				},
-				extensions = {
-					command_palette = {
-						{
-							"IDE",
-							{ "All the things", "lua CommandPaletteAllTheThings()" },
-							{ "New Term", "lua TermNew()" },
-						},
-						{
-							"Session",
-							{ "Delete", "lua require('sessions').deleteSession()" },
-							{ "Save", "lua require('sessions').saveSession()" },
-							{ "Load", "lua require('sessions').selectSession()" },
-							{ "New", "lua require('sessions').newSession()" },
-						},
-					},
-				},
+				extensions = {},
 				source_selector = {
 					winbar = false,
 					statusline = false,
 				},
 			})
 
-			require("telescope").load_extension("command_palette")
 			require("telescope").load_extension("file_browser")
 			require("telescope").load_extension("git_worktree")
 			require("telescope").load_extension("ui-select")
@@ -1328,6 +1282,15 @@ require("lazy").setup({
 	-- }}}
 
 	-- Misc{{{
+	{
+		"rmagatti/auto-session",
+		config = function()
+			require("auto-session").setup({
+				log_level = "error",
+				auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+			})
+		end,
+	},
 
 	{
 		"jakewvincent/mkdnflow.nvim", -- {{{

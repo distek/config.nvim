@@ -392,12 +392,6 @@ map("n", "<leader>gh", ":Gitsigns next_hunk<cr>", { desc = "Previous hunk" })
 map("v", "<leader>gs", ":Gitsigns stage_hunk<cr>", { desc = "Stage hunk" })
 map("v", "<leader>gu", ":Gitsigns reset_hunk<cr>", { desc = "Reset hunk" })
 
--- Sessions
-map("n", "<leader>Ss", require("sessions").saveSession, { desc = "Save session" })
-map("n", "<leader>Sl", require("sessions").selectSession, { desc = "Load session" })
-map("n", "<leader>Sd", require("sessions").deleteSession, { desc = "Delete session" })
-map("n", "<leader>Sn", require("sessions").newSession, { desc = "New session" })
-
 map("n", "<A-n>", require("fnote").toggle)
 
 -- Shift block

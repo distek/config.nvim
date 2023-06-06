@@ -24,6 +24,9 @@ exmap("n", "j", "v:count == 0 ? 'gj' : 'j'")
 exmap("v", ">", "'>gv'")
 exmap("v", "<", "'<gv'")
 
+exmap("n", "<C-d>", "'<C-d>zz'")
+exmap("n", "<C-u>", "'<C-u>zz'")
+
 map("n", "<Esc><Esc>", ":nohl<CR>", { silent = true })
 
 map("n", "<Space>", "<cmd>call VSCodeNotify('whichkey.show')<cr>")
