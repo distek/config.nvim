@@ -4,7 +4,6 @@ else
 	require("plugins")
 	require("util")
 	require("themes")
-	require("terminal")
 	require("statuscolumn")
 	require("globals")
 	require("autocmds")
