@@ -1,46 +1,3 @@
--- Built with,
---
---        ,gggg,
---       d8" "8I                         ,dPYb,
---       88  ,dP                         IP'`Yb
---    8888888P"                          I8  8I
---       88                              I8  8'
---       88        gg      gg    ,g,     I8 dPgg,
---  ,aa,_88        I8      8I   ,8'8,    I8dP" "8I
--- dP" "88P        I8,    ,8I  ,8'  Yb   I8P    I8
--- Yb,_,d88b,,_   ,d8b,  ,d8b,,8'_   8) ,d8     I8,
---  "Y8P"  "Y888888P'"Y88P"`Y8P' "YY8P8P88P     `Y8
---
-
--- This is a starter colorscheme for use with Lush,
--- for usage guides, see :h lush or :LushRunTutorial
-
---
--- Note: Because this is a lua file, vim will append it to the runtime,
---       which means you can require(...) it in other lua code (this is useful),
---       but you should also take care not to conflict with other libraries.
---
---       (This is a lua quirk, as it has somewhat poor support for namespacing.)
---
---       Basically, name your file,
---
---       "super_theme/lua/lush_theme/super_theme_dark.lua",
---
---       not,
---
---       "super_theme/lua/dark.lua".
---
---       With that caveat out of the way...
---
-
--- Enable lush.ify on this file, run:
---
---  `:Lushify`
---
---  or
---
---  `:lua require('lush').ify()`
-
 local lush = require("lush")
 local hsl = lush.hsl
 
@@ -88,116 +45,104 @@ vim.g.terminal_color_13 = magenta.lighten(20).hex
 vim.g.terminal_color_14 = cyan.lighten(20).hex
 vim.g.terminal_color_15 = white.lighten(20).hex
 
--- LSP/Linters mistakenly show `undefined global` errors in the spec, they may
--- support an annotation like the following. Consult your server documentation.
 ---@diagnostic disable: undefined-global
 local theme = lush(function(injected_functions)
 	local sym = injected_functions.sym
 	return {
-		--
-		-- See :h highlight-groups
-		--
-		Normal({ bg = norm_bg, fg = norm_fg }), -- Normal text
-		NormalFloat({ Normal }), -- Normal text in floating windows.
-		NormalNC({ Normal }), -- normal text in non-current windows
-		ColorColumn({ bg = norm_bg.lighten(10) }), -- Columns set with 'colorcolumn'
-		Conceal({ fg = yellow, bg = norm_bg }), -- Placeholder characters substituted for concealed text (see 'conceallevel')
-		-- Cursor({ gui = "reverse" }), -- Character under the cursor
-		-- lCursor({ gui = "reverse" }), -- Character under the cursor when |language-mapping| is used (see 'guicursor')
-		-- CursorIM     { }, -- Like Cursor, but used when in IME mode |CursorIM|
-		CursorColumn({ bg = norm_bg.lighten(10) }), -- Screen-column at the cursor, when 'cursorcolumn' is set.
-		CursorLine({ bg = norm_bg.lighten(10) }), -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
-		Directory({ fg = blue }), -- Directory names (and other special names in listings)
-		EndOfBuffer({ Normal }), -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
-		-- TermCursor({ gui = "reverse" }), -- Cursor in a focused terminal
-		-- TermCursorNC({ gui = "reverse" }), -- Cursor in an unfocused terminal
-		ErrorMsg({ fg = red }), -- Error messages on the command line
-		-- VertSplit    { }, -- Column separating vertically split windows
-		Folded({ bg = norm_bg.lighten(15), fg = norm_fg }), -- Line used for closed folds
-		FoldColumn({ bg = norm_bg.lighten(10), fg = norm_fg.lighten(10) }), -- 'foldcolumn'
-		SignColumn({ bg = norm_bg.lighten(10), fg = norm_fg.lighten(10) }), -- Column where |signs| are displayed
-		IncSearch({ bg = norm_bg.lighten(30) }), -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
-		Substitute({ bg = norm_bg.lighten(30) }), -- |:substitute| replacement text highlighting
-		LineNr({ bg = norm_bg.lighten(10), fg = norm_fg.darken(20) }), -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
-		CursorLineNr({ bg = norm_bg.lighten(10), fg = norm_fg.lighten(30) }), -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-		-- MatchParen({ gui = "reverse" }), -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
-		ModeMsg({ Normal }), -- 'showmode' message (e.g., "-- INSERT -- ")
-		MsgArea({ Normal }), -- Area for messages and cmdline
-		MsgSeparator({ Normal }), -- Separator for scrolled messages, `msgsep` flag of 'display'
-		MoreMsg({ fg = green }), -- |more-prompt|
-		NonText({ Normal }), -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-		Pmenu({ bg = norm_bg.lighten(10) }), -- Popup menu: Normal item.
-		PmenuSel({ bg = norm_bg.lighten(1), fg = norm_fg }), -- Popup menu: Selected item.
-		PmenuSbar({ bg = norm_bg }), -- Popup menu: Scrollbar.
-		PmenuThumb({ bg = norm_fg.darken(10) }), -- Popup menu: Thumb of the scrollbar.
-		Question({ fg = green }), -- |hit-enter| prompt and yes/no questions
-		QuickFixLine({ fg = yellow }), -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
-		Search({ IncSearch }), -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
-		SpecialKey({ fg = cyan }), -- Unprintable characters: text displayed differently from what it really is. But not 'listchars' whitespace. |hl-Whitespace|
-		-- SpellBad     { }, -- Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise.
-		-- SpellCap     { }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
-		-- SpellLocal   { }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
-		-- SpellRare    { }, -- Word that is recognized by the spellchecker as one that is hardly ever used. |spell| Combined with the highlighting used otherwise.
-		-- StatusLine   { }, -- Status line of current window
-		-- StatusLineNC { }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
-		Title({}), -- Titles for output from ":set all", ":autocmd" etc.
-		Visual({ bg = norm_bg.lighten(25) }), -- Visual mode selection
-		-- VisualNOS    { }, -- Visual mode selection when vim is "Not Owning the Selection".
-		WarningMsg({ fg = yellow }), -- Warning messages
-		-- Whitespace   { }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
-		Winseparator({ fg = norm_fg, bg = "NONE" }), -- Separator between window splits. Inherts from |hl-VertSplit| by default, which it will replace eventually.
-		WildMenu({}), -- Current match in 'wildmenu' completion
+		Normal({ bg = norm_bg, fg = norm_fg }),
+		NormalFloat({ Normal }),
+		FloatShadow({ blend = 15, bg = norm_bg.darken(20) }),
+		NormalNC({ Normal }),
+		ColorColumn({ bg = norm_bg.lighten(10) }),
+		Conceal({ fg = yellow, bg = norm_bg }),
+		Cursor({ fg = norm_bg, bg = norm_fg }),
+		-- lCursor({ gui = "reverse" }),
+		-- CursorIM     { },
+		CursorColumn({ bg = norm_bg.lighten(10) }),
+		CursorLine({ bg = norm_bg.lighten(10) }),
+		Directory({ fg = blue }),
+		EndOfBuffer({ Normal }),
+		-- TermCursor({ gui = "reverse" }),
+		-- TermCursorNC({ gui = "reverse" }),
+		ErrorMsg({ fg = red }),
+		-- VertSplit    { },
+		Folded({ bg = norm_bg.lighten(15), fg = norm_fg }),
+		FoldColumn({ bg = norm_bg.lighten(10), fg = norm_fg.lighten(10) }),
+		SignColumn({ bg = norm_bg.lighten(10), fg = norm_fg.lighten(10) }),
+		IncSearch({ bg = norm_bg.lighten(30) }),
+		Substitute({ bg = norm_bg.lighten(30) }),
+		LineNr({ bg = norm_bg.lighten(10), fg = norm_fg.darken(20) }),
+		CursorLineNr({ bg = norm_bg.lighten(10), fg = norm_fg.lighten(30) }),
+		-- MatchParen({ gui = "reverse" }),
+		ModeMsg({ Normal }),
+		MsgArea({ Normal }),
+		MsgSeparator({ Normal }),
+		MoreMsg({ fg = green }),
+		NonText({ Normal }),
+		Pmenu({ bg = norm_bg.lighten(10) }),
+		PmenuSel({ bg = norm_bg.lighten(1), fg = norm_fg }),
+		PmenuSbar({ bg = norm_bg }),
+		PmenuThumb({ bg = norm_fg.darken(10) }),
+		Question({ fg = green }),
+		QuickFixLine({ fg = yellow }),
+		Search({ IncSearch }),
+		SpecialKey({ fg = cyan }),
+		-- SpellBad     { },
+		-- SpellCap     { },
+		-- SpellLocal   { },
+		-- SpellRare    { },
+		-- StatusLine   { },
+		-- StatusLineNC { },
+		Title({}),
+		Visual({ bg = norm_bg.lighten(25) }),
+		-- VisualNOS    { },
+		WarningMsg({ fg = yellow }),
+		-- Whitespace   { },
+		Winseparator({ fg = norm_fg, bg = "NONE" }),
+		WildMenu({}),
 
-		-- Common vim syntax groups used for all kinds of code and markup.
-		-- Commented-out groups should chain up to their preferred (*) group
-		-- by default.
-		--
-		-- See :h group-name
-		--
-		-- Uncomment and edit if you want more specific syntax highlighting.
+		Comment({ fg = norm_fg.darken(30) }),
 
-		Comment({ fg = norm_fg.darken(30) }), -- Any comment
+		Constant({ fg = blue }),
+		String({ fg = green }),
+		Character({ fg = blue }),
+		Number({ fg = red }),
+		Boolean({ fg = magenta }),
+		Float({ fg = red }),
 
-		Constant({ fg = blue }), -- (*) Any constant
-		String({ fg = green }), --   A string constant: "this is a string"
-		Character({ fg = blue }), --   A character constant: 'c', '\n'
-		Number({ fg = red }), --   A number constant: 234, 0xff
-		Boolean({ fg = magenta }), --   A boolean constant: TRUE, false
-		Float({ fg = red }), --   A floating point constant: 2.3e10
+		Identifier({ fg = magenta.saturate(20).lighten(30) }),
+		Function({ fg = blue.lighten(20) }),
 
-		Identifier({ fg = magenta.saturate(20).lighten(30) }), -- (*) Any variable name
-		Function({ fg = blue.lighten(20) }), --   Function name (also: methods for classes)
+		Statement({ fg = yellow }),
+		Conditional({ fg = blue }),
+		Repeat({ fg = cyan }),
+		Label({ fg = green }),
+		Operator({ fg = yellow }),
+		Keyword({ fg = red.lighten(10).desaturate(30) }),
+		Exception({ Label }),
 
-		Statement({ fg = yellow }), -- (*) Any statement
-		Conditional({ fg = blue }), --   if, then, else, endif, switch, etc.
-		Repeat({ fg = cyan }), --   for, do, while, etc.
-		Label({ fg = green }), --   case, default, etc.
-		Operator({ fg = yellow }), --   "sizeof", "+", "*", etc.
-		Keyword({ fg = red.lighten(10).desaturate(30) }), --   any other keyword
-		Exception({ Label }), --   try, catch, throw
+		-- PreProc({}),
+		-- Include({}),
+		-- Define({}),
+		-- Macro({}),
+		-- PreCondit({}),
 
-		-- PreProc({}), -- (*) Generic Preprocessor
-		-- Include({}), --   Preprocessor #include
-		-- Define({}), --   Preprocessor #define
-		-- Macro({}), --   Same as Define
-		-- PreCondit({}), --   Preprocessor #if, #else, #endif, etc.
+		Type({ fg = blue.lighten(20) }),
+		StorageClass({ Type }),
+		Structure({ Type }),
+		Typedef({ Type }),
 
-		Type({ fg = blue.lighten(20) }), -- (*) int, long, char, etc.
-		StorageClass({ Type }), --   static, register, volatile, etc.
-		Structure({ Type }), --   struct, union, enum, etc.
-		Typedef({ Type }), --   A typedef
+		Special({ fg = yellow }),
+		SpecialChar({ Special }),
+		Tag({ fg = green }),
+		Delimiter({ fg = blue }),
+		SpecialComment({ fg = yellow }),
+		Debug({}),
 
-		Special({ fg = yellow }), -- (*) Any special symbol
-		SpecialChar({ Special }), --   Special character in a constant
-		Tag({ fg = green }), --   You can use CTRL-] on this
-		Delimiter({ fg = blue }), --   Character that needs attention
-		SpecialComment({ fg = yellow }), --   Special things inside a comment (e.g. '\n')
-		Debug({}), --   Debugging statements
-
-		Underlined({ gui = "underline" }), -- Text that stands out, HTML links
-		Ignore({}), -- Left blank, hidden |hl-Ignore| (NOTE: May be invisible here in template)
-		Error({}), -- Any erroneous construct
-		Todo({ fg = black, bg = yellow.darken(10) }), -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+		Underlined({ gui = "underline" }),
+		Ignore({}),
+		Error({}),
+		Todo({ fg = black, bg = yellow.darken(10) }),
 
 		-- These groups are for the native LSP client and diagnostic system. Some
 		-- other LSP clients may use these groups, or use their own. Consult your
@@ -205,35 +150,35 @@ local theme = lush(function(injected_functions)
 
 		-- See :h lsp-highlight, some groups may not be listed, submit a PR fix to lush-template!
 		--
-		LspReferenceText({ Normal }), -- Used for highlighting "text" references
-		LspReferenceRead({ Normal }), -- Used for highlighting "read" references
-		LspReferenceWrite({ Normal }), -- Used for highlighting "write" references
-		LspCodeLens({ fg = diagnostic_error }), -- Used to color the virtual text of the codelens. See |nvim_buf_set_extmark()|.
-		LspCodeLensSeparator({ Normal }), -- Used to color the seperator between two or more code lens.
-		LspSignatureActiveParameter({ bg = norm_bg.lighten(10) }), -- Used to highlight the active parameter in the signature help. See |vim.lsp.handlers.signature_help()|.
+		LspReferenceText({ Normal }),
+		LspReferenceRead({ Normal }),
+		LspReferenceWrite({ Normal }),
+		LspCodeLens({ fg = diagnostic_error }),
+		LspCodeLensSeparator({ Normal }),
+		LspSignatureActiveParameter({ bg = norm_bg.lighten(10) }),
 
 		-- See :h diagnostic-highlights, some groups may not be listed, submit a PR fix to lush-template!
 		--
-		DiagnosticError({ fg = diagnostic_error }), -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-		DiagnosticWarn({ fg = diagnostic_warning }), -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-		DiagnosticInfo({ fg = diagnostic_info }), -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-		DiagnosticHint({ fg = diagnostic_hint }), -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-		DiagnosticVirtualTextError({ fg = diagnostic_error }), -- Used for "Error" diagnostic virtual text.
-		DiagnosticVirtualTextWarn({ fg = diagnostic_warning }), -- Used for "Warn" diagnostic virtual text.
-		DiagnosticVirtualTextInfo({ fg = diagnostic_info }), -- Used for "Info" diagnostic virtual text.
-		DiagnosticVirtualTextHint({ fg = diagnostic_hint }), -- Used for "Hint" diagnostic virtual text.
-		DiagnosticUnderlineError({ fg = diagnostic_error }), -- Used to underline "Error" diagnostics.
-		DiagnosticUnderlineWarn({ fg = diagnostic_warning }), -- Used to underline "Warn" diagnostics.
-		DiagnosticUnderlineInfo({ fg = diagnostic_info }), -- Used to underline "Info" diagnostics.
-		DiagnosticUnderlineHint({ fg = diagnostic_hint }), -- Used to underline "Hint" diagnostics.
-		DiagnosticFloatingError({ fg = diagnostic_error }), -- Used to color "Error" diagnostic messages in diagnostics float. See |vim.diagnostic.open_float()|
-		DiagnosticFloatingWarn({ fg = diagnostic_warning }), -- Used to color "Warn" diagnostic messages in diagnostics float.
-		DiagnosticFloatingInfo({ fg = diagnostic_info }), -- Used to color "Info" diagnostic messages in diagnostics float.
-		DiagnosticFloatingHint({ fg = diagnostic_hint }), -- Used to color "Hint" diagnostic messages in diagnostics float.
-		DiagnosticSignError({ fg = diagnostic_error, bg = statusColBG }), -- Used for "Error" signs in sign column.
-		DiagnosticSignWarn({ fg = diagnostic_warning, bg = statusColBG }), -- Used for "Warn" signs in sign column.
-		DiagnosticSignInfo({ fg = diagnostic_info, bg = statusColBG }), -- Used for "Info" signs in sign column.
-		DiagnosticSignHint({ fg = diagnostic_hint, bg = statusColBG }), -- Used for "Hint" signs in sign column.
+		DiagnosticError({ fg = diagnostic_error }),
+		DiagnosticWarn({ fg = diagnostic_warning }),
+		DiagnosticInfo({ fg = diagnostic_info }),
+		DiagnosticHint({ fg = diagnostic_hint }),
+		DiagnosticVirtualTextError({ fg = diagnostic_error }),
+		DiagnosticVirtualTextWarn({ fg = diagnostic_warning }),
+		DiagnosticVirtualTextInfo({ fg = diagnostic_info }),
+		DiagnosticVirtualTextHint({ fg = diagnostic_hint }),
+		DiagnosticUnderlineError({ fg = diagnostic_error }),
+		DiagnosticUnderlineWarn({ fg = diagnostic_warning }),
+		DiagnosticUnderlineInfo({ fg = diagnostic_info }),
+		DiagnosticUnderlineHint({ fg = diagnostic_hint }),
+		DiagnosticFloatingError({ fg = diagnostic_error }),
+		DiagnosticFloatingWarn({ fg = diagnostic_warning }),
+		DiagnosticFloatingInfo({ fg = diagnostic_info }),
+		DiagnosticFloatingHint({ fg = diagnostic_hint }),
+		DiagnosticSignError({ fg = diagnostic_error, bg = statusColBG }),
+		DiagnosticSignWarn({ fg = diagnostic_warning, bg = statusColBG }),
+		DiagnosticSignInfo({ fg = diagnostic_info, bg = statusColBG }),
+		DiagnosticSignHint({ fg = diagnostic_hint, bg = statusColBG }),
 
 		-- Tree-Sitter syntax groups.
 		--
@@ -252,51 +197,51 @@ local theme = lush(function(injected_functions)
 		--
 		-- For more information see https://github.com/rktjmp/lush.nvim/issues/109
 
-		-- sym("@text.literal")({ Comment }), -- Comment
-		-- sym("@text.reference")({}), -- Identifier
-		-- sym("@text.title")({}), -- Title
-		-- sym("@text.uri")({}), -- Underlined
-		-- sym("@text.underline")({}), -- Underlined
-		-- sym("@text.todo")({}), -- Todo
-		-- sym("@comment")({}), -- Comment
-		-- sym("@punctuation")({}), -- Delimiter
-		-- sym("@constant")({}), -- Constant
-		-- sym("@constant.builtin")({}), -- Special
-		-- sym("@constant.macro")({}), -- Define
-		-- sym("@define")({}), -- Define
-		-- sym("@macro")({}), -- Macro
-		-- sym("@string")({}), -- String
-		-- sym("@string.escape")({}), -- SpecialChar
-		-- sym("@string.special")({}), -- SpecialChar
-		-- sym("@character")({}), -- Character
-		-- sym("@character.special")({}), -- SpecialChar
-		-- sym("@number")({}), -- Number
-		-- sym("@boolean")({}), -- Boolean
-		-- sym("@float")({}), -- Float
-		-- sym("@function")({}), -- Function
-		-- sym("@function.builtin")({}), -- Special
-		-- sym("@function.macro")({}), -- Macro
-		-- sym("@parameter")({}), -- Identifier
-		-- sym("@method")({}), -- Function
-		-- sym("@field")({}), -- Identifier
-		-- sym("@property")({}), -- Identifier
-		-- sym("@constructor")({}), -- Special
-		-- sym("@conditional")({}), -- Conditional
-		-- sym("@repeat")({}), -- Repeat
-		-- sym("@label")({}), -- Label
-		-- sym("@operator")({}), -- Operator
-		-- sym("@keyword")({}), -- Keyword
-		-- sym("@exception")({}), -- Exception
-		-- sym("@variable")({}), -- Identifier
-		-- sym("@type")({}), -- Type
-		-- sym("@type.definition")({}), -- Typedef
-		-- sym("@storageclass")({}), -- StorageClass
-		-- sym("@structure")({}), -- Structure
-		-- sym("@namespace")({}), -- Identifier
-		-- sym("@include")({}), -- Include
-		-- sym("@preproc")({}), -- PreProc
-		-- sym("@debug")({}), -- Debug
-		-- sym("@tag")({}), -- Tag
+		-- sym("@text.literal")({ Comment }),
+		-- sym("@text.reference")({}),
+		-- sym("@text.title")({}),
+		-- sym("@text.uri")({}),
+		-- sym("@text.underline")({}),
+		-- sym("@text.todo")({}),
+		-- sym("@comment")({}),
+		-- sym("@punctuation")({}),
+		-- sym("@constant")({}),
+		-- sym("@constant.builtin")({}),
+		-- sym("@constant.macro")({}),
+		-- sym("@define")({}),
+		-- sym("@macro")({}),
+		-- sym("@string")({}),
+		-- sym("@string.escape")({}),
+		-- sym("@string.special")({}),
+		-- sym("@character")({}),
+		-- sym("@character.special")({}),
+		-- sym("@number")({}),
+		-- sym("@boolean")({}),
+		-- sym("@float")({}),
+		-- sym("@function")({}),
+		-- sym("@function.builtin")({}),
+		-- sym("@function.macro")({}),
+		-- sym("@parameter")({}),
+		-- sym("@method")({}),
+		-- sym("@field")({}),
+		-- sym("@property")({}),
+		-- sym("@constructor")({}),
+		-- sym("@conditional")({}),
+		-- sym("@repeat")({}),
+		-- sym("@label")({}),
+		-- sym("@operator")({}),
+		-- sym("@keyword")({}),
+		-- sym("@exception")({}),
+		-- sym("@variable")({}),
+		-- sym("@type")({}),
+		-- sym("@type.definition")({}),
+		-- sym("@storageclass")({}),
+		-- sym("@structure")({}),
+		-- sym("@namespace")({}),
+		-- sym("@include")({}),
+		-- sym("@preproc")({}),
+		-- sym("@debug")({}),
+		-- sym("@tag")({}),
 
 		FNoteNormal({ bg = norm_bg.darken(8) }),
 		FNoteEndOfBuffer({ bg = norm_bg.darken(8) }),
@@ -328,9 +273,9 @@ local theme = lush(function(injected_functions)
 
 		BufferFill({ bg = norm_bg.lighten(10) }),
 
-		TabLine({ BufferInactive }), -- Tab pages line, not active tab page label
-		TabLineFill({ BufferFill }), -- Tab pages line, where there are no labels
-		TabLineSel({ BufferCurrent }), -- Tab pages line, active tab page label
+		TabLine({ BufferInactive }),
+		TabLineFill({ BufferFill }),
+		TabLineSel({ BufferCurrent }),
 		-- indent-blankline
 		IndentBlanklineChar({ fg = norm_fg.darken(10) }),
 		IndentBlanklineSpaceChar({ IndentBlanklineChar }),
@@ -408,6 +353,22 @@ local theme = lush(function(injected_functions)
 		StatusColSep({ fg = yellow, bg = statusColBG }),
 
 		TermListCurrent({ fg = norm_bg, bg = yellow }),
+
+		NoiceCmdLine({ bg = norm_bg.lighten(15) }),
+		NoiceCmdlinePopupBorderCalculator({ fg = yellow, bg = norm_bg.lighten(10) }),
+		NoiceCmdlinePopupBorderCmdline({ fg = blue, bg = norm_bg.lighten(10) }),
+		NoiceCmdlinePopupBorderFilter({ fg = red, bg = norm_bg.lighten(10) }),
+		NoiceCmdlinePopupBorderHelp({ fg = green, bg = norm_bg.lighten(10) }),
+		NoiceCmdlinePopupBorderIncRename({ fg = magenta, bg = norm_bg.lighten(10) }),
+		NoiceCmdlinePopupBorderInput({ fg = white, bg = norm_bg.lighten(10) }),
+		NoiceCmdlinePopupBorderLua({ fg = blue, bg = norm_bg.lighten(10) }),
+		NoiceCmdlinePopupBorderSearch({ fg = cyan, bg = norm_bg.lighten(10) }),
+
+		CmpItemAbbrMatch({ fg = blue }),
+
+		DapBreakpoint({ fg = red, bg = statusColBG }),
+		DapLogPoint({ fg = yellow, bg = statusColBG }),
+		DapStopped({ fg = blue, bg = statusColBG }),
 	}
 end)
 
