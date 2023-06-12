@@ -430,7 +430,7 @@ require("lazy").setup({
 					use_libuv_file_watcher = true,
 				},
 				window = {
-					width = 35,
+					width = 40,
 					mappings = {
 						["l"] = "next_source",
 						["h"] = "prev_source",
