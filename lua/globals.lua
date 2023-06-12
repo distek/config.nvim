@@ -79,17 +79,17 @@ vim.o.splitbelow = true
 -- Cursor shape:
 -- Insert - line; Normal - block; Replace - underline
 -- Works with tmux as well
-vim.cmd([[
-    if empty($TMUX)
-        let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-        let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-        let &t_SR = "\<Esc>]50;CursorShape=2\x7"
-    else
-        let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-        let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-        let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
-    endif
-]])
+-- vim.cmd([[
+--     if empty($TMUX)
+--         let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+--         let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+--         let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+--     else
+--         let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+--         let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+--         let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+--     endif
+-- ]])
 
 -- -- netrw Sexplore or Lexplore
 -- vim.cmd([[let g:netrw_winsize = 20]])
@@ -136,33 +136,7 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 	return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
-Border = {
-	{ "🭽", "FloatBorder" },
-
-	{ "☂", "FloatBorder" },
-
-	{ "🭾", "FloatBorder" },
-
-	{ "◼", "FloatBorder" },
-
-	{ "☀", "FloatBorder" },
-
-	{ "☁", "FloatBorder" },
-
-	{ "◿", "FloatBorder" },
-
-	{ "◻", "FloatBorder" },
-}
-
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-	border = Border,
-})
-
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-	border = Border,
-})
-
 vim.diagnostic.config({
 	virtual_text = true,
-	float = { border = Border },
+	float = { border = "shadow" },
 })

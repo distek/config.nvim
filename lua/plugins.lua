@@ -430,7 +430,7 @@ require("lazy").setup({
 					use_libuv_file_watcher = true,
 				},
 				window = {
-					width = 40,
+					width = 35,
 					mappings = {
 						["l"] = "next_source",
 						["h"] = "prev_source",
@@ -457,22 +457,38 @@ require("lazy").setup({
 						end,
 					},
 				},
-				popup_border_style = {
-					{ "🭽", "FloatBorder" },
+				popup_border_style = "shadow",
+				event_handlers = {
+					{
+						event = "neo_tree_buffer_enter",
+						handler = function(arg)
+							vim.cmd([[ setlocal relativenumber ]])
+						end,
+					},
+					{
+						event = "neo_tree_window_after_open",
+						handler = function(arg)
+							local panelWidth = 35
 
-					{ "☂", "FloatBorder" },
+							local offset = math.floor(panelWidth / 2 - #"Neovim") + 2
 
-					{ "🭾", "FloatBorder" },
+							local header = ""
+							for _ = 0, offset do
+								header = header .. " "
+							end
 
-					{ "◼", "FloatBorder" },
+							header = header .. "Neovim"
 
-					{ "☀", "FloatBorder" },
-
-					{ "☁", "FloatBorder" },
-
-					{ "◿", "FloatBorder" },
-
-					{ "◻", "FloatBorder" },
+							require("bufferline.api").set_offset(panelWidth + 1, header)
+							vim.api.nvim_win_set_width(window, panelWidth)
+						end,
+					},
+					{
+						event = "neo_tree_window_after_close",
+						handler = function()
+							require("bufferline.api").set_offset(0, "")
+						end,
+					},
 				},
 			})
 		end,

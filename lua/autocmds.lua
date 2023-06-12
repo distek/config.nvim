@@ -72,13 +72,17 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = {
 		"neo-tree",
-		"Outline",
 	},
 	callback = function(args)
-		vim.defer_fn(function()
-			local wid = vim.fn.bufwinid(args.buf)
-			vim.api.nvim_set_option_value("statuscolumn", "", { scope = "local", win = wid })
-		end, 1)
+		local wid = vim.fn.bufwinid(args.buf)
+		vim.api.nvim_set_option_value(
+			"statuscolumn",
+			get_statuscol({
+				"num",
+				"space",
+			}),
+			{ scope = "local", win = wid }
+		)
 	end,
 })
 
@@ -132,71 +136,5 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
 	pattern = { "*" },
 	callback = function()
 		vim.o.cursorline = false
-	end,
-})
-
-vim.api.nvim_create_autocmd({ "VimResized", "WinEnter", "WinClosed" }, {
-	callback = function()
-		vim.defer_fn(function(ev)
-			local panelWidth = 35
-
-			local offset = math.floor(panelWidth / 2 - #"Neovim") + 2
-
-			local header = ""
-			for _ = 0, offset do
-				header = header .. " "
-			end
-
-			header = header .. "Neovim"
-
-			local exists, window = Util.ifNameExists("neo-tree")
-			if exists then
-				require("bufferline.api").set_offset(panelWidth + 1, header)
-				vim.api.nvim_win_set_width(window, panelWidth)
-			else
-				require("bufferline.api").set_offset(0, "")
-			end
-
-			-- local tp = vim.api.nvim_get_current_tabpage()
-			-- if TF.Term[tp] ~= nil then
-			-- 	TF.Term[tp].window.height = TF.Height
-			-- 	TF.Term[tp].window:update_size()
-			-- end
-		end, 1)
-	end,
-})
-
-vim.api.nvim_create_autocmd({ "WinClosed" }, {
-	callback = function()
-		vim.defer_fn(function()
-			if
-				not vim.bo.filetype == "neo-tree"
-				or not vim.bo.filetype == "Outline"
-				or not vim.bo.filetype == "toggleterm"
-				or not vim.bo.filetype == "termlist"
-			then
-				return
-			end
-
-			local winCount = 0
-			local compCount = 0
-
-			for _, v in ipairs(vim.api.nvim_list_wins()) do
-				if vim.api.nvim_win_get_config(v).relative == "" then
-					local ft = vim.api.nvim_win_call(v, function()
-						return vim.bo.filetype
-					end)
-
-					if ft == "neo-tree" or ft == "toggleterm" or ft == "Outline" or ft == "termlist" then
-						compCount = compCount + 1
-					end
-					winCount = winCount + 1
-				end
-			end
-
-			if winCount == compCount then
-				vim.cmd("qa!")
-			end
-		end, 1)
 	end,
 })
