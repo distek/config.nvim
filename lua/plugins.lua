@@ -651,15 +651,24 @@ require("lazy").setup({
 				end,
 				["clangd"] = function()
 					local capabilities = vim.lsp.protocol.make_client_capabilities()
+
 					capabilities.offsetEncoding = { "utf-16" }
-					require("lspconfig").clangd.setup({
+					capabilities.textDocument.formatting = false
+					capabilities.textDocument.rangeFormatting = false
+					capabilities.textDocument.range_formatting = false
+
+					lspconfig.clangd.setup({
+						cmd = {
+							vim.fn.expand("~/.local/share/nvim/mason/bin/clangd"),
+							"--cross-file-rename",
+						},
 						capabilities = capabilities,
 					})
 				end,
 				["cssls"] = function()
 					local capabilities = vim.lsp.protocol.make_client_capabilities()
 					capabilities.textDocument.completion.completionItem.snippetSupport = true
-					require("lspconfig").cssls.setup({
+					lspconfig.cssls.setup({
 						capabilities = capabilities,
 					})
 				end,
@@ -748,13 +757,17 @@ require("lazy").setup({
 				handlers = {},
 			})
 
-			require("null-ls").setup()
 			local null_ls = require("null-ls")
 
 			local b = null_ls.builtins
 
 			local sources = {
-
+				b.formatting.clang_format.with({
+					extra_args = {
+						"--style",
+						"{UseTab: Always, IndentWidth: 8, TabWidth: 8}",
+					},
+				}),
 				b.formatting.prettierd.with({
 					cwd = require("null-ls.helpers").cache.by_bufnr(function(params)
 						return require("null-ls.utils").root_pattern(
