@@ -17,6 +17,12 @@ local diag_signs_icons = {
 	DiagnosticSignOk = "",
 }
 
+vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DapBreakpoint", numhl = "DapBreakpoint" })
+vim.fn.sign_define("DapBreakpointCondition", { text = "ﳁ", texthl = "DapBreakpoint", numhl = "DapBreakpoint" })
+vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "DapBreakpoint", numhl = "DapBreakpoint" })
+vim.fn.sign_define("DapLogPoint", { text = "", texthl = "DapLogPoint", numhl = "DapLogPoint" })
+vim.fn.sign_define("DapStopped", { text = "", texthl = "DapStopped", linehl = "DapStopped", numhl = "DapStopped" })
+
 local function get_sign_name(cur_sign)
 	if cur_sign == nil then
 		return nil
@@ -49,10 +55,7 @@ end
 
 _G.set_statuscol_breakpoint = function()
 	local mousepos = vim.fn.getmousepos()
-	vim.api.nvim_set_current_win(mousepos.winid)
-	vim.api.nvim_win_set_cursor(0, { mousepos.line, 0 })
-
-	require("dap").toggle_breakpoint()
+	require("dap.breakpoints").toggle({}, vim.api.nvim_win_get_buf(mousepos.winid), mousepos.line)
 end
 
 local function get_name_from_group(bufnum, lnum, group)
@@ -64,14 +67,29 @@ local function get_name_from_group(bufnum, lnum, group)
 	return get_sign_name(cur_sign_tbl)
 end
 
+local function get_breakpoint_signs(bufexpr)
+	if bufexpr then
+		return vim.fn.sign_getplaced(bufexpr, { group = "dap_breakpoints" })
+	end
+	local bufs_with_signs = vim.fn.sign_getplaced()
+	local result = {}
+	for _, buf_signs in ipairs(bufs_with_signs) do
+		buf_signs = vim.fn.sign_getplaced(buf_signs.bufnr, { group = "dap_breakpoints" })[1]
+		if #buf_signs.signs > 0 then
+			table.insert(result, buf_signs)
+		end
+	end
+	return result
+end
+
 _G.get_statuscol_breakpoint = function(bufnr, lnum)
-	local signs = vim.fn.sign_getplaced(bufnr, { group = "dap_breakpoints" })
+	local signs = get_breakpoint_signs(bufnr)
 
 	for _, v in ipairs(signs[1].signs) do
 		if v.lnum == lnum then
 			local sign = vim.fn.sign_getdefined(v.name)[1]
 
-			return mk_hl(sign.texthl, string.gsub(sign.text, "%s+", ""))
+			return mk_hl(sign.numhl, string.gsub(sign.text, "%s+", ""))
 		end
 	end
 
@@ -102,7 +120,7 @@ _G.statuscol_gen_space = function()
 	return mk_hl("SignColumn", " ")
 end
 
-_G.get_statuscol = function()
+_G.get_statuscol = function(order)
 	local str_table = { "%@v:lua.set_statuscol_breakpoint@" }
 
 	local parts = {
@@ -117,26 +135,24 @@ _G.get_statuscol = function()
 		["clear"] = "%#Normal# ",
 	}
 
-	local order = {
-		"gitsigns",
-		"diagnostics",
-		"sep",
-		"breakpoints",
-		"sep",
-		"num",
-		"space",
-		"lastSep",
-		"clear",
-	}
-
 	for _, val in ipairs(order) do
 		table.insert(str_table, parts[val])
 	end
 
-	table.insert(str_table, "%X")
+	table.insert(str_table, "%T")
 
 	return table.concat(str_table)
 end
 
 vim.o.signcolumn = "no"
-vim.o.statuscolumn = _G.get_statuscol()
+vim.o.statuscolumn = _G.get_statuscol({
+	"gitsigns",
+	"diagnostics",
+	"sep",
+	"breakpoints",
+	"sep",
+	"num",
+	"space",
+	"lastSep",
+	"clear",
+})

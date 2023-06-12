@@ -316,11 +316,11 @@ require("lazy").setup({
 					},
 					lualine_b = { "branch", "diff", "diagnostics", "filename" },
 					lualine_c = {
-						-- {
-						-- 	require("noice").api.statusline.mode.get,
-						-- 	cond = require("noice").api.statusline.mode.has,
-						-- 	color = { fg = "#ff9e64" },
-						-- },
+						{
+							require("noice").api.statusline.mode.get,
+							cond = require("noice").api.statusline.mode.has,
+							color = { fg = "#ff9e64" },
+						},
 					},
 					lualine_x = { "encoding", "fileformat", "filetype" },
 					lualine_y = { "progress" },
@@ -597,6 +597,92 @@ require("lazy").setup({
 		end,
 	},
 	-- }}}
+
+	{
+		"folke/noice.nvim", -- {{{
+		event = "VeryLazy",
+		opts = {
+			-- add any options here
+		},
+		dependencies = {
+			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+			"MunifTanjim/nui.nvim",
+			-- OPTIONAL:
+			--   `nvim-notify` is only needed, if you want to use the notification view.
+			--   If not available, we use `mini` as the fallback
+		},
+		config = function()
+			require("noice").setup({
+				lsp = {
+					-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+					override = {
+						["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+						["vim.lsp.util.stylize_markdown"] = true,
+						["cmp.entry.get_documentation"] = true,
+					},
+				},
+				-- you can enable a preset for easier configuration
+				presets = {
+					bottom_search = true, -- use a classic bottom cmdline for search
+				},
+				views = {
+					cmdline_popup = {
+						border = {
+							style = "shadow",
+							padding = { 0, 0 },
+						},
+						win_options = {
+							winhighlight = { Normal = "NoiceCmdLine" },
+						},
+						position = {
+							row = 5,
+							col = "50%",
+						},
+						size = {
+							width = 60,
+							height = "auto",
+						},
+					},
+					popupmenu = {
+						relative = "editor",
+						position = {
+							row = 8,
+							col = "50%",
+						},
+						size = {
+							width = 60,
+							height = 10,
+						},
+						border = {
+							style = "shadow",
+							padding = { 0, 1 },
+						},
+						win_options = {
+							winhighlight = { Normal = "NoiceCmdLine" },
+						},
+					},
+					popup = {
+						border = {
+							style = "shadow",
+							padding = { 0, 1 },
+						},
+						win_options = {
+							winhighlight = { Normal = "NoiceCmdLine" },
+						},
+					},
+					hover = {
+						border = {
+							style = "shadow",
+							padding = { 0, 1 },
+						},
+						win_options = {
+							winhighlight = { Normal = "NoiceCmdLine" },
+						},
+					},
+				},
+			})
+		end,
+	}, -- }}}
 	-- }}}
 
 	-- Filetypes{{{
@@ -995,6 +1081,16 @@ require("lazy").setup({
 					{ name = "calc" },
 					{ name = "dictionary" },
 				}),
+				window = {
+					completion = {
+						winhighlight = "Normal:NoiceCmdLine,FloatBorder:FloatBorder,CursorLine:Visual",
+						border = "shadow",
+					},
+					documentation = {
+						winhighlight = "Normal:NoiceCmdLine,FloatBorder:FloatBorder,CursorLine:Visual",
+						border = "shadow",
+					},
+				},
 			})
 
 			require("cmp").setup.cmdline(":", {
