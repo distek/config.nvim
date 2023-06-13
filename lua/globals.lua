@@ -98,7 +98,7 @@ vim.g.netrw_banner = 0
 vim.g.netrw_liststyle = 3
 vim.g.netrw_hide = 0
 
--- Disabled builtins {{{
+-- Disabled builtins
 -- Improves startup time just ever so slightly
 local disabled_built_ins = {
 	-- Need netrw for certain things, like remote editing
@@ -125,7 +125,6 @@ local disabled_built_ins = {
 for _, plugin in pairs(disabled_built_ins) do
 	vim.g["loaded_" .. plugin] = 1
 end
---}}}
 
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)

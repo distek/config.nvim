@@ -3,8 +3,7 @@ if vim.g.vscode then
 else
 	require("plugins")
 	require("util")
-	require("themes")
-	require("statuscolumn")
+	require("ui")
 	require("globals")
 	require("autocmds")
 	require("mappings")

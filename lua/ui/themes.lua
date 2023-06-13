@@ -1,7 +1,7 @@
 Themes = {}
 
 Themes["lush"] = function()
-	require("themes-lush")
+	require("ui.themes-lush")
 end
 
 Themes["tokyodark"] = function()

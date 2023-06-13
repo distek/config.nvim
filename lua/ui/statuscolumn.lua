@@ -145,6 +145,7 @@ _G.get_statuscol = function(order)
 end
 
 vim.o.signcolumn = "no"
+
 vim.o.statuscolumn = _G.get_statuscol({
 	"gitsigns",
 	"diagnostics",
