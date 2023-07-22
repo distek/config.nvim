@@ -84,13 +84,7 @@ return {
 						},
 					},
 					lualine_b = { "branch", "diff", "diagnostics", "filename" },
-					lualine_c = {
-						{
-							require("noice").api.statusline.mode.get,
-							cond = require("noice").api.statusline.mode.has,
-							color = { fg = "#ff9e64" },
-						},
-					},
+					lualine_c = {},
 					lualine_x = { "encoding", "fileformat", "filetype" },
 					lualine_y = { "progress" },
 					lualine_z = {
@@ -181,7 +175,7 @@ return {
 
 	{
 		"nvim-neo-tree/neo-tree.nvim",
-		branch = "v2.x",
+		branch = "v3.x",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
@@ -194,7 +188,9 @@ return {
 					statusline = false,
 				},
 				filesystem = {
-					follow_current_file = true,
+					follow_current_file = {
+						enabled = true,
+					},
 					use_libuv_file_watcher = true,
 				},
 				window = {
@@ -205,7 +201,9 @@ return {
 					},
 				},
 				buffers = {
-					follow_current_file = true,
+					follow_current_file = {
+						enabled = true,
+					},
 				},
 				git_status = {
 					window = {
@@ -225,7 +223,7 @@ return {
 						end,
 					},
 				},
-				popup_border_style = "shadow",
+				use_popups_for_input = false,
 				event_handlers = {
 					{
 						event = "neo_tree_buffer_enter",
@@ -277,7 +275,7 @@ return {
 	},
 
 	{
-		"distek/zen-mode.nvim",
+		"folke/zen-mode.nvim",
 		-- dir = "~/Programming/neovim-plugs/zen-mode.nvim",
 		cmd = "ZenMode",
 		config = function()
@@ -371,92 +369,6 @@ return {
 			require("telescope").load_extension("git_worktree")
 			require("telescope").load_extension("ui-select")
 			-- require("telescope").load_extension("termfinder")
-		end,
-	},
-
-	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		opts = {
-			-- add any options here
-		},
-		dependencies = {
-			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-			"MunifTanjim/nui.nvim",
-			-- OPTIONAL:
-			--   `nvim-notify` is only needed, if you want to use the notification view.
-			--   If not available, we use `mini` as the fallback
-		},
-		config = function()
-			require("noice").setup({
-				lsp = {
-					-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-					override = {
-						["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-						["vim.lsp.util.stylize_markdown"] = true,
-						["cmp.entry.get_documentation"] = true,
-					},
-				},
-				-- you can enable a preset for easier configuration
-				presets = {
-					bottom_search = true, -- use a classic bottom cmdline for search
-				},
-				views = {
-					cmdline_popup = {
-						border = {
-							style = "shadow",
-							padding = { 0, 0 },
-						},
-						win_options = {
-							winhighlight = { Normal = "NoiceCmdLine" },
-						},
-						position = {
-							row = 5,
-							col = "50%",
-						},
-						size = {
-							width = 60,
-							height = "auto",
-						},
-					},
-					popupmenu = {
-						relative = "editor",
-						position = {
-							row = 8,
-							col = "50%",
-						},
-						size = {
-							width = 60,
-							height = 10,
-						},
-						border = {
-							style = "shadow",
-							padding = { 0, 1 },
-						},
-						win_options = {
-							winhighlight = { Normal = "NoiceCmdLine" },
-						},
-					},
-					popup = {
-						border = {
-							style = "shadow",
-							padding = { 0, 1 },
-						},
-						win_options = {
-							winhighlight = { Normal = "NoiceCmdLine" },
-						},
-					},
-					hover = {
-						border = {
-							style = "shadow",
-							padding = { 0, 1 },
-						},
-						win_options = {
-							winhighlight = { Normal = "NoiceCmdLine" },
-						},
-					},
-				},
-			})
 		end,
 	},
 }

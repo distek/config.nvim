@@ -89,9 +89,8 @@ return {
 	{ "norcalli/nvim-colorizer.lua", cmd = "ColorizerToggle", event = "VeryLazy" },
 
 	{
-		"distek/colorful-winsep.nvim",
+		"nvim-zh/colorful-winsep.nvim",
 		-- dir = "~/git-clones/colorful-winsep.nvim",
-		branch = "fix-highlight",
 		event = "VeryLazy",
 		config = function()
 			require("colorful-winsep").setup({

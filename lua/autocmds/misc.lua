@@ -2,7 +2,11 @@
 vim.api.nvim_create_autocmd("BufReadPost", {
 	pattern = { "*" },
 	callback = function()
-		Util.line_return()
+		local line = vim.fn.line
+
+		if line("'\"") > 0 and line("'\"") <= line("$") then
+			vim.cmd("normal! g`\"zvzz'")
+		end
 	end,
 })
 

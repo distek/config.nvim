@@ -49,6 +49,7 @@ return {
 							vim.fn.expand("~/.local/share/nvim/mason/bin/clangd"),
 							"--cross-file-rename",
 						},
+						filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
 						capabilities = capabilities,
 					})
 				end,
@@ -69,6 +70,13 @@ return {
 					table.insert(runtime_path, "lua/?.lua")
 					table.insert(runtime_path, "lua/?/init.lua")
 
+					local library = vim.api.nvim_get_runtime_file("", true)
+
+					table.insert(
+						library,
+						"/Users/jacob_fralick/.local/share/nvim/mason/packages/lua-language-server/libexec/meta/5393ac01"
+					)
+
 					lspconfig.lua_ls.setup({
 						settings = {
 							Lua = {
@@ -84,7 +92,7 @@ return {
 								},
 								workspace = {
 									-- Make the server aware of Neovim runtime files
-									library = vim.api.nvim_get_runtime_file("", true),
+									library = library,
 									checkThirdParty = false,
 								},
 								-- Do not send telemetry data containing a randomized but unique identifier
@@ -111,6 +119,8 @@ return {
 					capabilitiesWithoutFomatting.textDocument.formatting = false
 					capabilitiesWithoutFomatting.textDocument.rangeFormatting = false
 					capabilitiesWithoutFomatting.textDocument.range_formatting = false
+					capabilitiesWithoutFomatting.documentFormattingProvider = false
+					capabilitiesWithoutFomatting.documentRangeFormattingProvider = false
 
 					lspconfig.tsserver.setup({
 						capabilities = capabilitiesWithoutFomatting,
@@ -220,6 +230,7 @@ return {
 			"hrsh7th/vim-vsnip",
 			"rafamadriz/friendly-snippets",
 			"honza/vim-snippets",
+			"hrsh7th/cmp-nvim-lsp-signature-help",
 		},
 		event = { "InsertEnter", "CmdlineEnter" },
 		config = function()
@@ -288,6 +299,7 @@ return {
 					{ name = "path" },
 					{ name = "calc" },
 					{ name = "dictionary" },
+					{ name = "nvim_lsp_signature_help" },
 				}),
 				window = {
 					completion = {
@@ -404,34 +416,34 @@ return {
 				},
 				lsp_blacklist = {},
 				symbol_blacklist = {},
-				symbols = {
-					File = { icon = "", hl = "TSURI" },
-					Module = { icon = "", hl = "TSNamespace" },
-					Namespace = { icon = "", hl = "TSNamespace" },
-					Package = { icon = "", hl = "TSNamespace" },
-					Class = { icon = "𝓒", hl = "TSType" },
-					Method = { icon = "ƒ", hl = "TSMethod" },
-					Property = { icon = "", hl = "TSMethod" },
-					Field = { icon = "", hl = "TSField" },
-					Constructor = { icon = "", hl = "TSConstructor" },
-					Enum = { icon = "ℰ", hl = "TSType" },
-					Interface = { icon = "ﰮ", hl = "TSType" },
-					Function = { icon = "", hl = "TSFunction" },
-					Variable = { icon = "", hl = "TSConstant" },
-					Constant = { icon = "", hl = "TSConstant" },
-					String = { icon = "𝓐", hl = "TSString" },
-					Number = { icon = "#", hl = "TSNumber" },
-					Boolean = { icon = "⊨", hl = "TSBoolean" },
-					Array = { icon = "", hl = "TSConstant" },
-					Object = { icon = "⦿", hl = "TSType" },
-					Key = { icon = "🔐", hl = "TSType" },
-					Null = { icon = "NULL", hl = "TSType" },
-					EnumMember = { icon = "", hl = "TSField" },
-					Struct = { icon = "𝓢", hl = "TSType" },
-					Event = { icon = "🗲", hl = "TSType" },
-					Operator = { icon = "+", hl = "TSOperator" },
-					TypeParameter = { icon = "𝙏", hl = "TSParameter" },
-				},
+				-- symbols = {
+				-- 	File = { icon = "", hl = "TSURI" },
+				-- 	Module = { icon = "", hl = "TSNamespace" },
+				-- 	Namespace = { icon = "", hl = "TSNamespace" },
+				-- 	Package = { icon = "", hl = "TSNamespace" },
+				-- 	Class = { icon = "𝓒", hl = "TSType" },
+				-- 	Method = { icon = "ƒ", hl = "TSMethod" },
+				-- 	Property = { icon = "", hl = "TSMethod" },
+				-- 	Field = { icon = "", hl = "TSField" },
+				-- 	Constructor = { icon = "", hl = "TSConstructor" },
+				-- 	Enum = { icon = "ℰ", hl = "TSType" },
+				-- 	Interface = { icon = "ﰮ", hl = "TSType" },
+				-- 	Function = { icon = "", hl = "TSFunction" },
+				-- 	Variable = { icon = "", hl = "TSConstant" },
+				-- 	Constant = { icon = "", hl = "TSConstant" },
+				-- 	String = { icon = "𝓐", hl = "TSString" },
+				-- 	Number = { icon = "#", hl = "TSNumber" },
+				-- 	Boolean = { icon = "⊨", hl = "TSBoolean" },
+				-- 	Array = { icon = "", hl = "TSConstant" },
+				-- 	Object = { icon = "⦿", hl = "TSType" },
+				-- 	Key = { icon = "🔐", hl = "TSType" },
+				-- 	Null = { icon = "NULL", hl = "TSType" },
+				-- 	EnumMember = { icon = "", hl = "TSField" },
+				-- 	Struct = { icon = "𝓢", hl = "TSType" },
+				-- 	Event = { icon = "🗲", hl = "TSType" },
+				-- 	Operator = { icon = "+", hl = "TSOperator" },
+				-- 	TypeParameter = { icon = "𝙏", hl = "TSParameter" },
+				-- },
 			})
 		end,
 	},
