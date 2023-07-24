@@ -27,11 +27,6 @@ map("v", "<leader>cm", "<Plug>ContextCommentary", { desc = "Comment line(s)" })
 -- Telescope file browser
 map("n", "<leader>aa", "<cmd>Telescope file_browser path=%:p:h hidden=true<CR>", { desc = "File browser" })
 
--- neo-tree
-map("n", "<leader>ad", "<cmd>Neotree toggle<CR>", { desc = "Toggle explorer panel" })
-
-map("n", "<leader>af", "<cmd>SymbolsOutline<CR>", { desc = "Toggle outline panel" })
-
 -- refactoring.nvim
 map(
 	"v",
@@ -90,6 +85,18 @@ map("n", "<A-n>", require("fnote").toggle)
 -- Shift block
 map("v", "<C-K>", "xkP`[V`]")
 map("v", "<C-J>", "xp`[V`]")
+
+map("n", "<leader>as", function()
+	require("edgy").toggle("bottom")
+end, { desc = "Bottom panel" })
+map("n", "<leader>ad", function()
+	require("edgy").toggle("left")
+end, { desc = "Left panel" })
+
+-- neo-tree
+-- map("n", "<leader>ad", "<cmd>Neotree toggle<CR>", { desc = "Toggle explorer panel" })
+
+map("n", "<leader>af", "<cmd>SymbolsOutline<CR>", { desc = "Toggle outline panel" })
 
 -- Fuck q:
 -- https://www.reddit.com/r/neovim/comments/lizyxj/how_to_get_rid_of_q/

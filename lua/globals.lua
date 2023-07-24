@@ -67,7 +67,9 @@ vim.o.wrap = true
 
 vim.opt.shortmess:append("I")
 
-vim.cmd([[set sessionoptions-=blank]])
+vim.o.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions"
+
+vim.opt.splitkeep = "screen"
 
 vim.o.swapfile = false
 vim.o.undodir = os.getenv("HOME") .. "/.cache/nvim/undodir"

@@ -184,7 +184,7 @@ return {
 		config = function()
 			require("neo-tree").setup({
 				source_selector = {
-					winbar = true,
+					winbar = false,
 					statusline = false,
 				},
 				filesystem = {
@@ -194,11 +194,10 @@ return {
 					use_libuv_file_watcher = true,
 				},
 				window = {
-					width = 40,
-					mappings = {
-						["l"] = "next_source",
-						["h"] = "prev_source",
-					},
+					-- mappings = {
+					-- 	["l"] = "next_source",
+					-- 	["h"] = "prev_source",
+					-- },
 				},
 				buffers = {
 					follow_current_file = {
@@ -224,35 +223,39 @@ return {
 					},
 				},
 				use_popups_for_input = false,
+				open_files_do_not_replace_types = { "terminal", "Trouble", "qf", "Outline", "edgy" },
 				event_handlers = {
 					{
 						event = "neo_tree_buffer_enter",
 						handler = function(arg)
-							vim.cmd([[ setlocal relativenumber ]])
+							-- vim.cmd([[ setlocal relativenumber ]])
+							vim.opt_local.statuscolumn = ""
+							vim.opt_local.signcolumn = "no"
 						end,
 					},
 					{
 						event = "neo_tree_window_after_open",
 						handler = function(arg)
-							vim.api.nvim_set_option_value(
-								"statuscolumn",
-								get_statuscol({
-									"num",
-									"space",
-								}),
-								{ scope = "local", win = arg.winid }
-							)
+							vim.opt_local.statuscolumn = ""
+							-- vim.api.nvim_set_option_value(
+							-- 	"statuscolumn",
+							-- 	get_statuscol({
+							-- 		"num",
+							-- 		"space",
+							-- 	}),
+							-- 	{ scope = "local", win = arg.winid }
+							-- )
 
-							local panelWidth = 35
+							local panelWidth = 30
 
 							local offset = math.floor(panelWidth / 2 - #"Neovim") + 2
 
-							local header = ""
-							for _ = 0, offset do
-								header = header .. " "
-							end
+							-- local header = ""
+							-- for _ = 0, offset do
+							-- 	header = header .. " "
+							-- end
 
-							header = header .. "Neovim"
+							-- header = header .. "Neovim"
 
 							require("bufferline.api").set_offset(panelWidth + 1, header)
 							vim.api.nvim_win_set_width(arg.winid, panelWidth)
@@ -369,6 +372,134 @@ return {
 			require("telescope").load_extension("git_worktree")
 			require("telescope").load_extension("ui-select")
 			-- require("telescope").load_extension("termfinder")
+		end,
+	},
+	{
+		"folke/edgy.nvim",
+		event = "VeryLazy",
+		opts = {
+			options = {
+				left = { size = 35 },
+				bottom = { size = 15 },
+				right = { size = 35 },
+			},
+			exit_when_last = true,
+			wo = {
+				-- Setting to `true`, will add an edgy winbar.
+				-- Setting to `false`, won't set any winbar.
+				-- Setting to a string, will set the winbar to that string.
+				winbar = true,
+				winfixwidth = true,
+				winfixheight = true,
+				winhighlight = "WinBar:EdgyWinBar,Normal:EdgyNormal",
+				spell = false,
+				signcolumn = "no",
+				statuscolumn = "",
+				number = false,
+				relativenumber = false,
+			},
+			keys = {
+				["q"] = function(win)
+					win:hide()
+				end,
+				["<c-q>"] = false,
+				["Q"] = false,
+				["]w"] = false,
+				["[w"] = false,
+				["]W"] = false,
+				["[W"] = false,
+				["<c-w>>"] = false,
+				["<c-w><lt>"] = false,
+				["<c-w>+"] = false,
+				["<c-w>-"] = false,
+				["<c-w>"] = false,
+				["<a-c-j>"] = function(win)
+					win:resize("height", 1)
+				end,
+				["<a-c-k>"] = function(win)
+					win:resize("height", -2)
+				end,
+				["<a-c-h>"] = function(win)
+					win:resize("width", 2)
+				end,
+				-- decrease width
+				["<a-c-l>"] = function(win)
+					win:resize("width", -2)
+				end,
+			},
+			animate = {
+				enabled = false,
+			},
+			bottom = {
+				{
+					ft = "toggleterm",
+					size = { height = 0.15 },
+					filter = function(buf, win)
+						return vim.api.nvim_win_get_config(win).relative == ""
+					end,
+					pinned = true,
+					open = "ToggleTerm",
+				},
+				{ ft = "qf", title = "QuickFix" },
+				"Trouble",
+				{
+					ft = "help",
+					size = { height = 15 },
+					filter = function(buf)
+						return vim.bo[buf].buftype == "help"
+					end,
+				},
+			},
+			left = {
+				{
+					title = "Buffers",
+					ft = "neo-tree",
+					size = { height = 0.15 },
+					filter = function(buf)
+						return vim.b[buf].neo_tree_source == "buffers"
+					end,
+					pinned = true,
+					visible = true,
+					wo = {
+						height = "15",
+					},
+					open = "Neotree action=show source=buffers position=right",
+				},
+				{
+					title = "File Tree",
+					ft = "neo-tree",
+					size = { height = 0.85 },
+					visible = true,
+					filter = function(buf)
+						return vim.b[buf].neo_tree_source == "filesystem"
+					end,
+					pinned = true,
+					open = "Neotree filesystem",
+				},
+			},
+			right = {
+				{
+					ft = "Outline",
+					visible = false,
+					size = { height = 0.25 },
+					pinned = true,
+					open = "SymbolsOutlineOpen",
+				},
+			},
+			fix_win_height = true,
+		},
+	},
+	{ "folke/trouble.nvim" },
+	{
+		"akinsho/toggleterm.nvim",
+		config = function()
+			require("toggleterm").setup({
+				shell = "tt-wrapper",
+
+				persist_size = true,
+				persist_mode = true,
+				close_on_exit = true,
+			})
 		end,
 	},
 }

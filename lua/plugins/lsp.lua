@@ -382,7 +382,7 @@ return {
 
 	{
 		"simrat39/symbols-outline.nvim",
-		event = "InsertEnter",
+		event = "VeryLazy",
 		config = function()
 			require("symbols-outline").setup({
 				highlight_hovered_item = true,

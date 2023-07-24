@@ -5,6 +5,7 @@ return {
 			require("auto-session").setup({
 				log_level = "error",
 				auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+				bypass_session_save_file_types = { "toggleterm" },
 			})
 		end,
 	},
@@ -97,7 +98,7 @@ return {
 				-- symbols = { "█", "█", "█", "█", "█", "█" },
 				symbols = { "━", "┃", "┏", "┓", "┗", "┛" },
 
-				no_exec_files = { "lazy", "TelescopePrompt", "mason", "neo-tree", "" },
+				no_exec_files = { "lazy", "TelescopePrompt", "mason", "" },
 				create_event = function()
 					if vim.api.nvim_win_get_config(vim.api.nvim_get_current_win()).relative == "editor" then
 						require("colorful-winsep").NvimSeparatorDel()
@@ -132,4 +133,6 @@ return {
 	{ "Shatur/neovim-ayu", event = "VeryLazy" },
 
 	{ "rktjmp/lush.nvim" },
+
+	{ "ray-x/guihua.lua" },
 }
