@@ -16,8 +16,6 @@ vim.api.nvim_create_autocmd("FileType", {
 		"toggleterm",
 		"gitcommit",
 		"qf",
-		"neo-tree",
-		"edgy",
 	},
 	callback = function()
 		vim.opt_local.number = false

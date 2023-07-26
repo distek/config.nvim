@@ -8,3 +8,37 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 	group = "Terminal",
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "toggleterm" },
+	callback = function()
+		vim.cmd([[startinsert]])
+	end,
+	group = "Terminal",
+})
+
+vim.api.nvim_create_autocmd("TermOpen", {
+	pattern = { "*" },
+	callback = function()
+		vim.opt_local.number = false
+		vim.opt_local.relativenumber = false
+		vim.opt_local.wrap = true
+		vim.opt_local.list = false
+		vim.opt_local.signcolumn = "no"
+		vim.opt_local.statuscolumn = ""
+		vim.cmd([[startinsert]])
+	end,
+	group = "Terminal",
+})
+
+vim.api.nvim_create_autocmd("WinEnter", {
+	pattern = { "*" },
+	callback = function(ev)
+		if vim.api.nvim_buf_is_valid(ev.buf) then
+			if vim.bo[ev.buf].buftype == "terminal" then
+				vim.cmd([[startinsert]])
+			end
+		end
+	end,
+	group = "Terminal",
+})

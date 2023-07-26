@@ -86,17 +86,16 @@ map("n", "<A-n>", require("fnote").toggle)
 map("v", "<C-K>", "xkP`[V`]")
 map("v", "<C-J>", "xp`[V`]")
 
+-- Edgy
 map("n", "<leader>as", function()
 	require("edgy").toggle("bottom")
 end, { desc = "Bottom panel" })
 map("n", "<leader>ad", function()
 	require("edgy").toggle("left")
 end, { desc = "Left panel" })
-
--- neo-tree
--- map("n", "<leader>ad", "<cmd>Neotree toggle<CR>", { desc = "Toggle explorer panel" })
-
-map("n", "<leader>af", "<cmd>SymbolsOutline<CR>", { desc = "Toggle outline panel" })
+map("n", "<leader>af", function()
+	require("edgy").toggle("right")
+end, { desc = "Right panel" })
 
 -- Fuck q:
 -- https://www.reddit.com/r/neovim/comments/lizyxj/how_to_get_rid_of_q/

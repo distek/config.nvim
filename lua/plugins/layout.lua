@@ -246,7 +246,7 @@ return {
 							-- 	{ scope = "local", win = arg.winid }
 							-- )
 
-							local panelWidth = 30
+							local panelWidth = 35
 
 							local offset = math.floor(panelWidth / 2 - #"Neovim") + 2
 
@@ -438,7 +438,11 @@ return {
 						return vim.api.nvim_win_get_config(win).relative == ""
 					end,
 					pinned = true,
-					open = "ToggleTerm",
+					open = "lua require('tt.terminal'):NewTerminal()",
+				},
+				{
+					ft = "termlist",
+					size = { height = 0.15, width = 25 },
 				},
 				{ ft = "qf", title = "QuickFix" },
 				"Trouble",
@@ -491,15 +495,26 @@ return {
 	},
 	{ "folke/trouble.nvim" },
 	{
-		"akinsho/toggleterm.nvim",
+		"distek/tt.nvim",
 		config = function()
-			require("toggleterm").setup({
-				shell = "tt-wrapper",
+			require("tt").setup({
+				focus_on_select = true,
+				termlist = {
+					enabled = true,
+					side = "right",
+					width = 25,
+				},
+				winbar = {
+					tabs = false,
+					list = false,
+				},
 
-				persist_size = true,
-				persist_mode = true,
-				close_on_exit = true,
+				fixed_height = false,
+				fixed_width = false, -- handled by edgy
+				height = 15,
 			})
 		end,
+		-- dir = "~/Programming/neovim-plugs/tt2.nvim",
+		-- dev = false,
 	},
 }
