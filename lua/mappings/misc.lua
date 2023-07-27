@@ -90,12 +90,37 @@ map("v", "<C-J>", "xp`[V`]")
 map("n", "<leader>as", function()
 	require("edgy").toggle("bottom")
 end, { desc = "Bottom panel" })
+
+map("t", "<localleader>as", function()
+	require("edgy").toggle("bottom")
+end, { desc = "Bottom panel" })
+
 map("n", "<leader>ad", function()
 	require("edgy").toggle("left")
 end, { desc = "Left panel" })
+
 map("n", "<leader>af", function()
 	require("edgy").toggle("right")
 end, { desc = "Right panel" })
+
+-- Toggleterm
+map("t", "<A-Tab>", function()
+	require("tt.terminal"):FocusNext()
+end, { desc = "Focus next terminal" })
+
+map("t", "<A-S-Tab>", function()
+	require("tt.terminal"):FocusPrevious()
+end, { desc = "Focus previous terminal" })
+
+map("n", "<A-Tab>", function()
+    require("tt"):IsOpen()
+	require("tt.terminal"):FocusNext()
+end, { desc = "Focus next terminal" })
+
+map("n", "<A-S-Tab>", function()
+    require("tt"):IsOpen()
+	require("tt.terminal"):FocusPrevious()
+end, { desc = "Focus previous terminal" })
 
 -- Fuck q:
 -- https://www.reddit.com/r/neovim/comments/lizyxj/how_to_get_rid_of_q/

@@ -9,10 +9,10 @@ map("n", "<S-Tab>", function()
 end)
 
 -- move buffers
-map("n", "<A-Tab>", function()
+map("n", "<A->>", function()
 	vim.cmd("BufferMoveNext")
 end)
-map("n", "<A-S-Tab>", function()
+map("n", "<A-<>", function()
 	vim.cmd("BufferMovePrevious")
 end)
 

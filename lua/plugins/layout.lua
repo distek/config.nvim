@@ -228,7 +228,6 @@ return {
 					{
 						event = "neo_tree_buffer_enter",
 						handler = function(arg)
-							-- vim.cmd([[ setlocal relativenumber ]])
 							vim.opt_local.statuscolumn = ""
 							vim.opt_local.signcolumn = "no"
 						end,
@@ -237,34 +236,6 @@ return {
 						event = "neo_tree_window_after_open",
 						handler = function(arg)
 							vim.opt_local.statuscolumn = ""
-							-- vim.api.nvim_set_option_value(
-							-- 	"statuscolumn",
-							-- 	get_statuscol({
-							-- 		"num",
-							-- 		"space",
-							-- 	}),
-							-- 	{ scope = "local", win = arg.winid }
-							-- )
-
-							local panelWidth = 35
-
-							local offset = math.floor(panelWidth / 2 - #"Neovim") + 2
-
-							-- local header = ""
-							-- for _ = 0, offset do
-							-- 	header = header .. " "
-							-- end
-
-							-- header = header .. "Neovim"
-
-							require("bufferline.api").set_offset(panelWidth + 1, header)
-							vim.api.nvim_win_set_width(arg.winid, panelWidth)
-						end,
-					},
-					{
-						event = "neo_tree_window_after_close",
-						handler = function()
-							require("bufferline.api").set_offset(0, "")
 						end,
 					},
 				},
@@ -330,10 +301,18 @@ return {
 		dependencies = "nvim-tree/nvim-web-devicons",
 		opts = {
 			animation = false,
-			insert_at_end = false,
 			no_name_title = "-empty-",
+			exclude_ft = {
+				"toggleterm",
+				"termlist",
+				"qf",
+			},
+			focus_on_close = "left",
+			insert_at_end = true,
+			-- sidebar_filetypes = {
+			-- 	["neo-tree"] = { event = "BufWipeout" },
+			-- },
 		},
-		version = "^1.0.0", -- optional: only update when a new 1.x version is released
 	},
 
 	{
@@ -430,29 +409,30 @@ return {
 			animate = {
 				enabled = false,
 			},
+			top = {
+				{ ft = "qf", title = "QuickFix" },
+			},
 			bottom = {
 				{
 					ft = "toggleterm",
 					size = { height = 0.15 },
-					filter = function(buf, win)
-						return vim.api.nvim_win_get_config(win).relative == ""
-					end,
 					pinned = true,
-					open = "lua require('tt.terminal'):NewTerminal()",
+					open = function()
+						local t = require("tt")
+
+						if t:IsOpen() then
+							t.terminal:Close()
+							return
+						end
+
+						t.terminal:Open("last")
+					end,
 				},
 				{
 					ft = "termlist",
 					size = { height = 0.15, width = 25 },
 				},
-				{ ft = "qf", title = "QuickFix" },
 				"Trouble",
-				{
-					ft = "help",
-					size = { height = 15 },
-					filter = function(buf)
-						return vim.bo[buf].buftype == "help"
-					end,
-				},
 			},
 			left = {
 				{
@@ -489,16 +469,23 @@ return {
 					pinned = true,
 					open = "SymbolsOutlineOpen",
 				},
+				{
+					ft = "help",
+					size = { width = 79 },
+					filter = function(buf)
+						return vim.bo[buf].buftype == "help"
+					end,
+				},
 			},
 			fix_win_height = true,
 		},
 	},
 	{ "folke/trouble.nvim" },
 	{
-		"distek/tt.nvim",
+		-- "distek/tt.nvim",
 		config = function()
 			require("tt").setup({
-				focus_on_select = true,
+				focus_on_select = false,
 				termlist = {
 					enabled = true,
 					side = "right",
@@ -512,9 +499,12 @@ return {
 				fixed_height = false,
 				fixed_width = false, -- handled by edgy
 				height = 15,
+
+				post_cb = function(win, term)
+					_G.edgy_winbar(win)
+				end,
 			})
 		end,
-		-- dir = "~/Programming/neovim-plugs/tt2.nvim",
-		-- dev = false,
+		dir = "~/Programming/neovim-plugs/tt2.nvim",
 	},
 }
