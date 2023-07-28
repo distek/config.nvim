@@ -35,6 +35,7 @@ return {
 			require("mason-lspconfig").setup_handlers({
 				function(server_name)
 					lspconfig[server_name].setup({})
+					require("lsp_signature").on_attach()
 				end,
 				["clangd"] = function()
 					local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -230,7 +231,6 @@ return {
 			"hrsh7th/vim-vsnip",
 			"rafamadriz/friendly-snippets",
 			"honza/vim-snippets",
-			"hrsh7th/cmp-nvim-lsp-signature-help",
 		},
 		event = { "InsertEnter", "CmdlineEnter" },
 		config = function()
@@ -299,7 +299,6 @@ return {
 					{ name = "path" },
 					{ name = "calc" },
 					{ name = "dictionary" },
-					{ name = "nvim_lsp_signature_help" },
 				}),
 				window = {
 					completion = {
@@ -445,6 +444,14 @@ return {
 				-- 	TypeParameter = { icon = "𝙏", hl = "TSParameter" },
 				-- },
 			})
+		end,
+	},
+
+	{
+		"ray-x/lsp_signature.nvim",
+		event = "InsertEnter",
+		config = function()
+			require("lsp_signature").setup()
 		end,
 	},
 }
