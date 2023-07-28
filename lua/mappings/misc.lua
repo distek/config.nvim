@@ -113,18 +113,20 @@ map("t", "<A-S-Tab>", function()
 end, { desc = "Focus previous terminal" })
 
 map("n", "<A-Tab>", function()
-    require("tt"):IsOpen()
-	require("tt.terminal"):FocusNext()
+	if require("tt"):IsOpen() then
+		require("tt.terminal"):FocusNext()
+	end
 end, { desc = "Focus next terminal" })
 
 map("n", "<A-S-Tab>", function()
-    require("tt"):IsOpen()
-	require("tt.terminal"):FocusPrevious()
+	if require("tt"):IsOpen() then
+		require("tt.terminal"):FocusPrevious()
+	end
 end, { desc = "Focus previous terminal" })
 
 -- Fuck q:
 -- https://www.reddit.com/r/neovim/comments/lizyxj/how_to_get_rid_of_q/
--- wont work if you take too long to do perform the action, but that's fine
+-- won't work if you take too long to do perform the action, but that's fine
 map("n", "q:", "<nop>")
 
 vim.api.nvim_create_user_command("Q", function(args)

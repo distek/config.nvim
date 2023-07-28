@@ -257,7 +257,7 @@ return {
 				window = {
 					backdrop = 0.75,
 					width = 120,
-					height = 1, -- >1 dicates height of the actual window
+					height = 1, -- >1 dictates height of the actual window
 				},
 				plugins = {
 					options = {
@@ -482,7 +482,7 @@ return {
 	},
 	{ "folke/trouble.nvim" },
 	{
-		-- "distek/tt.nvim",
+		"distek/tt.nvim",
 		config = function()
 			require("tt").setup({
 				focus_on_select = false,
@@ -505,6 +505,5 @@ return {
 				end,
 			})
 		end,
-		dir = "~/Programming/neovim-plugs/tt2.nvim",
 	},
 }
