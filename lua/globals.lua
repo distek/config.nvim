@@ -43,9 +43,8 @@ vim.opt.fillchars = {
 	eob = " ",
 }
 
--- Vimterm = vim.fn.expand("~/.config/nvim/vimterm.sh")
--- vim.o.shell = Vimterm
-vim.o.shell = os.getenv("SHELL")
+-- vim.o.shell = os.getenv("SHELL")
+vim.o.shell = vim.fn.expand("~/.config/nvim/contrib/vimterm.sh")
 Vimterm = vim.o.shell
 vim.o.shiftwidth = 4
 vim.o.showbreak = "└►"
