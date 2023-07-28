@@ -410,7 +410,12 @@ return {
 				enabled = false,
 			},
 			top = {
-				{ ft = "qf", title = "QuickFix" },
+				{
+					ft = "qf",
+					title = "QuickFix",
+					pinned = true,
+					open = ":copen",
+				},
 			},
 			bottom = {
 				{

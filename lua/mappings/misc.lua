@@ -138,3 +138,10 @@ end, { bang = true })
 
 -- AmBiGuOuS UsE oF UsEr-dEfInEd cOmMaNd
 vim.api.nvim_create_user_command("W", "w", {})
+
+-- manual qf
+map("n", "<leader>qa", "<cmd>lua Util.addToQF()<cr>", { desc = "Add line to quickfix list" })
+map("n", "<leader>qd", "<cmd>lua Util.delFromQF()<cr>", { desc = "Delete line from quickfix list" })
+map("n", "<leader>qo", function()
+	require("edgy").toggle("top")
+end, { desc = "Open quickfix list" })

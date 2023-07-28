@@ -265,3 +265,35 @@ Util.printAllTerminalColors = function()
 	print("color14: " .. vim.g.terminal_color_14)
 	print("color15: " .. vim.g.terminal_color_15)
 end
+
+Util.addToQF = function()
+	-- local qfl = vim.fn.getqflist()
+
+	local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
+	local buf = vim.api.nvim_get_current_buf()
+
+	local line = vim.api.nvim_buf_get_lines(buf, row - 1, row, false)[1]
+
+	vim.fn.setqflist({ { lnum = row, end_lnum = row, bufnr = buf, text = line } }, "a")
+end
+
+Util.delFromQF = function()
+	if vim.bo.filetype ~= "qf" then
+		return
+	end
+
+	local qfl = vim.fn.getqflist()
+
+	local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
+
+	vim.fn.setqflist({}, "r")
+
+	local newQFList = {}
+	for i, v in ipairs(qfl) do
+		if i ~= row then
+			table.insert(newQFList, v)
+		end
+	end
+
+	vim.fn.setqflist(newQFList)
+end
