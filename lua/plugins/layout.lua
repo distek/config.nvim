@@ -152,14 +152,65 @@ return {
 		end,
 	},
 
+	-- {
+	-- 	"lukas-reineke/indent-blankline.nvim",
+	-- 	event = "VeryLazy",
+	-- 	config = function()
+	-- 		require("indent_blankline").setup({
+	-- 			space_char_blankline = " ",
+	-- 			show_current_context = true,
+	-- 			show_current_context_start = true,
+	-- 		})
+	-- 	end,
+	-- },
 	{
-		"lukas-reineke/indent-blankline.nvim",
+		"shellRaining/hlchunk.nvim",
 		event = "VeryLazy",
 		config = function()
-			require("indent_blankline").setup({
-				space_char_blankline = " ",
-				show_current_context = true,
-				show_current_context_start = true,
+			require("hlchunk").setup({
+				indent = {
+					enable = true,
+					exclude_filetypes = {
+						["neo-tree"] = true,
+						["starter"] = true,
+						["Outline"] = true,
+					},
+					use_treesitter = true,
+					chars = {
+						"│",
+					},
+					style = {
+						{ fg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID("NeoTreeDimText")), "fg", "gui") },
+					},
+				},
+
+				chunk = {
+					enable = true,
+					notify = false,
+					chars = {
+						horizontal_line = "─",
+						vertical_line = "│",
+						left_top = "╭",
+						left_bottom = "╰",
+						right_arrow = "─",
+					},
+					exclude_filetypes = {
+						["neo-tree"] = true,
+						["starter"] = true,
+						["Outline"] = true,
+					},
+					style = {
+						{ fg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID("HLChunkIndicator")), "fg", "gui") },
+					},
+				},
+
+				line_num = {
+					enable = false,
+				},
+
+				blank = {
+					enable = false,
+				},
 			})
 		end,
 	},
@@ -224,21 +275,6 @@ return {
 				},
 				use_popups_for_input = false,
 				open_files_do_not_replace_types = { "terminal", "Trouble", "qf", "Outline", "edgy" },
-				event_handlers = {
-					{
-						event = "neo_tree_buffer_enter",
-						handler = function(arg)
-							vim.opt_local.statuscolumn = ""
-							vim.opt_local.signcolumn = "no"
-						end,
-					},
-					{
-						event = "neo_tree_window_after_open",
-						handler = function(arg)
-							vim.opt_local.statuscolumn = ""
-						end,
-					},
-				},
 			})
 		end,
 	},
@@ -367,10 +403,10 @@ return {
 				-- Setting to `true`, will add an edgy winbar.
 				-- Setting to `false`, won't set any winbar.
 				-- Setting to a string, will set the winbar to that string.
-				winbar = true,
+				winbar = false,
 				winfixwidth = true,
 				winfixheight = true,
-				winhighlight = "WinBar:EdgyWinBar,Normal:EdgyNormal",
+				winhighlight = "WinBar:EdgyWinBar",
 				spell = false,
 				signcolumn = "no",
 				statuscolumn = "",
@@ -415,6 +451,10 @@ return {
 					title = "QuickFix",
 					pinned = true,
 					open = ":copen",
+					wo = {
+						winbar = true,
+						winhighlight = "Normal:EdgyQuickfixNormal",
+					},
 				},
 			},
 			bottom = {
@@ -425,6 +465,11 @@ return {
 					open = function()
 						local t = require("tt")
 
+						if #t.terminal.TermList == 0 then
+							t.terminal:NewTerminal()
+							return
+						end
+
 						if t:IsOpen() then
 							t.terminal:Close()
 							return
@@ -432,6 +477,9 @@ return {
 
 						t.terminal:Open("last")
 					end,
+					-- wo = {
+					-- 	winhighlight = "Normal:EdgyTermNormal",
+					-- },
 				},
 				{
 					ft = "termlist",
@@ -451,8 +499,9 @@ return {
 					visible = true,
 					wo = {
 						height = "15",
+						winbar = true,
 					},
-					open = "Neotree action=show source=buffers position=right",
+					open = "Neotree position=top buffers",
 				},
 				{
 					title = "File Tree",
@@ -464,6 +513,9 @@ return {
 					end,
 					pinned = true,
 					open = "Neotree filesystem",
+					wo = {
+						winbar = true,
+					},
 				},
 			},
 			right = {
@@ -473,6 +525,9 @@ return {
 					size = { height = 0.25 },
 					pinned = true,
 					open = "SymbolsOutlineOpen",
+					wo = {
+						winbar = true,
+					},
 				},
 				{
 					ft = "help",
@@ -480,6 +535,9 @@ return {
 					filter = function(buf)
 						return vim.bo[buf].buftype == "help"
 					end,
+					wo = {
+						winhighlight = "Normal:EdgyHelpNormal",
+					},
 				},
 			},
 			fix_win_height = true,
@@ -488,26 +546,28 @@ return {
 	{ "folke/trouble.nvim" },
 	{
 		"distek/tt.nvim",
+		-- dir = "~/Programming/neovim-plugs/tt.nvim",
 		config = function()
 			require("tt").setup({
-				focus_on_select = false,
 				termlist = {
 					enabled = true,
-					side = "right",
 					width = 25,
-				},
-				winbar = {
-					tabs = false,
-					list = false,
+					name = "Terminals",
+					winhighlight = "Normal:EdgyTermListNormal",
+					winbar = true,
+					focus_on_select = true,
 				},
 
-				fixed_height = false,
-				fixed_width = false, -- handled by edgy
+				terminal = {
+					winhighlight = "Normal:EdgyTermNormal",
+					winbar = true,
+					force_insert_on_focus = true,
+				},
+
 				height = 15,
 
-				post_cb = function(win, term)
-					_G.edgy_winbar(win)
-				end,
+				fixed_height = false,
+				fixed_width = true,
 			})
 		end,
 	},

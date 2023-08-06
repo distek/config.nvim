@@ -43,8 +43,8 @@ vim.opt.fillchars = {
 	eob = " ",
 }
 
--- vim.o.shell = os.getenv("SHELL")
-vim.o.shell = vim.fn.expand("~/.config/nvim/contrib/vimterm.sh")
+vim.o.shell = os.getenv("SHELL")
+-- vim.o.shell = vim.fn.expand("~/.config/nvim/contrib/vimterm.sh")
 Vimterm = vim.o.shell
 vim.o.shiftwidth = 4
 vim.o.showbreak = "└►"
@@ -54,7 +54,7 @@ vim.o.smartcase = true
 vim.o.softtabstop = 0
 vim.opt.spell = false
 vim.opt.spelllang = { "en_us" }
-vim.o.startofline = 0
+vim.o.startofline = false
 vim.o.syntax = "off"
 vim.o.tabstop = 4
 vim.o.termguicolors = true

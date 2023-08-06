@@ -124,6 +124,8 @@ map("n", "<A-S-Tab>", function()
 	end
 end, { desc = "Focus previous terminal" })
 
+map("t", "<A-a>", "<C-\\><C-n>")
+
 -- Fuck q:
 -- https://www.reddit.com/r/neovim/comments/lizyxj/how_to_get_rid_of_q/
 -- won't work if you take too long to do perform the action, but that's fine
@@ -145,3 +147,21 @@ map("n", "<leader>qd", "<cmd>lua Util.delFromQF()<cr>", { desc = "Delete line fr
 map("n", "<leader>qo", function()
 	require("edgy").toggle("top")
 end, { desc = "Open quickfix list" })
+
+map("n", "<leader>Sw", function()
+	vim.ui.input({ prompt = "Session name: " }, function(input)
+		if input == "" then
+			return
+		end
+
+		MiniSessions.write(input)
+	end)
+end, { desc = "save session" })
+
+map("n", "<leader>Ss", function()
+	MiniSessions.select()
+end, { desc = "select session" })
+
+map("n", "<leader>Sd", function()
+	MiniSessions.select("delete", { force = true })
+end, { desc = "save session" })

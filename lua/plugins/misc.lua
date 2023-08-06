@@ -1,15 +1,39 @@
 return {
 	{
-		"rmagatti/auto-session",
+		"echasnovski/mini.nvim",
+		version = false,
 		config = function()
-			require("auto-session").setup({
-				log_level = "error",
-				auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
-				bypass_session_save_file_types = { "toggleterm" },
+			require("mini.sessions").setup({
+				-- Whether to read latest session if Neovim opened without file arguments
+				autoread = false,
+
+				-- Whether to write current session before quitting Neovim
+				autowrite = true,
+
+				-- Directory where global sessions are stored (use `''` to disable)
+				directory = "~/.local/share/nvim/sessions", --<"session" subdir of user data directory from |stdpath()|>,
+
+				-- File for local session (use `''` to disable)
+				file = "",
+
+				-- Whether to force possibly harmful actions (meaning depends on function)
+				force = { read = false, write = true, delete = false },
+
+				-- Hook functions for actions. Default `nil` means 'do nothing'.
+				hooks = {
+					-- Before successful action
+					pre = { read = nil, write = nil, delete = nil },
+					-- After successful action
+					post = { read = nil, write = nil, delete = nil },
+				},
+
+				-- Whether to print session path after action
+				verbose = { read = false, write = true, delete = true },
 			})
+
+			require("mini.starter").setup()
 		end,
 	},
-
 	{
 		"jakewvincent/mkdnflow.nvim",
 		ft = { "markdown" },
@@ -89,24 +113,24 @@ return {
 
 	{ "norcalli/nvim-colorizer.lua", cmd = "ColorizerToggle", event = "VeryLazy" },
 
-	{
-		"nvim-zh/colorful-winsep.nvim",
-		-- dir = "~/git-clones/colorful-winsep.nvim",
-		event = "VeryLazy",
-		config = function()
-			require("colorful-winsep").setup({
-				-- symbols = { "█", "█", "█", "█", "█", "█" },
-				symbols = { "━", "┃", "┏", "┓", "┗", "┛" },
+	-- {
+	-- 	"nvim-zh/colorful-winsep.nvim",
+	-- 	-- dir = "~/git-clones/colorful-winsep.nvim",
+	-- 	event = "VeryLazy",
+	-- 	config = function()
+	-- 		require("colorful-winsep").setup({
+	-- 			-- symbols = { "█", "█", "█", "█", "█", "█" },
+	-- 			symbols = { "━", "┃", "┏", "┓", "┗", "┛" },
 
-				no_exec_files = { "lazy", "TelescopePrompt", "mason", "" },
-				create_event = function()
-					if vim.api.nvim_win_get_config(vim.api.nvim_get_current_win()).relative == "editor" then
-						require("colorful-winsep").NvimSeparatorDel()
-					end
-				end,
-			})
-		end,
-	},
+	-- 			no_exec_files = { "lazy", "TelescopePrompt", "mason", "" },
+	-- 			create_event = function()
+	-- 				if vim.api.nvim_win_get_config(vim.api.nvim_get_current_win()).relative == "editor" then
+	-- 					require("colorful-winsep").NvimSeparatorDel()
+	-- 				end
+	-- 			end,
+	-- 		})
+	-- 	end,
+	-- },
 
 	{ "famiu/bufdelete.nvim", event = "VeryLazy" },
 

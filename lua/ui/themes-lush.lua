@@ -303,6 +303,16 @@ local theme = lush(function(injected_functions)
 		DiffChange({ DiffLineChanged }),
 		DiffText({ DiffTextChanged }),
 
+		-- edgy
+		EdgyWinBar({ bg = norm_bg.darken(100) }),
+		EdgyTermNormal({ bg = norm_bg.darken(30) }),
+		EdgyTermListNormal({ bg = norm_bg.lighten(5) }),
+		EdgyBuffersNormal({ bg = norm_bg.lighten(25) }),
+		EdgyBuffersNormalNC({ bg = norm_bg.lighten(25) }),
+		EdgyFileTreeNormal({ bg = norm_bg.lighten(5) }),
+		EdgyHelpNormal({ bg = norm_bg.lighten(15) }),
+		EdgyQuickfixNormal({ bg = norm_bg.darken(20) }),
+
 		-- NeoTree
 		NeoTreeDimText({ fg = gray.lighten(20) }),
 		-- NeoTreeBufferNumber({}),
@@ -310,7 +320,7 @@ local theme = lush(function(injected_functions)
 		NeoTreeDirectoryIcon({ Directory }),
 		NeoTreeDirectoryName({ Directory }),
 		NeoTreeDotfile({ fg = gray.lighten(20) }),
-		NeoTreeEndOfBuffer({ bg = norm_bg.lighten(10) }),
+		NeoTreeEndOfBuffer(EdgyFileTreeNormal),
 		-- NeoTreeExpander({}),
 		-- NeoTreeFadeText1({}),
 		-- NeoTreeFadeText2({}),
@@ -328,8 +338,8 @@ local theme = lush(function(injected_functions)
 		-- NeoTreeIndentMarker({}),
 		-- NeoTreeMessage({}),
 		NeoTreeModified({ fg = blue }),
-		NeoTreeNormal({ bg = norm_bg.lighten(10) }),
-		NeoTreeNormalNC({ bg = norm_bg.lighten(10) }),
+		NeoTreeNormal(EdgyFileTreeNormal),
+		NeoTreeNormalNC(EdgyFileTreeNormal),
 		NeoTreeRootName({ fg = white }),
 		NeoTreeRootName_68({ fg = white.darken(30) }),
 		NeoTreeRootName_60({ fg = white.darken(50) }),
@@ -341,7 +351,7 @@ local theme = lush(function(injected_functions)
 		NeoTreeTabInactive({ BufferInactive }),
 		NeoTreeTabSeparatorActive({ BufferCurrent }),
 		NeoTreeTabSeparatorInactive({ BufferInactive }),
-		-- NeoTreeTitleBar({}),
+		NeoTreeTitleBar({}),
 		-- NeoTreeVertSplit({}),
 		-- NeoTreeWinSeparator({}),
 		-- NeoTreeWindowsHidden({}),
@@ -369,6 +379,7 @@ local theme = lush(function(injected_functions)
 		DapBreakpoint({ fg = red, bg = statusColBG }),
 		DapLogPoint({ fg = yellow, bg = statusColBG }),
 		DapStopped({ fg = blue, bg = statusColBG }),
+		HLChunkIndicator({ fg = blue.darken(20) }),
 	}
 end)
 
