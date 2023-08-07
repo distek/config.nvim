@@ -21,7 +21,6 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 			"starter",
 		}
 
-		vim.print(vim.bo[ev.buf].filetype)
 		if vim.tbl_get(pattern, vim.bo[ev.buf].filetype) ~= nil then
 			vim.opt_local.number = false
 			vim.opt_local.relativenumber = false
