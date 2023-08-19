@@ -89,10 +89,9 @@ return {
 								},
 								diagnostics = {
 									-- Get the language server to recognize the `vim` global
-									globals = { "vim" },
+									globals = { "renoise", "vim" },
 								},
-								workspace = {
-									-- Make the server aware of Neovim runtime files
+								workspace = { -- Make the server aware of Neovim runtime files
 									library = library,
 									checkThirdParty = false,
 								},
