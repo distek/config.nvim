@@ -179,11 +179,11 @@ Util.ifNameExists = function(n)
 end
 
 Util.vimCmdToBuffer = function(cmd)
-	local output = vim.api.nvim_command_output(cmd)
+	local output = vim.api.nvim_exec2(cmd, { output = true })
 
 	vim.cmd("vnew")
 
-	for line in string.gmatch(output, "([^\n]+)") do
+	for line in string.gmatch(output.output, "([^\n]+)") do
 		vim.api.nvim_buf_set_lines(0, 0, 0, false, { line })
 	end
 end

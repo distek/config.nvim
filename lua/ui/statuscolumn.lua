@@ -14,14 +14,8 @@ local diag_signs_icons = {
 	DiagnosticSignWarn = "",
 	DiagnosticSignInfo = "",
 	DiagnosticSignHint = "",
-	DiagnosticSignOk = "",
+	DiagnosticSignOk = "",
 }
-
-vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DapBreakpoint", numhl = "DapBreakpoint" })
-vim.fn.sign_define("DapBreakpointCondition", { text = "ﳁ", texthl = "DapBreakpoint", numhl = "DapBreakpoint" })
-vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "DapBreakpoint", numhl = "DapBreakpoint" })
-vim.fn.sign_define("DapLogPoint", { text = "", texthl = "DapLogPoint", numhl = "DapLogPoint" })
-vim.fn.sign_define("DapStopped", { text = "", texthl = "DapStopped", linehl = "DapStopped", numhl = "DapStopped" })
 
 local function get_sign_name(cur_sign)
 	if cur_sign == nil then

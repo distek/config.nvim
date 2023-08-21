@@ -19,7 +19,7 @@ return {
 
 	{
 		"ray-x/go.nvim",
-		ft = { "go" },
+		ft = { "go", "gomod" },
 		lazy = true,
 		config = function()
 			require("go").setup()

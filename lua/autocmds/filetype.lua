@@ -18,6 +18,7 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 			"termlist",
 			"gitcommit",
 			"qf",
+			"scratch",
 			"starter",
 		}
 
@@ -49,9 +50,29 @@ vim.api.nvim_create_autocmd("FileType", {
 		"help",
 		"fugitive",
 		"gitcommit",
+		"scratch",
 		"qf",
 	},
 	callback = function()
 		vim.keymap.set("n", "q", ":close<cr>", { buffer = true, silent = true })
+	end,
+})
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+	callback = function()
+		for _, v in ipairs(vim.api.nvim_list_bufs()) do
+			if vim.bo[v].filetype == "gomod" then
+				vim.notify("Close go.mod dingus")
+				return
+			end
+		end
+		if vim.bo[0].filetype == "go" then
+			require("plenary.job")
+				:new({
+					command = "go",
+					args = { "mod", "tidy" },
+				})
+				:start()
+		end
 	end,
 })

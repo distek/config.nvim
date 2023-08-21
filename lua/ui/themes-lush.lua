@@ -49,6 +49,24 @@ vim.g.terminal_color_15 = white.lighten(20).hex
 local theme = lush(function(injected_functions)
 	local sym = injected_functions.sym
 	return {
+		Blend100({ bg = "NONE" }),
+
+		Black({ fg = black.lighten(10).hex }),
+		Red({ fg = red.lighten(10).hex }),
+		Green({ fg = green.lighten(10).hex }),
+		Yellow({ fg = yellow.lighten(10).hex }),
+		Blue({ fg = blue.lighten(10).hex }),
+		Magenta({ fg = magenta.lighten(10).hex }),
+		Cyan({ fg = cyan.lighten(10).hex }),
+		White({ fg = white.lighten(10).hex }),
+		LightBlack({ fg = black.lighten(20).hex }),
+		LightRed({ fg = red.lighten(20).hex }),
+		LightGreen({ fg = green.lighten(20).hex }),
+		LightYellow({ fg = yellow.lighten(20).hex }),
+		LightBlue({ fg = blue.lighten(20).hex }),
+		LightMagenta({ fg = magenta.lighten(20).hex }),
+		LightCyan({ fg = cyan.lighten(20).hex }),
+		LightWhite({ fg = white.lighten(20).hex }),
 		Normal({ bg = norm_bg, fg = norm_fg }),
 		NormalFloat({ Normal }),
 		FloatShadow({ blend = 15, bg = norm_bg.darken(20) }),

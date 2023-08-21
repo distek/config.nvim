@@ -6,11 +6,20 @@ return {
 		config = function()
 			local dap = require("dap")
 
-			vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "red" })
-			vim.fn.sign_define("DapBreakpointCondition", { text = "ﳁ", texthl = "blue" })
-			vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "red" })
-			vim.fn.sign_define("DapLogPoint", { text = "", texthl = "yellow" })
-			vim.fn.sign_define("DapStopped", { text = "", texthl = "green" })
+			vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DapBreakpoint", numhl = "DapBreakpoint" })
+			vim.fn.sign_define(
+				"DapBreakpointCondition",
+				{ text = "", texthl = "DapBreakpoint", numhl = "DapBreakpoint" }
+			)
+			vim.fn.sign_define(
+				"DapBreakpointRejected",
+				{ text = "", texthl = "DapBreakpoint", numhl = "DapBreakpoint" }
+			)
+			vim.fn.sign_define("DapLogPoint", { text = "", texthl = "DapLogPoint", numhl = "DapLogPoint" })
+			vim.fn.sign_define(
+				"DapStopped",
+				{ text = "", texthl = "DapStopped", linehl = "DapStopped", numhl = "DapStopped" }
+			)
 
 			-- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
 			require("dapui").setup({

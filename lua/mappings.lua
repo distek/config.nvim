@@ -1,4 +1,5 @@
 require("mappings.os")
+require("mappings.git")
 require("mappings.lsp")
 require("mappings.misc")
 require("mappings.debug")

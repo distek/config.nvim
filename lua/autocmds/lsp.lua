@@ -2,9 +2,13 @@
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = { "*" },
 	callback = function()
-		vim.lsp.buf.format({
-			async = false,
-		})
+		if vim.bo[0].filetype == "go" then
+			require("go.format").goimport()
+		else
+			vim.lsp.buf.format({
+				async = false,
+			})
+		end
 	end,
 })
 

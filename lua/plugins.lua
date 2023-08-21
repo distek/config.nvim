@@ -23,16 +23,6 @@ end
 local function getPlugins()
 	local plugins = {}
 
-	--plugins = insert({
-	--	dev = {
-	--		-- directory where you store your local plugin projects
-	--		path = "~/Programming/neovim-plugs",
-	--		---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
-	--		patterns = {}, -- For example {"folke"}
-	--		fallback = true, -- Fallback to git when local plugin doesn't exist
-	--	},
-	--}, plugins)
-
 	plugins = insert(require("plugins.filetypes"), plugins)
 	plugins = insert(require("plugins.treesitter"), plugins)
 	plugins = insert(require("plugins.lsp"), plugins)
@@ -41,6 +31,11 @@ local function getPlugins()
 	plugins = insert(require("plugins.misc"), plugins)
 
 	return plugins
+end
+
+function Update()
+	require("lazy").sync()
+	vim.cmd("TSUpdate")
 end
 
 require("lazy").setup(getPlugins())

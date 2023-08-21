@@ -9,13 +9,13 @@ map("n", "<leader>Gfs", ":GoFillStruct<cr>")
 map("n", "<leader>Gie", ":GoIfErr<cr>")
 map("n", "<leader>Gat", ":GoAddTest<cr>")
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-	pattern = { "*go" },
-	callback = function()
-		vim.cmd("GoImport")
-	end,
-	group = "Go",
-})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+-- 	pattern = { "*go" },
+-- 	callback = function()
+-- 		vim.cmd("GoImport")
+-- 	end,
+-- 	group = "Go",
+-- })
 
 -- Add test for function under cursor
 -- Args:

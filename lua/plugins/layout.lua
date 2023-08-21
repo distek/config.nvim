@@ -83,7 +83,7 @@ return {
 							end,
 						},
 					},
-					lualine_b = { "branch", "diff", "diagnostics", "filename" },
+					lualine_b = { "branch", "diff", "diagnostics", { "filename", path = 1 } },
 					lualine_c = {},
 					lualine_x = { "encoding", "fileformat", "filetype" },
 					lualine_y = { "progress" },
@@ -167,15 +167,27 @@ return {
 		"shellRaining/hlchunk.nvim",
 		event = "VeryLazy",
 		config = function()
+			local exclude = function()
+				local t = {
+					"neo-tree",
+					"starter",
+					"Outline",
+					"scratch",
+				}
+
+				local tb = {}
+
+				for _, v in ipairs(t) do
+					tb[v] = true
+				end
+
+				return tb
+			end
 			require("hlchunk").setup({
 				indent = {
 					enable = true,
-					exclude_filetypes = {
-						["neo-tree"] = true,
-						["starter"] = true,
-						["Outline"] = true,
-					},
-					use_treesitter = true,
+					exclude_filetypes = exclude(),
+					use_treesitter = false,
 					chars = {
 						"│",
 					},
@@ -202,6 +214,8 @@ return {
 					style = {
 						{ fg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID("HLChunkIndicator")), "fg", "gui") },
 					},
+
+					use_treesitter = false,
 				},
 
 				line_num = {
@@ -245,10 +259,12 @@ return {
 					use_libuv_file_watcher = true,
 				},
 				window = {
-					-- mappings = {
-					-- 	["l"] = "next_source",
-					-- 	["h"] = "prev_source",
-					-- },
+					mappings = {
+						-- ["l"] = "next_source",
+						-- ["h"] = "prev_source",
+						["/"] = "filter_as_you_type",
+						["<esc><esc>"] = "clear_filter",
+					},
 				},
 				buffers = {
 					follow_current_file = {
@@ -320,7 +336,7 @@ return {
 					inactive = false,
 				},
 				context = 10,
-				treesitter = true,
+				treesitter = false,
 				expand = {
 					"function",
 					"method",
@@ -545,8 +561,8 @@ return {
 	},
 	{ "folke/trouble.nvim" },
 	{
-		"distek/tt.nvim",
-		-- dir = "~/Programming/neovim-plugs/tt.nvim",
+		-- "distek/tt.nvim",
+		dir = "~/Programming/neovim-plugs/tt.nvim",
 		config = function()
 			require("tt").setup({
 				termlist = {
