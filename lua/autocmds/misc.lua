@@ -46,3 +46,58 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
 		vim.o.cursorline = false
 	end,
 })
+
+-- local function doDim()
+-- 	local current = vim.api.nvim_get_current_win()
+
+-- 	local function specialWin(ft)
+-- 		local list = {
+-- 			["qf"] = "EdgyQuickfixNormal",
+-- 			["toggleterm"] = "EdgyTermNormal",
+-- 			["termlist"] = "EdgyTermListNormal",
+-- 			["help"] = "EdgyHelpNormal",
+-- 			["neo-tree"] = "EdgyFileTreeNormal",
+-- 		}
+
+-- 		for k, v in pairs(list) do
+-- 			if k == ft then
+-- 				return v
+-- 			end
+-- 		end
+-- 		return "Normal"
+-- 	end
+
+-- 	local darken = Lush.Normal.darken(10)
+
+-- 	vim.api.nvim_set_hl(0, "NormalDim", { bg = darken.hex })
+
+-- 	for _, v in ipairs(vim.api.nvim_list_wins()) do
+-- 		if v ~= current then
+-- 			vim.api.nvim_set_option_value(
+-- 				"winhighlight",
+-- 				"Normal:" .. specialWin(vim.bo[vim.api.nvim_get_current_buf()].filetype),
+-- 				{ win = v, scope = "local" }
+-- 			)
+-- 			goto continue
+-- 		end
+
+-- 		vim.api.nvim_set_option_value(
+-- 			"winhighlight",
+-- 			"Normal:" .. specialWin(vim.bo[vim.api.nvim_win_get_buf(v)].filetype),
+-- 			{ win = v, scope = "local" }
+-- 		)
+-- 		::continue::
+-- 	end
+-- end
+
+-- vim.api.nvim_create_autocmd({ "VimEnter" }, {
+-- 	callback = function(ev)
+-- 		doDim()
+-- 	end,
+-- })
+
+-- vim.api.nvim_create_autocmd({ "WinEnter" }, {
+-- 	callback = function(ev)
+-- 		doDim()
+-- 	end,
+-- })
