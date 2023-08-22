@@ -389,13 +389,14 @@ return {
 					mappings = {
 						n = {
 							["<esc>"] = require("telescope.actions").close,
+							["<esc><esc>"] = require("telescope.actions").close,
 						},
 					},
 				},
 				extensions = {},
 				source_selector = {
 					winbar = false,
-					statusline = false,
+					statusline = true,
 				},
 			})
 

@@ -364,21 +364,6 @@ return {
 	{ "onsails/lspkind-nvim", event = "InsertEnter" },
 
 	{
-		"dnlhc/glance.nvim",
-		event = "VeryLazy",
-		cmd = "Glance",
-		config = function()
-			require("glance").setup({
-				border = {
-					enable = true, -- Show window borders. Only horizontal borders allowed
-					top_char = "―",
-					bottom_char = "―",
-				},
-			})
-		end,
-	},
-
-	{
 		"simrat39/symbols-outline.nvim",
 		event = "VeryLazy",
 		config = function()

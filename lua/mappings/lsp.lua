@@ -1,8 +1,8 @@
 local map = vim.keymap.set
 
-map("n", "<leader>lD", "<Cmd>Glance definitions<CR>", { desc = "Peek definition" })
+map("n", "<leader>lD", vim.lsp.buf.definition, { desc = "Peek definition" })
 map("n", "<leader>ld", vim.lsp.buf.hover, { desc = "Hover Definition" })
-map("n", "<leader>lr", "<cmd>Glance references<cr>", { desc = "Peek References" })
+map("n", "<leader>lr", vim.lsp.buf.references, { desc = "Peek References" })
 map("n", "<leader>lo", vim.diagnostic.open_float, { desc = "Show diagnostics" })
 map("n", "<leader>lh", vim.diagnostic.goto_prev, { desc = "Next diagnostic" })
 map("n", "<leader>ll", vim.diagnostic.goto_next, { desc = "Prev diagnostic" })
