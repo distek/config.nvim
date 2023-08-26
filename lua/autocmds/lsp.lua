@@ -17,7 +17,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.api.nvim_create_autocmd("CursorHold", {
 	pattern = { "<buffer>" },
 	callback = function()
-		local clients = vim.lsp.get_clients()
+		local clients = vim.lsp.get_active_clients()
 
 		if not next(clients) then
 			return

@@ -231,7 +231,7 @@ return {
 
 	{
 		"lewis6991/gitsigns.nvim",
-		event = "VeryLazy",
+		event = "VimEnter",
 
 		config = function()
 			require("gitsigns").setup()
@@ -241,6 +241,7 @@ return {
 	{
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v3.x",
+		event = "VimEnter",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
@@ -260,8 +261,6 @@ return {
 				},
 				window = {
 					mappings = {
-						-- ["l"] = "next_source",
-						-- ["h"] = "prev_source",
 						["/"] = "filter_as_you_type",
 						["<esc><esc>"] = "clear_filter",
 					},
@@ -269,24 +268,6 @@ return {
 				buffers = {
 					follow_current_file = {
 						enabled = true,
-					},
-				},
-				git_status = {
-					window = {
-						mappings = {
-							["<CR>"] = "open_gdiff",
-						},
-					},
-					commands = {
-						open_gdiff = function(state)
-							local node = state.tree:get_node()
-							local path = node:get_id()
-
-							local cmds = require("neo-tree.sources.filesystem.commands")
-							cmds.open(state)
-
-							vim.cmd("Gvdiffsplit!")
-						end,
 					},
 				},
 				use_popups_for_input = false,
@@ -406,12 +387,42 @@ return {
 			-- require("telescope").load_extension("termfinder")
 		end,
 	},
+	{ "folke/trouble.nvim" },
 	{
-		"folke/edgy.nvim",
+		-- "distek/tt.nvim",
+		dir = "~/Programming/neovim-plugs/tt.nvim",
+		config = function()
+			require("tt").setup({
+				termlist = {
+					enabled = true,
+					width = 25,
+					name = "Terminals",
+					winhighlight = "Normal:EdgyTermListNormal",
+					winbar = true,
+					focus_on_select = true,
+				},
+
+				terminal = {
+					winhighlight = "Normal:EdgyTermNormal",
+					winbar = true,
+					force_insert_on_focus = true,
+				},
+
+				height = 15,
+
+				fixed_height = false,
+				fixed_width = true,
+			})
+		end,
+	},
+	{
+		-- "folke/edgy.nvim",
+		dir = "~/git-clones/edgy.nvim",
 		event = "VeryLazy",
 		opts = {
 			options = {
 				left = { size = 35 },
+				top = { size = 15 },
 				bottom = { size = 15 },
 				right = { size = 35 },
 			},
@@ -445,17 +456,17 @@ return {
 				["<c-w>+"] = false,
 				["<c-w>-"] = false,
 				["<c-w>"] = false,
-				["<a-c-j>"] = function(win)
+				["<A-C-j>"] = function(win)
 					win:resize("height", 1)
 				end,
-				["<a-c-k>"] = function(win)
+				["<A-C-k>"] = function(win)
 					win:resize("height", -2)
 				end,
-				["<a-c-h>"] = function(win)
+				["<A-C-h>"] = function(win)
 					win:resize("width", 2)
 				end,
 				-- decrease width
-				["<a-c-l>"] = function(win)
+				["<A-C-l>"] = function(win)
 					win:resize("width", -2)
 				end,
 			},
@@ -513,23 +524,20 @@ return {
 						return vim.b[buf].neo_tree_source == "buffers"
 					end,
 					pinned = true,
-					visible = true,
+					open = "Neotree position=top buffers",
 					wo = {
-						height = "15",
 						winbar = true,
 					},
-					open = "Neotree position=top buffers",
 				},
 				{
-					title = "File Tree",
+					title = "Files",
 					ft = "neo-tree",
-					size = { height = 0.85 },
-					visible = true,
 					filter = function(buf)
 						return vim.b[buf].neo_tree_source == "filesystem"
 					end,
+					open = "Neotree",
 					pinned = true,
-					open = "Neotree filesystem",
+					size = { height = 0.85 },
 					wo = {
 						winbar = true,
 					},
@@ -557,35 +565,6 @@ return {
 					},
 				},
 			},
-			fix_win_height = true,
 		},
-	},
-	{ "folke/trouble.nvim" },
-	{
-		-- "distek/tt.nvim",
-		dir = "~/Programming/neovim-plugs/tt.nvim",
-		config = function()
-			require("tt").setup({
-				termlist = {
-					enabled = true,
-					width = 25,
-					name = "Terminals",
-					winhighlight = "Normal:EdgyTermListNormal",
-					winbar = true,
-					focus_on_select = true,
-				},
-
-				terminal = {
-					winhighlight = "Normal:EdgyTermNormal",
-					winbar = true,
-					force_insert_on_focus = true,
-				},
-
-				height = 15,
-
-				fixed_height = false,
-				fixed_width = true,
-			})
-		end,
 	},
 }

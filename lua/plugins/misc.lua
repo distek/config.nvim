@@ -152,10 +152,6 @@ return {
 		end,
 	},
 
-	{ "tiagovla/tokyodark.nvim", event = "VeryLazy" },
-
-	{ "Shatur/neovim-ayu", event = "VeryLazy" },
-
 	{ "rktjmp/lush.nvim" },
 
 	{ "ray-x/guihua.lua" },

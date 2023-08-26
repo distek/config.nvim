@@ -47,8 +47,7 @@ vim.g.terminal_color_15 = white.lighten(20).hex
 
 ---@diagnostic disable: undefined-global
 local theme = lush(function(injected_functions)
-	local sym = injected_functions.sym
-	return {
+	local ret = {
 		Blend100({ bg = "NONE" }),
 
 		Black({ fg = black.lighten(10).hex }),
@@ -399,8 +398,9 @@ local theme = lush(function(injected_functions)
 		DapStopped({ fg = blue, bg = statusColBG }),
 		HLChunkIndicator({ fg = blue.darken(20) }),
 	}
+
+	return ret
 end)
 
-lush(theme)
 -- Return our parsed theme for extension or use elsewhere.
 return theme

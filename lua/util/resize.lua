@@ -1,14 +1,10 @@
 Util.win_resize = function(dir)
-	local n = Util.getNeighbors()
+	local bt = vim.bo[vim.api.nvim_win_get_buf(0)].filetype
+	if bt == "toggleterm" or bt == "neo-tree" or bt == "Outline" or bt == "help" or bt == "qf" then
+		return
+	end
 
-	-- if vim.bo.filetype == "toggleterm" then
-	-- 	if dir == "top" then
-	-- 		TF.Height = TF.Height + 1
-	-- 	end
-	-- 	if dir == "bottom" then
-	-- 		TF.Height = TF.Height - 1
-	-- 	end
-	-- end
+	local n = Util.getNeighbors()
 
 	-- I wish lua had a switch case
 	if dir == "top" then

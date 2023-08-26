@@ -149,6 +149,13 @@ Util.printAllWindowConfigs = function()
 	end
 end
 
+Util.printBufSettings = function()
+	for k, v in pairs(vim.b[0]) do
+		print(k)
+		vim.print(v)
+	end
+end
+
 Util.compVsWinCount = function()
 	local winCount = 0
 	local compCount = 0
