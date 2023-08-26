@@ -38,25 +38,4 @@ function Update()
 	vim.cmd("TSUpdate")
 end
 
-local devTainer = function()
-	if os.getenv("DEVTAINER_BUILD") ~= nil then
-		return true
-	end
-
-	return false
-end
-
-if devTainer() then
-	vim.api.nvim_create_autocmd({ "User" }, {
-		pattern = "LazySync",
-		callback = function()
-			vim.cmd("q")
-		end,
-	})
-
-	require("lazy").setup(getPlugins(), { install = { missing = false } })
-
-	require("lazy").restore()
-else
-	require("lazy").setup(getPlugins())
-end
+require("lazy").setup(getPlugins())
