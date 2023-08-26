@@ -389,8 +389,8 @@ return {
 	},
 	{ "folke/trouble.nvim" },
 	{
-		-- "distek/tt.nvim",
-		dir = "~/Programming/neovim-plugs/tt.nvim",
+		"distek/tt.nvim",
+		-- dir = "~/dev/neovim-plugs/tt.nvim",
 		config = function()
 			require("tt").setup({
 				termlist = {
@@ -416,8 +416,7 @@ return {
 		end,
 	},
 	{
-		-- "folke/edgy.nvim",
-		dir = "~/git-clones/edgy.nvim",
+		"folke/edgy.nvim",
 		event = "VeryLazy",
 		opts = {
 			options = {
