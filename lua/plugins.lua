@@ -39,7 +39,17 @@ function Update()
 end
 
 local devTainer = function()
-	return not os.getenv("DEVTAINER_BUILD") ~= ""
+	if os.getenv("DEVTAINER_BUILD") ~= "" then
+		vim.api.nvim_create_autocmd({ "LazySync" }, {
+			callback = function()
+				vim.cmd("q")
+			end,
+		})
+
+		return false
+	end
+
+	return true
 end
 
 require("lazy").setup(getPlugins(), { install = { missing = devTainer() } })
