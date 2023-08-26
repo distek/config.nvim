@@ -12,9 +12,5 @@ else
 		if vim.g.neovide then
 			require("neovide-settings")
 		end
-	else
-		vim.api.nvim_create_user_command("MasonInstallAll", function()
-			vim.cmd("MasonInstall " .. table.concat(require("mason-lspconfig.settings").current.ensure_installed, " "))
-		end, {})
 	end
 end
