@@ -40,16 +40,18 @@ end
 
 local devTainer = function()
 	if os.getenv("DEVTAINER_BUILD") ~= "" then
-		vim.api.nvim_create_autocmd({ "LazySync" }, {
-			callback = function()
-				vim.cmd("q")
-			end,
-		})
-
-		return false
+		return true
 	end
 
-	return true
+	return false
 end
 
-require("lazy").setup(getPlugins(), { install = { missing = devTainer() } })
+require("lazy").setup(getPlugins(), { install = { missing = not devTainer() } })
+
+if not devTainer() then
+	vim.api.nvim_create_autocmd({ "LazySync" }, {
+		callback = function()
+			vim.cmd("q")
+		end,
+	})
+end
