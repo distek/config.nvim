@@ -38,4 +38,14 @@ function Update()
 	vim.cmd("TSUpdate")
 end
 
+local devTainer = function()
+	if os.getenv("DEVTAINER_BUILD") ~= nil then
+		return true
+	end
+
+	return false
+end
+
 require("lazy").setup(getPlugins())
+
+return devTainer()
