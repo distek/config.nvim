@@ -46,12 +46,17 @@ local devTainer = function()
 	return false
 end
 
-require("lazy").setup(getPlugins(), { install = { missing = not devTainer() } })
-
-if not devTainer() then
-	vim.api.nvim_create_autocmd({ "LazySync" }, {
+if devTainer() then
+	vim.api.nvim_create_autocmd({ "User" }, {
+		pattern = "LazySync",
 		callback = function()
 			vim.cmd("q")
 		end,
 	})
+
+	require("lazy").setup(getPlugins(), { install = { missing = false } })
+
+	require("lazy").restore()
+else
+	require("lazy").setup(getPlugins())
 end
