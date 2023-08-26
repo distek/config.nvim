@@ -39,7 +39,7 @@ function Update()
 end
 
 local devTainer = function()
-	if os.getenv("DEVTAINER_BUILD") ~= "" then
+	if os.getenv("DEVTAINER_BUILD") ~= nil then
 		return true
 	end
 
