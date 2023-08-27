@@ -49,6 +49,7 @@ end
 require("lazy").setup(getPlugins())
 
 if devTainer() then
+	vim.print(require("mason-lspconfig.settings").current.ensure_installed)
 	vim.api.nvim_create_user_command("MasonInstallAll", function()
 		vim.cmd("MasonInstall " .. table.concat(require("mason-lspconfig.settings").current.ensure_installed, " "))
 	end, {})
