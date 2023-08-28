@@ -69,5 +69,4 @@ if bootstrap() then
 	}
 
 	require("mason.api.command").MasonInstall(ensure_installed, {})
-	print("Done?")
 end
