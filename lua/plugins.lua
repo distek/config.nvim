@@ -61,7 +61,6 @@ if bootstrap() then
 		"json-lsp",
 		"lua-language-server",
 		"prettierd",
-		"prettierd",
 		"rust-analyzer",
 		"shfmt",
 		"stylua",
