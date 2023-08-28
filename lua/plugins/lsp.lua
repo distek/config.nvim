@@ -28,7 +28,6 @@ return {
 			})
 
 			require("mason-lspconfig").setup({
-				ensure_installed = { "bashls", "clangd", "cssls", "gopls", "lua_ls", "tsserver", "vls" },
 				automatic_installation = true,
 			})
 
@@ -139,17 +138,7 @@ return {
 			})
 
 			require("mason-null-ls").setup({
-				ensure_installed = {
-					"clang_format",
-					"goimports",
-					"golangci_lint",
-					"jq",
-					"prettierd",
-					"rust_analyzer",
-					"shfmt",
-					"stylua",
-				},
-				automatic_installation = true,
+				automatic_installation = false,
 				automatic_setup = true, -- Recommended, but optional
 				handlers = {},
 			})

@@ -38,7 +38,7 @@ function Update()
 	vim.cmd("TSUpdate")
 end
 
-local devTainer = function()
+local function bootstrap()
 	if os.getenv("DEVTAINER_BUILD") ~= nil then
 		return true
 	end
@@ -48,9 +48,26 @@ end
 
 require("lazy").setup(getPlugins())
 
-if devTainer() then
-	vim.print(require("mason-lspconfig.settings").current.ensure_installed)
-	vim.cmd("MasonInstall " .. table.concat(require("mason-lspconfig.settings").current.ensure_installed, " "))
-end
+if bootstrap() then
+	local ensure_installed = {
+		"bash-language-server",
+		"clang-format",
+		"clangd",
+		"css-lsp",
+		"goimports",
+		"golangci-lint",
+		"gopls",
+		"jq",
+		"json-lsp",
+		"lua-language-server",
+		"prettierd",
+		"prettierd",
+		"rust-analyzer",
+		"shfmt",
+		"stylua",
+		"typescript-language-server",
+	}
 
-return devTainer()
+	require("mason.api.command").MasonInstall(ensure_installed, {})
+	print("Done?")
+end
