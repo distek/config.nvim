@@ -10,11 +10,45 @@ map("v", ">", "'>gv'", { expr = true, silent = true })
 map("v", "<", "'<gv'", { expr = true, silent = true })
 
 -- Easy-to-smash nohl
-map("n", "<Esc><Esc>", ":nohl<CR>", { silent = true })
+map("n", "<Esc><Esc>", function()
+	vim.cmd("nohl")
+
+	-- local edgyList = {}
+
+	-- local edgyWins = require("edgy.editor").list_wins()
+	-- for _, v in ipairs(edgyWins.edgy) do
+	-- 	local w = require("edgy").get_win(v)
+
+	-- 	if w.visible then
+	-- 		table.insert(edgyList, w.view.edgebar.pos)
+
+	-- 		require("edgy").close(w.view.edgebar.pos)
+	-- 	end
+	-- end
+
+	-- vim.cmd("set cmdheight=1")
+	-- vim.cmd("resize")
+
+	-- for _, w in pairs(edgyList) do
+	-- 	local bar = w.view.edgebar
+
+	-- 	if w.visible then
+	-- 		require("edgy").open(bar.pos)
+	-- 	end
+	-- end
+end, { silent = true })
 
 -- Better incsearch
-map("n", "n", "<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>")
-map("n", "N", "<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>")
+map(
+	"n",
+	"n",
+	"<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>"
+)
+map(
+	"n",
+	"N",
+	"<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>"
+)
 
 -- focus tabpages
 map("n", "<leader><Tab>", ":tabnext<cr>", { desc = "Next Tab" })
@@ -25,7 +59,12 @@ map("n", "<leader>cm", "<Plug>ContextCommentary", { desc = "Comment line" })
 map("v", "<leader>cm", "<Plug>ContextCommentary", { desc = "Comment line(s)" })
 
 -- Telescope file browser
-map("n", "<leader>aa", "<cmd>Telescope file_browser path=%:p:h hidden=true<CR>", { desc = "File browser" })
+map(
+	"n",
+	"<leader>aa",
+	"<cmd>Telescope file_browser path=%:p:h hidden=true<CR>",
+	{ desc = "File browser" }
+)
 
 -- refactoring.nvim
 map(
@@ -58,7 +97,12 @@ map(
 	[[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
 	{ desc = "Inline variable" }
 )
-map("n", "<leader>rb", [[ <Cmd>lua require('refactoring').refactor('Extract Block')<CR>]], { desc = "Extract block" })
+map(
+	"n",
+	"<leader>rb",
+	[[ <Cmd>lua require('refactoring').refactor('Extract Block')<CR>]],
+	{ desc = "Extract block" }
+)
 map(
 	"n",
 	"<leader>rbf",
@@ -89,28 +133,39 @@ map("n", "<leader>af", function()
 	require("edgy").toggle("right")
 end, { desc = "Right panel" })
 
--- Toggleterm
-map("t", "<A-Tab>", function()
-	require("tt.terminal"):FocusNext()
-end, { desc = "Focus next terminal" })
+Util.ttFocused = function()
+	local buf = vim.api.nvim_win_get_buf(0)
 
-map("t", "<A-S-Tab>", function()
-	require("tt.terminal"):FocusPrevious()
-end, { desc = "Focus previous terminal" })
+	return vim.bo[buf].filetype == "toggleterm"
+end
 
-map("n", "<A-Tab>", function()
-	if require("tt"):IsOpen() then
-		require("tt.terminal"):FocusNext()
+Util.moveTmux = function(dir)
+	if Util.ttFocused() then
+		local r, c = unpack(vim.api.nvim_win_get_cursor(0))
 	end
-end, { desc = "Focus next terminal" })
+end
+-- -- Toggleterm
+-- map("t", "<A-Tab>", function()
+-- 	require("tt.terminal"):FocusNext()
+-- end, { desc = "Focus next terminal" })
 
-map("n", "<A-S-Tab>", function()
-	if require("tt"):IsOpen() then
-		require("tt.terminal"):FocusPrevious()
-	end
-end, { desc = "Focus previous terminal" })
+-- map("t", "<A-S-Tab>", function()
+-- 	require("tt.terminal"):FocusPrevious()
+-- end, { desc = "Focus previous terminal" })
 
-map("t", "<A-a>", "<C-\\><C-n>")
+-- map("n", "<A-Tab>", function()
+-- 	if require("tt"):IsOpen() then
+-- 		require("tt.terminal"):FocusNext()
+-- 	end
+-- end, { desc = "Focus next terminal" })
+
+-- map("n", "<A-S-Tab>", function()
+-- 	if require("tt"):IsOpen() then
+-- 		require("tt.terminal"):FocusPrevious()
+-- 	end
+-- end, { desc = "Focus previous terminal" })
+
+map("t", "<A-z>", "<C-\\><C-n>")
 
 -- Fuck q:
 -- https://www.reddit.com/r/neovim/comments/lizyxj/how_to_get_rid_of_q/
@@ -128,10 +183,20 @@ end, { bang = true })
 vim.api.nvim_create_user_command("W", "w", {})
 
 -- manual qf
-map("n", "<leader>qa", "<cmd>lua Util.addToQF()<cr>", { desc = "Add line to quickfix list" })
-map("n", "<leader>qd", "<cmd>lua Util.delFromQF()<cr>", { desc = "Delete line from quickfix list" })
+map(
+	"n",
+	"<leader>qa",
+	"<cmd>lua Util.addToQF()<cr>",
+	{ desc = "Add line to quickfix list" }
+)
+map(
+	"n",
+	"<leader>qd",
+	"<cmd>lua Util.delFromQF()<cr>",
+	{ desc = "Delete line from quickfix list" }
+)
 map("n", "<leader>qo", function()
-	require("edgy").toggle("top")
+	vim.cmd("copen")
 end, { desc = "Open quickfix list" })
 
 map("n", "<leader>Sw", function()

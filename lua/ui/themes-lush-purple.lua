@@ -426,7 +426,11 @@ local theme = lush(function(injected_functions)
 		--
 		-- nvim-cmp
 		--
-		CmpItemAbbrDeprecated({ fg = gray3, bg = "NONE", gui = "strikethrough" }),
+		CmpItemAbbrDeprecated({
+			fg = gray3,
+			bg = "NONE",
+			gui = "strikethrough",
+		}),
 		CmpItemAbbrMatch({ fg = bright_blue, bg = "NONE" }),
 		CmpItemAbbrMatchFuzzy({ CmpItemAbbrMatch }),
 		CmpItemMenu({ Description }),
@@ -545,7 +549,10 @@ local theme = lush(function(injected_functions)
 		IndentBlanklineSpaceCharBlankline({ IndentBlanklineChar }),
 		IndentBlanklineContextChar({ fg = indent_guide_context_fg }),
 		IndentBlanklineContextSpaceChar({ IndentBlanklineContextChar }),
-		IndentBlanklineContextStart({ gui = "underline", sp = indent_guide_context_fg }),
+		IndentBlanklineContextStart({
+			gui = "underline",
+			sp = indent_guide_context_fg,
+		}),
 
 		--
 		-- hlslens

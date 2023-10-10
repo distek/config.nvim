@@ -24,7 +24,7 @@ vim.opt.laststatus = 3
 vim.o.linebreak = true
 vim.o.modeline = true
 vim.o.modelines = 5
-vim.o.mouse = "a"
+vim.opt.mouse = "a"
 vim.o.number = true
 vim.o.numberwidth = 8
 vim.o.pumblend = 15
@@ -47,7 +47,7 @@ vim.o.shell = os.getenv("SHELL")
 -- vim.o.shell = vim.fn.expand("~/.config/nvim/contrib/vimterm.sh")
 Vimterm = vim.o.shell
 vim.o.shiftwidth = 4
-vim.o.showbreak = "└►"
+vim.o.showbreak = "  "
 vim.o.showmode = false
 vim.o.showtabline = 2
 vim.o.smartcase = true
@@ -66,7 +66,8 @@ vim.o.wrap = true
 
 vim.opt.shortmess:append("I")
 
-vim.o.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions"
+vim.o.sessionoptions =
+	"buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions"
 
 vim.opt.splitkeep = "screen"
 
@@ -140,3 +141,5 @@ vim.diagnostic.config({
 	virtual_text = true,
 	float = { border = "shadow" },
 })
+
+vim.cmd("let g:csv_default_delim=','")

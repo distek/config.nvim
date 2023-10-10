@@ -16,13 +16,4 @@ return {
 		end,
 	},
 	{ "sirtaj/vim-openscad", ft = { "openscad" }, lazy = true },
-
-	{
-		"ray-x/go.nvim",
-		ft = { "go", "gomod" },
-		lazy = true,
-		config = function()
-			require("go").setup()
-		end,
-	},
 }

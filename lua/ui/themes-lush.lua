@@ -67,7 +67,8 @@ local theme = lush(function(injected_functions)
 		LightCyan({ fg = cyan.lighten(20).hex }),
 		LightWhite({ fg = white.lighten(20).hex }),
 		Normal({ bg = norm_bg, fg = norm_fg }),
-		NormalFloat({ Normal }),
+		NormalFloat({ bg = norm_bg.lighten(15) }),
+		NormalFloatDarker({ bg = norm_bg.lighten(7) }),
 		FloatShadow({ blend = 15, bg = norm_bg.darken(20) }),
 		NormalNC({ Normal }),
 		ColorColumn({ bg = norm_bg.lighten(10) }),
@@ -95,7 +96,7 @@ local theme = lush(function(injected_functions)
 		MsgArea({ Normal }),
 		MsgSeparator({ Normal }),
 		MoreMsg({ fg = green }),
-		NonText({ Normal }),
+		NonText({ fg = norm_fg, bg = "NONE" }),
 		Pmenu({ bg = norm_bg.lighten(10) }),
 		PmenuSel({ bg = norm_bg.lighten(1), fg = norm_fg }),
 		PmenuSbar({ bg = norm_bg }),
@@ -172,7 +173,7 @@ local theme = lush(function(injected_functions)
 		LspReferenceWrite({ Normal }),
 		LspCodeLens({ fg = diagnostic_error }),
 		LspCodeLensSeparator({ Normal }),
-		LspSignatureActiveParameter({ bg = norm_bg.lighten(10) }),
+		LspSignatureActiveParameter({ bg = yellow.darken(60) }),
 
 		-- See :h diagnostic-highlights, some groups may not be listed, submit a PR fix to lush-template!
 		--
@@ -327,7 +328,7 @@ local theme = lush(function(injected_functions)
 		EdgyBuffersNormal({ bg = norm_bg.lighten(25) }),
 		EdgyBuffersNormalNC({ bg = norm_bg.lighten(25) }),
 		EdgyFileTreeNormal({ bg = norm_bg.lighten(5) }),
-		EdgyHelpNormal({ bg = norm_bg.lighten(15) }),
+		EdgyHelpNormal({ bg = norm_bg.lighten(5) }),
 		EdgyQuickfixNormal({ bg = norm_bg.darken(20) }),
 
 		-- NeoTree
@@ -373,6 +374,9 @@ local theme = lush(function(injected_functions)
 		-- NeoTreeWinSeparator({}),
 		-- NeoTreeWindowsHidden({}),
 
+		WindowPickerStatusLine({ bg = norm_bg.lighten(10), fg = yellow }),
+		WindowPickerStatusLineNC({ bg = norm_bg.lighten(10), fg = yellow }),
+
 		-- colorful-winsep
 		--
 		NvimSeparator({ fg = yellow, bg = norm_bg }),
@@ -382,11 +386,17 @@ local theme = lush(function(injected_functions)
 		TermListCurrent({ fg = norm_bg, bg = yellow }),
 
 		NoiceCmdLine({ bg = norm_bg.lighten(15) }),
-		NoiceCmdlinePopupBorderCalculator({ fg = yellow, bg = norm_bg.lighten(10) }),
+		NoiceCmdlinePopupBorderCalculator({
+			fg = yellow,
+			bg = norm_bg.lighten(10),
+		}),
 		NoiceCmdlinePopupBorderCmdline({ fg = blue, bg = norm_bg.lighten(10) }),
 		NoiceCmdlinePopupBorderFilter({ fg = red, bg = norm_bg.lighten(10) }),
 		NoiceCmdlinePopupBorderHelp({ fg = green, bg = norm_bg.lighten(10) }),
-		NoiceCmdlinePopupBorderIncRename({ fg = magenta, bg = norm_bg.lighten(10) }),
+		NoiceCmdlinePopupBorderIncRename({
+			fg = magenta,
+			bg = norm_bg.lighten(10),
+		}),
 		NoiceCmdlinePopupBorderInput({ fg = white, bg = norm_bg.lighten(10) }),
 		NoiceCmdlinePopupBorderLua({ fg = blue, bg = norm_bg.lighten(10) }),
 		NoiceCmdlinePopupBorderSearch({ fg = cyan, bg = norm_bg.lighten(10) }),
@@ -397,6 +407,7 @@ local theme = lush(function(injected_functions)
 		DapLogPoint({ fg = yellow, bg = statusColBG }),
 		DapStopped({ fg = blue, bg = statusColBG }),
 		HLChunkIndicator({ fg = blue.darken(20) }),
+		HideCursor({ blend = 100 }),
 	}
 
 	return ret

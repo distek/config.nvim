@@ -1,5 +1,5 @@
 -- Terminal
-vim.api.nvim_create_augroup("Terminal", { clear = true })
+-- vim.api.nvim_create_augroup("Terminal", { clear = true })
 
 -- vim.api.nvim_create_autocmd("FileType", {
 -- 	pattern = { "toggleterm" },

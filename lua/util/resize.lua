@@ -1,8 +1,8 @@
 Util.win_resize = function(dir)
-	local bt = vim.bo[vim.api.nvim_win_get_buf(0)].filetype
-	if bt == "toggleterm" or bt == "neo-tree" or bt == "Outline" or bt == "help" or bt == "qf" then
-		return
-	end
+	-- local bt = vim.bo[vim.api.nvim_win_get_buf(0)].filetype
+	-- if bt == "toggleterm" or bt == "neo-tree" or bt == "Outline" or bt == "help" or bt == "qf" then
+	-- 	return
+	-- end
 
 	local n = Util.getNeighbors()
 

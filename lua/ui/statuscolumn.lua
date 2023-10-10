@@ -49,7 +49,11 @@ end
 
 _G.set_statuscol_breakpoint = function()
 	local mousepos = vim.fn.getmousepos()
-	require("dap.breakpoints").toggle({}, vim.api.nvim_win_get_buf(mousepos.winid), mousepos.line)
+	require("dap.breakpoints").toggle(
+		{},
+		vim.api.nvim_win_get_buf(mousepos.winid),
+		mousepos.line
+	)
 end
 
 local function get_name_from_group(bufnum, lnum, group)
@@ -68,7 +72,10 @@ local function get_breakpoint_signs(bufexpr)
 	local bufs_with_signs = vim.fn.sign_getplaced()
 	local result = {}
 	for _, buf_signs in ipairs(bufs_with_signs) do
-		buf_signs = vim.fn.sign_getplaced(buf_signs.bufnr, { group = "dap_breakpoints" })[1]
+		buf_signs = vim.fn.sign_getplaced(
+			buf_signs.bufnr,
+			{ group = "dap_breakpoints" }
+		)[1]
 		if #buf_signs.signs > 0 then
 			table.insert(result, buf_signs)
 		end
@@ -91,10 +98,14 @@ _G.get_statuscol_breakpoint = function(bufnr, lnum)
 end
 
 _G.get_statuscol_gitsign = function(bufnr, lnum)
-	local cur_sign_nm = get_name_from_group(bufnr, lnum, "gitsigns_vimfn_signs_")
+	local cur_sign_nm =
+		get_name_from_group(bufnr, lnum, "gitsigns_vimfn_signs_")
 
 	if cur_sign_nm ~= nil then
-		return mk_hl(gitsigns_hl_pool[cur_sign_nm], string.gsub(gitsigns_bar, "%s+", ""))
+		return mk_hl(
+			gitsigns_hl_pool[cur_sign_nm],
+			string.gsub(gitsigns_bar, "%s+", "")
+		)
 	end
 
 	return mk_hl("SignColumn", " ")
@@ -104,7 +115,10 @@ _G.get_statuscol_diag = function(bufnum, lnum)
 	local cur_sign_nm = get_name_from_group(bufnum, lnum, "*")
 
 	if cur_sign_nm ~= nil and vim.startswith(cur_sign_nm, "DiagnosticSign") then
-		return mk_hl(cur_sign_nm, string.gsub(diag_signs_icons[cur_sign_nm], "%s+", ""))
+		return mk_hl(
+			cur_sign_nm,
+			string.gsub(diag_signs_icons[cur_sign_nm], "%s+", "")
+		)
 	end
 
 	return mk_hl("SignColumn", " ")

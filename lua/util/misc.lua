@@ -21,22 +21,22 @@ Util.skipUnwantedBuffers = function(dir)
 		vim.cmd("BufferPrevious")
 	end
 
-	local buftype = vim.api.nvim_buf_get_option(0, "buftype")
+	-- local buftype = vim.api.nvim_buf_get_option(0, "buftype")
 
-	if buftype == "quickfix" or buftype == "terminal" then
-		if buftype == "terminal" then
-			-- if the terminal is not open elsewhere
-			if #vim.fn.win_findbuf(vim.fn.bufnr("%")) == 1 then
-				return
-			end
+	-- if buftype == "quickfix" or buftype == "terminal" then
+	-- 	if buftype == "terminal" then
+	-- 		-- if the terminal is not open elsewhere
+	-- 		if #vim.fn.win_findbuf(vim.fn.bufnr("%")) == 1 then
+	-- 			return
+	-- 		end
 
-			vim.cmd([[stopinsert]])
+	-- 		vim.cmd([[stopinsert]])
 
-			return
-		end
+	-- 		return
+	-- 	end
 
-		Util.skipUnwantedBuffers(dir)
-	end
+	-- 	Util.skipUnwantedBuffers(dir)
+	-- end
 end
 
 Util.dapStart = function()
@@ -65,7 +65,10 @@ local function hexToRgb(hex_str)
 	local pat = "^#(" .. hex .. ")(" .. hex .. ")(" .. hex .. ")$"
 	hex_str = string.lower(hex_str)
 
-	assert(string.find(hex_str, pat) ~= nil, "hex_to_rgb: invalid hex_str: " .. tostring(hex_str))
+	assert(
+		string.find(hex_str, pat) ~= nil,
+		"hex_to_rgb: invalid hex_str: " .. tostring(hex_str)
+	)
 
 	local r, g, b = string.match(hex_str, pat)
 	return { tonumber(r, 16), tonumber(g, 16), tonumber(b, 16) }
@@ -80,7 +83,12 @@ local function blend(fg, bg, alpha)
 		return math.floor(math.min(math.max(0, ret), 255) + 0.5)
 	end
 
-	return string.format("#%02X%02X%02X", blendChannel(1), blendChannel(2), blendChannel(3))
+	return string.format(
+		"#%02X%02X%02X",
+		blendChannel(1),
+		blendChannel(2),
+		blendChannel(3)
+	)
 end
 
 Util.darken = function(hex, amount)
@@ -190,9 +198,12 @@ Util.vimCmdToBuffer = function(cmd)
 
 	vim.cmd("vnew")
 
+	local t = {}
 	for line in string.gmatch(output.output, "([^\n]+)") do
-		vim.api.nvim_buf_set_lines(0, 0, 0, false, { line })
+		table.insert(t, line)
 	end
+
+	vim.api.nvim_buf_set_lines(0, 0, 0, false, t)
 end
 
 Util.bdelete = function(all, force)
@@ -281,7 +292,10 @@ Util.addToQF = function()
 
 	local line = vim.api.nvim_buf_get_lines(buf, row - 1, row, false)[1]
 
-	vim.fn.setqflist({ { lnum = row, end_lnum = row, bufnr = buf, text = line } }, "a")
+	vim.fn.setqflist(
+		{ { lnum = row, end_lnum = row, bufnr = buf, text = line } },
+		"a"
+	)
 end
 
 Util.delFromQF = function()
@@ -303,4 +317,40 @@ Util.delFromQF = function()
 	end
 
 	vim.fn.setqflist(newQFList)
+end
+
+Util.getAllOptions = function()
+	local win_number = vim.api.nvim_get_current_win()
+	local v = vim.w[win_number]
+	local all_options = vim.api.nvim_get_all_options_info()
+	local result = ""
+	for key, val in pairs(all_options) do
+		if val.global_local == false and val.scope == "win" then
+			result = result
+				.. "|"
+				.. key
+				.. "="
+				.. tostring(v[key] or "<not set>")
+				.. "\n"
+		end
+	end
+	print(result)
+end
+
+Util.reopenBuffer = function()
+	local pickers = require("telescope.pickers")
+	local finders = require("telescope.finders")
+
+	local opts = {}
+
+	pickers
+		.new(opts, {
+			prompt_title = "Reopen buffer",
+			finder = finders.new_table({
+				results = BufStack,
+			}),
+			previewer = nil,
+			create_layout = TelescopeLayoutGen("select"),
+		})
+		:find()
 end

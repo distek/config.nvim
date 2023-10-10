@@ -31,7 +31,11 @@ return {
 				verbose = { read = false, write = true, delete = true },
 			})
 
-			require("mini.starter").setup()
+			if os.getenv("VIDETREE") == nil then
+				require("mini.starter").setup()
+			end
+
+			-- require("mini.animate").setup()
 		end,
 	},
 	{
@@ -40,7 +44,11 @@ return {
 		lazy = true,
 		config = function()
 			require("mkdnflow").setup({
+				modules = {
+					conceal = true,
+				},
 				links = {
+					conceal = true,
 					transform_explicit = function(text)
 						-- Make lowercase, remove spaces, and reverse the string
 						return string.lower(text:gsub(" ", "_"))
@@ -95,23 +103,16 @@ return {
 		},
 	},
 
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		config = function()
-			require("nvim-autopairs").setup({
-				disable_in_macro = true,
-				enable_check_bracket_line = true,
-			})
-		end,
-	},
-
-	{ "tpope/vim-fugitive", event = "VeryLazy", cmd = "Git" },
+	{ "tpope/vim-fugitive" },
 	{ "ThePrimeagen/git-worktree.nvim", event = "VeryLazy" },
 
 	{ "powerman/vim-plugin-AnsiEsc" },
 
-	{ "norcalli/nvim-colorizer.lua", cmd = "ColorizerToggle", event = "VeryLazy" },
+	{
+		"norcalli/nvim-colorizer.lua",
+		cmd = "ColorizerToggle",
+		event = "VeryLazy",
+	},
 
 	-- {
 	-- 	"nvim-zh/colorful-winsep.nvim",
@@ -155,4 +156,50 @@ return {
 	{ "rktjmp/lush.nvim" },
 
 	{ "ray-x/guihua.lua" },
+	{
+		"nvim-neotest/neotest",
+		dependencies = {
+			"akinsho/neotest-go",
+		},
+		config = function()
+			local neotest_ns = vim.api.nvim_create_namespace("neotest")
+			vim.diagnostic.config({
+				virtual_text = {
+					format = function(diagnostic)
+						local message = diagnostic.message
+							:gsub("\n", " ")
+							:gsub("\t", " ")
+							:gsub("%s+", " ")
+							:gsub("^%s+", "")
+						return message
+					end,
+				},
+			}, neotest_ns)
+
+			require("neotest").setup({
+				adapters = {
+					require("neotest-go"),
+				},
+				highlights = {
+					adapter_name = "Cyan",
+					dir = "NeoTreeDirectoryName",
+					expand_marker = "NeoTreeExpander",
+					failed = "Red",
+					focused = "LightMagenta",
+					indent = "LightBlack",
+					marked = "NeotestMarked",
+					namespace = "NeotestNamespace",
+					passed = "Green",
+					running = "Yellow",
+					select_win = "NeotestWinSelect",
+					skipped = "NeotestSkipped",
+					target = "NeotestTarget",
+					test = "NeotestTest",
+					unknown = "NeotestUnknown",
+					watching = "LightBlue",
+				},
+			})
+		end,
+	},
+	{ "kiyoon/nvim-tree-remote.nvim" },
 }

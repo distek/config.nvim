@@ -23,6 +23,7 @@ end
 local function getPlugins()
 	local plugins = {}
 
+	plugins = insert(require("plugins.deps"), plugins)
 	plugins = insert(require("plugins.filetypes"), plugins)
 	plugins = insert(require("plugins.treesitter"), plugins)
 	plugins = insert(require("plugins.lsp"), plugins)
@@ -54,7 +55,6 @@ if bootstrap() then
 		"clang-format",
 		"clangd",
 		"css-lsp",
-		"goimports",
 		"golangci-lint",
 		"gopls",
 		"jq",

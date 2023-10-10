@@ -1,4 +1,66 @@
 return {
+	-- {
+	-- 	"folke/noice.nvim",
+	-- 	event = "VeryLazy",
+	-- 	opts = {
+	-- 		views = {
+	-- 			cmdline_popup = {
+	-- 				border = {
+	-- 					style = "shadow",
+	-- 					-- padding = { 1, 2 },
+	-- 				},
+	-- 				win_options = {
+	-- 					winhighlight = {
+	-- 						Normal = "NoiceCmdLine",
+	-- 					},
+	-- 				},
+	-- 			},
+	-- 		},
+	-- 		lsp = {
+	-- 			progress = {
+	-- 				enabled = false,
+	-- 			},
+	-- 			-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+	-- 			override = {
+	-- 				["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+	-- 				["vim.lsp.util.stylize_markdown"] = true,
+	-- 				["cmp.entry.get_documentation"] = true,
+	-- 			},
+
+	-- 			documentation = {
+	-- 				view = "hover",
+	-- 				opts = {
+	-- 					lang = "markdown",
+	-- 					replace = true,
+	-- 					render = "plain",
+	-- 					format = { "{message}" },
+	-- 					border = {
+	-- 						style = "shadow",
+	-- 						-- padding = { 1, 2 },
+	-- 					},
+	-- 					win_options = {
+	-- 						concealcursor = "n",
+	-- 						conceallevel = 3,
+	-- 						winhighlight = {
+	-- 							Normal = "NormalFloat",
+	-- 						},
+	-- 					},
+	-- 				},
+	-- 			},
+	-- 		},
+	-- 		-- you can enable a preset for easier configuration
+	-- 		presets = {
+	-- 			bottom_search = true, -- use a classic bottom cmdline for search
+	-- 			command_palette = true, -- position the cmdline and popupmenu together
+	-- 			long_message_to_split = true, -- long messages will be sent to a split
+	-- 			inc_rename = false, -- enables an input dialog for inc-rename.nvim
+	-- 			lsp_doc_border = false, -- add a border to hover docs and signature help
+	-- 		},
+	-- 	},
+	-- 	dependencies = {
+	-- 		"MunifTanjim/nui.nvim",
+	-- 	},
+	-- },
 	{
 		"nvim-lualine/lualine.nvim",
 		event = "VeryLazy",
@@ -25,22 +87,46 @@ return {
 
 								-- auto change color according to neovims mode
 								local colors = {
-									normal = utils.extract_color_from_hllist("fg", { "Function" }, "#000000"),
-									insert = utils.extract_color_from_hllist("fg", { "String", "MoreMsg" }, "#000000"),
-									replace = utils.extract_color_from_hllist("fg", { "Number", "Type" }, "#000000"),
+									normal = utils.extract_color_from_hllist(
+										"fg",
+										{ "Function" },
+										"#000000"
+									),
+									insert = utils.extract_color_from_hllist(
+										"fg",
+										{ "String", "MoreMsg" },
+										"#000000"
+									),
+									replace = utils.extract_color_from_hllist(
+										"fg",
+										{ "Number", "Type" },
+										"#000000"
+									),
 									visual = utils.extract_color_from_hllist(
 										"fg",
 										{ "Special", "Boolean", "Constant" },
 										"#000000"
 									),
-									command = utils.extract_color_from_hllist("fg", { "Identifier" }, "#000000"),
+									command = utils.extract_color_from_hllist(
+										"fg",
+										{ "Identifier" },
+										"#000000"
+									),
 									back1 = utils.extract_color_from_hllist(
 										"bg",
 										{ "Normal", "StatusLineNC" },
 										"#000000"
 									),
-									fore = utils.extract_color_from_hllist("fg", { "Normal", "StatusLine" }, "#000000"),
-									back2 = utils.extract_color_from_hllist("bg", { "StatusLine" }, "#000000"),
+									fore = utils.extract_color_from_hllist(
+										"fg",
+										{ "Normal", "StatusLine" },
+										"#000000"
+									),
+									back2 = utils.extract_color_from_hllist(
+										"bg",
+										{ "StatusLine" },
+										"#000000"
+									),
 								}
 								local mode_color = {
 									["n"] = colors.normal, -- 'NORMAL',
@@ -79,12 +165,26 @@ return {
 									["!"] = colors.command, -- 'SHELL',
 									["t"] = colors.insert, -- 'TERMINAL',
 								}
-								return { fg = mode_color[vim.fn.mode()], bg = colors.back1 }
+								return {
+									fg = mode_color[vim.fn.mode()],
+									bg = colors.back1,
+								}
 							end,
 						},
 					},
-					lualine_b = { "branch", "diff", "diagnostics", { "filename", path = 1 } },
-					lualine_c = {},
+					lualine_b = {
+						"branch",
+						"diff",
+						"diagnostics",
+						{ "filename", path = 1 },
+					},
+					lualine_c = {
+						-- {
+						-- 	require("noice").api.statusline.mode.get,
+						-- 	cond = require("noice").api.statusline.mode.has,
+						-- 	color = { fg = "#ff9e64" },
+						-- },
+					},
 					lualine_x = { "encoding", "fileformat", "filetype" },
 					lualine_y = { "progress" },
 					lualine_z = {
@@ -192,7 +292,13 @@ return {
 						"│",
 					},
 					style = {
-						{ fg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID("NeoTreeDimText")), "fg", "gui") },
+						{
+							fg = vim.fn.synIDattr(
+								vim.fn.synIDtrans(vim.fn.hlID("NeoTreeDimText")),
+								"fg",
+								"gui"
+							),
+						},
 					},
 				},
 
@@ -212,7 +318,15 @@ return {
 						["Outline"] = true,
 					},
 					style = {
-						{ fg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID("HLChunkIndicator")), "fg", "gui") },
+						{
+							fg = vim.fn.synIDattr(
+								vim.fn.synIDtrans(
+									vim.fn.hlID("HLChunkIndicator")
+								),
+								"fg",
+								"gui"
+							),
+						},
 					},
 
 					use_treesitter = false,
@@ -248,7 +362,14 @@ return {
 			"MunifTanjim/nui.nvim",
 		},
 		config = function()
+			-- if os.getenv("VIDESOCK") ~= nil then
+			-- 	return
+			-- end
 			require("neo-tree").setup({
+				sources = {
+					"buffers",
+					"filesystem",
+				},
 				source_selector = {
 					winbar = false,
 					statusline = false,
@@ -258,20 +379,106 @@ return {
 						enabled = true,
 					},
 					use_libuv_file_watcher = true,
-				},
-				window = {
-					mappings = {
-						["/"] = "filter_as_you_type",
-						["<esc><esc>"] = "clear_filter",
+					hide_dotfiles = false,
+					hide_gitignore = false,
+					never_show = {
+						".DS_Store",
+						".vscode",
+					},
+					window = {
+						mappings = {
+							["/"] = "filter_as_you_type",
+							["<esc><esc>"] = "clear_filter",
+							["d"] = function(state, callback)
+								local tree = state.tree
+								local node = tree:get_node()
+
+								local _, name =
+									require("neo-tree.utils").split_path(
+										node.path
+									)
+
+								local msg = string.format(
+									"Are you sure you want to delete '%s'? [y/N]: ",
+									name
+								)
+
+								vim.ui.input({ prompt = msg }, function(input)
+									if input == "y" or input == "Y" then
+										-- Work around for edgy
+										if
+											node.type == "file"
+											or node.type == "directory"
+										then
+											for _, v in
+												ipairs(vim.api.nvim_list_bufs())
+											do
+												if
+													vim.api.nvim_buf_get_name(v)
+													== node.path
+												then
+													local empty =
+														vim.api.nvim_create_buf(
+															true,
+															false
+														)
+													for _, w in
+														ipairs(
+															vim.api.nvim_list_wins()
+														)
+													do
+														if
+															vim.api.nvim_win_get_buf(
+																w
+															)
+															== v
+														then
+															vim.api.nvim_win_set_buf(
+																w,
+																empty
+															)
+														end
+													end
+													break
+												end
+											end
+											require(
+												"neo-tree.sources.filesystem.lib.fs_actions"
+											).delete_node(
+												node.path,
+												callback,
+												true
+											)
+										else
+											vim.notify(
+												"The `delete` command can only be used on files and directories"
+											)
+										end
+									end
+								end)
+							end,
+						},
 					},
 				},
 				buffers = {
 					follow_current_file = {
 						enabled = true,
 					},
+					window = {
+						mappings = {
+							["/"] = "filter_as_you_type",
+							["<esc><esc>"] = "clear_filter",
+						},
+					},
 				},
 				use_popups_for_input = false,
-				open_files_do_not_replace_types = { "terminal", "Trouble", "qf", "Outline", "edgy" },
+				open_files_do_not_replace_types = {
+					"terminal",
+					"Trouble",
+					"qf",
+					"Outline",
+					"edgy",
+				},
 			})
 		end,
 	},
@@ -343,9 +550,13 @@ return {
 			focus_on_close = "left",
 			insert_at_end = true,
 			-- sidebar_filetypes = {
-			-- 	["neo-tree"] = { event = "BufWipeout" },
+			-- 	["neo-tree"] = true,
 			-- },
 		},
+		config = function(opts)
+			require("bufferline").setup(opts)
+			require("bufferline.api").set_offset(8, "Neovim")
+		end,
 	},
 
 	{
@@ -355,14 +566,167 @@ return {
 			"nvim-telescope/telescope-file-browser.nvim",
 			"nvim-telescope/telescope-ui-select.nvim",
 			"nvim-telescope/telescope-dap.nvim",
-			"tknightz/telescope-termfinder.nvim",
 		},
-		cmd = "Telescope",
-		event = "VeryLazy",
 		config = function()
-			CommandPaletteAllTheThings = function()
-				vim.cmd("NeoTree")
-				TF.Open()
+			TelescopeLayoutGen = function(name)
+				local Layout = require("telescope.pickers.layout")
+
+				local function create_window(
+					enter,
+					width,
+					height,
+					row,
+					col,
+					title
+				)
+					local bufnr = vim.api.nvim_create_buf(false, true)
+					local winid = vim.api.nvim_open_win(bufnr, enter, {
+						style = "minimal",
+						relative = "editor",
+						width = width,
+						height = height,
+						row = row,
+						col = col,
+						border = "shadow",
+						title = title,
+					})
+
+					vim.wo[winid].winhighlight = "Normal:NormalFloat"
+
+					return Layout.Window({
+						bufnr = bufnr,
+						winid = winid,
+					})
+				end
+
+				local function destory_window(window)
+					if window then
+						if vim.api.nvim_win_is_valid(window.winid) then
+							vim.api.nvim_win_close(window.winid, true)
+						end
+						if vim.api.nvim_buf_is_valid(window.bufnr) then
+							vim.api.nvim_buf_delete(
+								window.bufnr,
+								{ force = true }
+							)
+						end
+					end
+				end
+
+				-- default {{{
+				local function defaultMount(self)
+					local line_count = vim.o.lines - vim.o.cmdheight
+					if vim.o.laststatus ~= 0 then
+						line_count = line_count - 1
+					end
+
+					local width = vim.o.columns
+					local height = line_count - 15 - 2
+
+					local topPad = 7
+
+					local paneWidth = math.floor((width * 0.70) / 2)
+
+					self.results = create_window(
+						false,
+						paneWidth - 1, -- width
+						height, -- height
+						topPad, -- row
+						math.floor(vim.o.columns * 0.15), -- col
+						"Results"
+					)
+
+					self.preview = create_window(
+						false,
+						paneWidth - 1,
+						height,
+						topPad,
+						math.floor(vim.o.columns * 0.15 + paneWidth) + 1,
+						"Preview"
+					)
+					self.prompt = create_window(
+						true,
+						paneWidth * 2,
+						1,
+						height + topPad + 2,
+						math.floor(vim.o.columns * 0.15),
+						"Prompt"
+					)
+				end
+
+				local function defaultUnmount(self)
+					destory_window(self.results)
+					destory_window(self.preview)
+					destory_window(self.prompt)
+				end
+				-- }}}
+
+				-- select {{{
+				local function selectMount(self)
+					local line_count = vim.o.lines - vim.o.cmdheight
+					if vim.o.laststatus ~= 0 then
+						line_count = line_count - 1
+					end
+
+					local width = vim.o.columns
+					local height = 10
+
+					local topPad = 7
+
+					local paneWidth = math.floor(width * 0.50)
+
+					self.results = create_window(
+						false,
+						paneWidth, -- width
+						height, -- height
+						topPad, -- row
+						math.floor(vim.o.columns * 0.25), -- col
+						"Results"
+					)
+
+					self.prompt = create_window(
+						true,
+						paneWidth,
+						1,
+						height + topPad + 2,
+						math.floor(vim.o.columns * 0.25),
+						"Prompt"
+					)
+				end
+				local function selectUnmount(self)
+					destory_window(self.results)
+					destory_window(self.prompt)
+				end
+				-- }}}
+
+				local function get(key, layoutName)
+					if key == "mount" then
+						if layoutName == "default" then
+							return defaultMount
+						end
+						if layoutName == "select" then
+							return selectMount
+						end
+					elseif key == "unmount" then
+						if layoutName == "default" then
+							return defaultUnmount
+						end
+						if layoutName == "select" then
+							return selectUnmount
+						end
+					end
+				end
+
+				return function(picker)
+					local layout = Layout({
+						picker = picker,
+						mount = get("mount", name),
+						unmount = get("unmount", name),
+						update = function(self) end,
+					})
+
+					return layout
+				end
 			end
 
 			require("telescope").setup({
@@ -373,48 +737,61 @@ return {
 							["<esc><esc>"] = require("telescope.actions").close,
 						},
 					},
+
+					create_layout = TelescopeLayoutGen("default"),
 				},
-				extensions = {},
-				source_selector = {
-					winbar = false,
-					statusline = true,
+				extensions = {
+					["ui-select"] = {
+						require("telescope.themes").get_dropdown({}),
+					},
 				},
 			})
 
 			require("telescope").load_extension("file_browser")
 			require("telescope").load_extension("git_worktree")
 			require("telescope").load_extension("ui-select")
-			-- require("telescope").load_extension("termfinder")
-		end,
-	},
-	{ "folke/trouble.nvim" },
-	{
-		"distek/tt.nvim",
-		-- dir = "~/dev/neovim-plugs/tt.nvim",
-		config = function()
-			require("tt").setup({
-				termlist = {
-					enabled = true,
-					width = 25,
-					name = "Terminals",
-					winhighlight = "Normal:EdgyTermListNormal",
-					winbar = true,
-					focus_on_select = true,
-				},
 
-				terminal = {
-					winhighlight = "Normal:EdgyTermNormal",
-					winbar = true,
-					force_insert_on_focus = true,
-				},
-
-				height = 15,
-
-				fixed_height = false,
-				fixed_width = true,
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "TelescopePreviewerLoaded",
+				callback = function(args)
+					vim.wo.winhighlight = "Normal:NormalFloatDarker"
+				end,
 			})
 		end,
 	},
+	{ "folke/trouble.nvim" },
+	-- {
+	-- 	"distek/tt.nvim",
+	-- 	-- dir = "~/dev/neovim-plugs/tt.nvim",
+	-- 	config = function()
+	-- 		require("tt").setup({
+	-- 			termlist = {
+	-- 				enabled = false,
+	-- 				width = 25,
+	-- 				name = "Terminals",
+	-- 				winhighlight = "Normal:EdgyTermListNormal",
+	-- 				winbar = true,
+	-- 				focus_on_select = true,
+	-- 			},
+
+	-- 			terminal = {
+	-- 				winhighlight = "Normal:EdgyTermNormal",
+	-- 				winbar = false,
+	-- 				force_insert_on_focus = true,
+	-- 			},
+
+	-- 			height = 15,
+
+	-- 			fixed_height = false,
+	-- 			fixed_width = true,
+	-- 		})
+	-- 	end,
+	-- },
+
+	-- {
+	-- 	"levouh/tint.nvim",
+	-- 	event = "VeryLazy",
+	-- },
 	{
 		"folke/edgy.nvim",
 		event = "VeryLazy",
@@ -425,7 +802,7 @@ return {
 				bottom = { size = 15 },
 				right = { size = 35 },
 			},
-			exit_when_last = true,
+			exit_when_last = false,
 			wo = {
 				-- Setting to `true`, will add an edgy winbar.
 				-- Setting to `false`, won't set any winbar.
@@ -468,57 +845,121 @@ return {
 				["<A-C-l>"] = function(win)
 					win:resize("width", -2)
 				end,
+				["<A-[>"] = function(win)
+					local width = vim.api.nvim_win_get_width(win.win)
+					local next = win:prev({ focus = true })
+					if next ~= nil then
+						if win.view.edgebar.pos == "bottom" then
+							vim.api.nvim_win_set_width(win.win, 9)
+							vim.w[win.win].edgy_width = 9
+
+							vim.api.nvim_win_set_width(next.win, width - 9)
+							vim.w[next.win].edgy_width = width - 9
+
+							require("edgy.layout").update()
+						end
+					end
+				end,
+				["<A-]>"] = function(win)
+					local width = vim.api.nvim_win_get_width(win.win)
+					local next = win:next({ focus = true })
+					if next ~= nil then
+						if win.view.edgebar.pos == "bottom" then
+							vim.api.nvim_win_set_width(win.win, 9)
+							vim.w[win.win].edgy_width = 9
+
+							vim.api.nvim_win_set_width(next.win, width - 9)
+							vim.w[next.win].edgy_width = width - 9
+
+							require("edgy.layout").update()
+						end
+					end
+				end,
 			},
 			animate = {
 				enabled = false,
 			},
-			top = {
-				{
-					ft = "qf",
-					title = "QuickFix",
-					pinned = true,
-					open = ":copen",
-					wo = {
-						winbar = true,
-						winhighlight = "Normal:EdgyQuickfixNormal",
-					},
-				},
-			},
+			top = {},
 			bottom = {
 				{
 					ft = "toggleterm",
+					title = "Terminal",
 					size = { height = 0.15 },
 					pinned = true,
 					open = function()
-						local t = require("tt")
+						vim.cmd("vsplit +term\\ tmux-nest")
 
-						if #t.terminal.TermList == 0 then
-							t.terminal:NewTerminal()
-							return
-						end
+						local buf = vim.api.nvim_get_current_buf()
+						local window = vim.api.nvim_get_current_win()
 
-						if t:IsOpen() then
-							t.terminal:Close()
-							return
-						end
+						vim.bo[buf].buflisted = false
+						vim.bo[buf].filetype = "toggleterm"
 
-						t.terminal:Open("last")
+						vim.wo[window].number = false
+						vim.wo[window].relativenumber = false
+						vim.wo[window].wrap = false
+						vim.wo[window].list = false
+						vim.wo[window].signcolumn = "no"
+						vim.wo[window].statuscolumn = ""
+
+						vim.cmd("startinsert")
+
+						vim.api.nvim_create_augroup(
+							"EdgyToggleTerm",
+							{ clear = true }
+						)
+						vim.api.nvim_create_autocmd(
+							{ "TermEnter", "WinEnter" },
+							{
+								group = "EdgyToggleTerm",
+								callback = function(ev)
+									vim.defer_fn(function()
+										if
+											vim.bo[ev.buf].filetype
+											== "toggleterm"
+										then
+											vim.cmd("startinsert")
+										end
+									end, 10)
+								end,
+							}
+						)
 					end,
-					-- wo = {
-					-- 	winhighlight = "Normal:EdgyTermNormal",
-					-- },
+					wo = {
+						winbar = true,
+						winhighlight = "Normal:EdgyTermNormal",
+					},
 				},
-				{
-					ft = "termlist",
-					size = { height = 0.15, width = 25 },
-				},
-				"Trouble",
 			},
+			-- 	{
+			-- 		ft = "Trouble",
+			-- 		title = "Problems",
+			-- 		pinned = true,
+			-- 		open = "Trouble",
+			-- 		size = { width = 10 },
+			-- 		wo = {
+			-- 			winbar = true,
+			-- 			winhighlight = "Normal:EdgyTermNormal",
+			-- 			statuscolumn = "",
+			-- 		},
+			-- 	},
+			-- 	{
+			-- 		ft = "qf",
+			-- 		title = "QuickFix",
+			-- 		pinned = true,
+			-- 		open = ":copen",
+			-- 		size = { width = 10 },
+			-- 		wo = {
+			-- 			winbar = true,
+			-- 			winhighlight = "Normal:EdgyQuickfixNormal",
+			-- 		},
+			-- 	},
+			-- },
 			left = {
 				{
 					title = "Buffers",
 					ft = "neo-tree",
-					size = { height = 0.15 },
+					size = { height = 0.25 },
 					filter = function(buf)
 						return vim.b[buf].neo_tree_source == "buffers"
 					end,
@@ -536,7 +977,7 @@ return {
 					end,
 					open = "Neotree",
 					pinned = true,
-					size = { height = 0.85 },
+					size = { height = 0.75 },
 					wo = {
 						winbar = true,
 					},
@@ -553,17 +994,39 @@ return {
 						winbar = true,
 					},
 				},
+				-- {
+				-- 	ft = "help",
+				-- 	size = { width = 79 },
+				-- 	filter = function(buf)
+				-- 		return vim.bo[buf].buftype == "help"
+				-- 	end,
+				-- 	wo = {
+				-- 		winbar = true,
+				-- 		winhighlight = "Normal:EdgyHelpNormal",
+				-- 	},
+				-- },
 				{
-					ft = "help",
-					size = { width = 79 },
-					filter = function(buf)
-						return vim.bo[buf].buftype == "help"
-					end,
+					title = "Tests",
+					ft = "neotest-summary",
+					pinned = true,
+					open = "Neotest summary",
+					size = { width = 30 },
 					wo = {
-						winhighlight = "Normal:EdgyHelpNormal",
+						winbar = true,
+						wrap = false,
 					},
 				},
 			},
+			fix_win_height = vim.fn.has("nvim-0.10.0") == 0,
 		},
+	},
+	{
+		"s1n7ax/nvim-window-picker",
+		name = "window-picker",
+		event = "VeryLazy",
+		version = "2.*",
+		config = function()
+			require("window-picker").setup()
+		end,
 	},
 }

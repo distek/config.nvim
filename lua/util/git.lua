@@ -92,7 +92,8 @@ local function float(width, height)
 
 	local ui = api.nvim_list_uis()[1]
 
-	local quadBufHeight = api.nvim_buf_line_count(api.nvim_get_current_buf()) * 4
+	local quadBufHeight = api.nvim_buf_line_count(api.nvim_get_current_buf())
+		* 4
 
 	-- Ensure the window is not ridiculously large for the content
 	if quadBufHeight < height then
@@ -114,7 +115,11 @@ local function float(width, height)
 end
 
 local function setWinOpts()
-	vim.api.nvim_set_option_value("cursorline", true, { win = GitPopupThing.winid, scope = "local" })
+	vim.api.nvim_set_option_value(
+		"cursorline",
+		true,
+		{ win = GitPopupThing.winid, scope = "local" }
+	)
 
 	vim.api.nvim_set_option_value(
 		"winhighlight",
@@ -136,7 +141,14 @@ local function setWinOpts()
 
 	vim.keymap.set("n", "u", function()
 		local pos = vim.api.nvim_win_get_cursor(GitPopupThing.winid)
-		local file = vim.trim(vim.api.nvim_buf_get_lines(GitPopupThing.buf, pos[1] - 1, pos[1], true)[1])
+		local file = vim.trim(
+			vim.api.nvim_buf_get_lines(
+				GitPopupThing.buf,
+				pos[1] - 1,
+				pos[1],
+				true
+			)[1]
+		)
 
 		vim.cmd("silent !git reset -- " .. file)
 
@@ -145,7 +157,14 @@ local function setWinOpts()
 
 	vim.keymap.set("n", "s", function()
 		local pos = vim.api.nvim_win_get_cursor(GitPopupThing.winid)
-		local file = vim.trim(vim.api.nvim_buf_get_lines(GitPopupThing.buf, pos[1] - 1, pos[1], true)[1])
+		local file = vim.trim(
+			vim.api.nvim_buf_get_lines(
+				GitPopupThing.buf,
+				pos[1] - 1,
+				pos[1],
+				true
+			)[1]
+		)
 
 		vim.cmd("silent !git stage " .. file)
 
@@ -154,7 +173,14 @@ local function setWinOpts()
 
 	vim.keymap.set("n", "<cr>", function()
 		local pos = vim.api.nvim_win_get_cursor(GitPopupThing.winid)
-		local line = vim.trim(vim.api.nvim_buf_get_lines(GitPopupThing.buf, pos[1] - 1, pos[1], true)[1])
+		local line = vim.trim(
+			vim.api.nvim_buf_get_lines(
+				GitPopupThing.buf,
+				pos[1] - 1,
+				pos[1],
+				true
+			)[1]
+		)
 
 		vim.api.nvim_win_close(GitPopupThing.winid, true)
 
@@ -163,11 +189,30 @@ local function setWinOpts()
 end
 
 local function setLines(currentFile, filePos, i, t, k)
-	vim.api.nvim_buf_set_lines(GitPopupThing.buf, i - 1, i - 1, true, { statusName(k) })
-	vim.api.nvim_buf_add_highlight(GitPopupThing.buf, -1, statusColor(k), i - 1, 0, #statusName(k))
+	vim.api.nvim_buf_set_lines(
+		GitPopupThing.buf,
+		i - 1,
+		i - 1,
+		true,
+		{ statusName(k) }
+	)
+	vim.api.nvim_buf_add_highlight(
+		GitPopupThing.buf,
+		-1,
+		statusColor(k),
+		i - 1,
+		0,
+		#statusName(k)
+	)
 
 	for _, f in ipairs(t) do
-		vim.api.nvim_buf_set_lines(GitPopupThing.buf, i, i, true, { string.format("  %s", f) })
+		vim.api.nvim_buf_set_lines(
+			GitPopupThing.buf,
+			i,
+			i,
+			true,
+			{ string.format("  %s", f) }
+		)
 
 		if vim.trim(f) == currentFile then
 			filePos = { i, 0 }

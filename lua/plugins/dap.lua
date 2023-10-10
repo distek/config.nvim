@@ -6,19 +6,42 @@ return {
 		config = function()
 			local dap = require("dap")
 
-			vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DapBreakpoint", numhl = "DapBreakpoint" })
+			vim.fn.sign_define(
+				"DapBreakpoint",
+				{
+					text = "",
+					texthl = "DapBreakpoint",
+					numhl = "DapBreakpoint",
+				}
+			)
 			vim.fn.sign_define(
 				"DapBreakpointCondition",
-				{ text = "", texthl = "DapBreakpoint", numhl = "DapBreakpoint" }
+				{
+					text = "",
+					texthl = "DapBreakpoint",
+					numhl = "DapBreakpoint",
+				}
 			)
 			vim.fn.sign_define(
 				"DapBreakpointRejected",
-				{ text = "", texthl = "DapBreakpoint", numhl = "DapBreakpoint" }
+				{
+					text = "",
+					texthl = "DapBreakpoint",
+					numhl = "DapBreakpoint",
+				}
 			)
-			vim.fn.sign_define("DapLogPoint", { text = "", texthl = "DapLogPoint", numhl = "DapLogPoint" })
+			vim.fn.sign_define(
+				"DapLogPoint",
+				{ text = "", texthl = "DapLogPoint", numhl = "DapLogPoint" }
+			)
 			vim.fn.sign_define(
 				"DapStopped",
-				{ text = "", texthl = "DapStopped", linehl = "DapStopped", numhl = "DapStopped" }
+				{
+					text = "",
+					texthl = "DapStopped",
+					linehl = "DapStopped",
+					numhl = "DapStopped",
+				}
 			)
 
 			-- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
@@ -85,7 +108,8 @@ return {
 					type = "server",
 					port = "${port}",
 					executable = {
-						command = vim.fn.stdpath("data") .. "/mason/bin/codelldb",
+						command = vim.fn.stdpath("data")
+							.. "/mason/bin/codelldb",
 						args = { "--port", "${port}" },
 					},
 				},
@@ -109,7 +133,8 @@ return {
 						request = "launch",
 						program = "${workspaceFolder}",
 						args = function()
-							local args_string = vim.fn.input("Args(split by <space>): ")
+							local args_string =
+								vim.fn.input("Args(split by <space>): ")
 							return vim.fn.split(args_string, " ", true)
 						end,
 					},

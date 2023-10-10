@@ -5,7 +5,7 @@ map("n", "<leader>ss", "<cmd>split<cr>", { desc = "Split horizontal" })
 map("n", "<leader>sv", "<cmd>vsplit<cr>", { desc = "Split Vertical" })
 
 -- Close window(split)
-map("n", "<A-q>", "<cmd>BufferDelete<CR>")
+map("n", "<A-q>", "<cmd>bn|bd #<cr>")
 
 -- Window movement
 map("n", "<A-S-h>", "<cmd>WinShift left<cr>")
@@ -98,6 +98,40 @@ map("t", "<A-C-h>", function()
 	Util.win_resize("left")
 end)
 
+map("t", "<A-[>", function()
+	local win = require("edgy").get_win(vim.api.nvim_get_current_win())
+	local width = vim.api.nvim_win_get_width(win.win)
+	local next = win:prev({ focus = true })
+	if next ~= nil then
+		if win.view.edgebar.pos == "bottom" then
+			vim.api.nvim_win_set_width(win.win, 9)
+			vim.w[win.win].edgy_width = 9
+
+			vim.api.nvim_win_set_width(next.win, width - 9)
+			vim.w[next.win].edgy_width = width - 9
+
+			require("edgy.layout").update()
+		end
+	end
+end)
+
+map("t", "<A-]>", function()
+	local win = require("edgy").get_win(vim.api.nvim_get_current_win())
+	local width = vim.api.nvim_win_get_width(win.win)
+	local next = win:next({ focus = true })
+	if next ~= nil then
+		if win.view.edgebar.pos == "bottom" then
+			vim.api.nvim_win_set_width(win.win, 9)
+			vim.w[win.win].edgy_width = 9
+
+			vim.api.nvim_win_set_width(next.win, width - 9)
+			vim.w[next.win].edgy_width = width - 9
+
+			require("edgy.layout").update()
+		end
+	end
+end)
+
 map("n", "<leader>z", ":ZenMode<cr>", { desc = "Zen mode" })
 
 map("n", "<A-f>", function()
@@ -106,4 +140,29 @@ map("n", "<A-f>", function()
 			width = 1.0,
 		},
 	})
+end, { desc = "Fullscreen window" })
+
+map("t", "<A-f>", function()
+	-- Esc to tell error to close
+	vim.api.nvim_feedkeys(
+		vim.api.nvim_replace_termcodes("<Esc>", true, false, true),
+		"t",
+		false
+	)
+
+	-- _THEN_ exit terminal mode
+	vim.api.nvim_feedkeys(
+		vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true),
+		"t",
+		false
+	)
+
+	-- _Then_ toggle zen mode?
+	require("zen-mode").toggle({
+		window = {
+			width = 1.0,
+		},
+	})
+
+	-- And everything works magically idk why
 end, { desc = "Fullscreen window" })
