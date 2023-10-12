@@ -98,38 +98,12 @@ map("t", "<A-C-h>", function()
 	Util.win_resize("left")
 end)
 
-map("t", "<A-[>", function()
-	local win = require("edgy").get_win(vim.api.nvim_get_current_win())
-	local width = vim.api.nvim_win_get_width(win.win)
-	local next = win:prev({ focus = true })
-	if next ~= nil then
-		if win.view.edgebar.pos == "bottom" then
-			vim.api.nvim_win_set_width(win.win, 9)
-			vim.w[win.win].edgy_width = 9
-
-			vim.api.nvim_win_set_width(next.win, width - 9)
-			vim.w[next.win].edgy_width = width - 9
-
-			require("edgy.layout").update()
-		end
-	end
+map({ "t", "n" }, "<A-[>", function()
+	Edge.panelPrevious()
 end)
 
-map("t", "<A-]>", function()
-	local win = require("edgy").get_win(vim.api.nvim_get_current_win())
-	local width = vim.api.nvim_win_get_width(win.win)
-	local next = win:next({ focus = true })
-	if next ~= nil then
-		if win.view.edgebar.pos == "bottom" then
-			vim.api.nvim_win_set_width(win.win, 9)
-			vim.w[win.win].edgy_width = 9
-
-			vim.api.nvim_win_set_width(next.win, width - 9)
-			vim.w[next.win].edgy_width = width - 9
-
-			require("edgy.layout").update()
-		end
-	end
+map({ "t", "n" }, "<A-]>", function()
+	Edge.panelNext()
 end)
 
 map("n", "<leader>z", ":ZenMode<cr>", { desc = "Zen mode" })

@@ -1,3 +1,3 @@
 require("ui.themes")
 require("ui.statuscolumn")
-Edge = require("ui.edge")
+Edge = require("ui.panel")

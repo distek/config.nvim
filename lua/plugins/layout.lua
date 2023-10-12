@@ -792,234 +792,234 @@ return {
 	-- 	"levouh/tint.nvim",
 	-- 	event = "VeryLazy",
 	-- },
-	-- {
-	-- 	"folke/edgy.nvim",
-	-- 	event = "VeryLazy",
-	-- 	opts = {
-	-- 		options = {
-	-- 			left = { size = 35 },
-	-- 			top = { size = 15 },
-	-- 			bottom = { size = 15 },
-	-- 			right = { size = 35 },
-	-- 		},
-	-- 		exit_when_last = false,
-	-- 		wo = {
-	-- 			-- Setting to `true`, will add an edgy winbar.
-	-- 			-- Setting to `false`, won't set any winbar.
-	-- 			-- Setting to a string, will set the winbar to that string.
-	-- 			winbar = false,
-	-- 			winfixwidth = true,
-	-- 			winfixheight = true,
-	-- 			winhighlight = "WinBar:EdgyWinBar",
-	-- 			spell = false,
-	-- 			signcolumn = "no",
-	-- 			statuscolumn = "",
-	-- 			number = false,
-	-- 			relativenumber = false,
-	-- 		},
-	-- 		keys = {
-	-- 			["q"] = function(win)
-	-- 				win:hide()
-	-- 			end,
-	-- 			["<c-q>"] = false,
-	-- 			["Q"] = false,
-	-- 			["]w"] = false,
-	-- 			["[w"] = false,
-	-- 			["]W"] = false,
-	-- 			["[W"] = false,
-	-- 			["<c-w>>"] = false,
-	-- 			["<c-w><lt>"] = false,
-	-- 			["<c-w>+"] = false,
-	-- 			["<c-w>-"] = false,
-	-- 			["<c-w>"] = false,
-	-- 			["<A-C-j>"] = function(win)
-	-- 				win:resize("height", 1)
-	-- 			end,
-	-- 			["<A-C-k>"] = function(win)
-	-- 				win:resize("height", -2)
-	-- 			end,
-	-- 			["<A-C-h>"] = function(win)
-	-- 				win:resize("width", 2)
-	-- 			end,
-	-- 			-- decrease width
-	-- 			["<A-C-l>"] = function(win)
-	-- 				win:resize("width", -2)
-	-- 			end,
-	-- 			["<A-[>"] = function(win)
-	-- 				local width = vim.api.nvim_win_get_width(win.win)
-	-- 				local next = win:prev({ focus = true })
-	-- 				if next ~= nil then
-	-- 					if win.view.edgebar.pos == "bottom" then
-	-- 						vim.api.nvim_win_set_width(win.win, 9)
-	-- 						vim.w[win.win].edgy_width = 9
+	{
+		"folke/edgy.nvim",
+		event = "VeryLazy",
+		opts = {
+			options = {
+				left = { size = 35 },
+				top = { size = 15 },
+				bottom = { size = 15 },
+				right = { size = 35 },
+			},
+			exit_when_last = false,
+			wo = {
+				-- Setting to `true`, will add an edgy winbar.
+				-- Setting to `false`, won't set any winbar.
+				-- Setting to a string, will set the winbar to that string.
+				winbar = false,
+				winfixwidth = true,
+				winfixheight = true,
+				winhighlight = "WinBar:EdgyWinBar",
+				spell = false,
+				signcolumn = "no",
+				statuscolumn = "",
+				number = false,
+				relativenumber = false,
+			},
+			keys = {
+				["q"] = function(win)
+					win:hide()
+				end,
+				["<c-q>"] = false,
+				["Q"] = false,
+				["]w"] = false,
+				["[w"] = false,
+				["]W"] = false,
+				["[W"] = false,
+				["<c-w>>"] = false,
+				["<c-w><lt>"] = false,
+				["<c-w>+"] = false,
+				["<c-w>-"] = false,
+				["<c-w>"] = false,
+				["<A-C-j>"] = function(win)
+					win:resize("height", 1)
+				end,
+				["<A-C-k>"] = function(win)
+					win:resize("height", -2)
+				end,
+				["<A-C-h>"] = function(win)
+					win:resize("width", 2)
+				end,
+				-- decrease width
+				["<A-C-l>"] = function(win)
+					win:resize("width", -2)
+				end,
+				-- ["<A-[>"] = function(win)
+				-- 	local width = vim.api.nvim_win_get_width(win.win)
+				-- 	local next = win:prev({ focus = true })
+				-- 	if next ~= nil then
+				-- 		if win.view.edgebar.pos == "bottom" then
+				-- 			vim.api.nvim_win_set_width(win.win, 9)
+				-- 			vim.w[win.win].edgy_width = 9
 
-	-- 						vim.api.nvim_win_set_width(next.win, width - 9)
-	-- 						vim.w[next.win].edgy_width = width - 9
+				-- 			vim.api.nvim_win_set_width(next.win, width - 9)
+				-- 			vim.w[next.win].edgy_width = width - 9
 
-	-- 						require("edgy.layout").update()
-	-- 					end
-	-- 				end
-	-- 			end,
-	-- 			["<A-]>"] = function(win)
-	-- 				local width = vim.api.nvim_win_get_width(win.win)
-	-- 				local next = win:next({ focus = true })
-	-- 				if next ~= nil then
-	-- 					if win.view.edgebar.pos == "bottom" then
-	-- 						vim.api.nvim_win_set_width(win.win, 9)
-	-- 						vim.w[win.win].edgy_width = 9
+				-- 			require("edgy.layout").update()
+				-- 		end
+				-- 	end
+				-- end,
+				-- ["<A-]>"] = function(win)
+				-- 	local width = vim.api.nvim_win_get_width(win.win)
+				-- 	local next = win:next({ focus = true })
+				-- 	if next ~= nil then
+				-- 		if win.view.edgebar.pos == "bottom" then
+				-- 			vim.api.nvim_win_set_width(win.win, 9)
+				-- 			vim.w[win.win].edgy_width = 9
 
-	-- 						vim.api.nvim_win_set_width(next.win, width - 9)
-	-- 						vim.w[next.win].edgy_width = width - 9
+				-- 			vim.api.nvim_win_set_width(next.win, width - 9)
+				-- 			vim.w[next.win].edgy_width = width - 9
 
-	-- 						require("edgy.layout").update()
-	-- 					end
-	-- 				end
-	-- 			end,
-	-- 		},
-	-- 		animate = {
-	-- 			enabled = false,
-	-- 		},
-	-- 		top = {},
-	-- 		bottom = {
-	-- 			{
-	-- 				ft = "toggleterm",
-	-- 				title = "Terminal",
-	-- 				size = { height = 0.15 },
-	-- 				pinned = true,
-	-- 				open = function()
-	-- 					vim.cmd("vsplit +term\\ tmux-nest")
+				-- 			require("edgy.layout").update()
+				-- 		end
+				-- 	end
+				-- end,
+			},
+			animate = {
+				enabled = false,
+			},
+			top = {},
+			-- bottom = {
+			-- 	{
+			-- 		ft = "toggleterm",
+			-- 		title = "Terminal",
+			-- 		size = { height = 0.15 },
+			-- 		pinned = true,
+			-- 		open = function()
+			-- 			vim.cmd("vsplit +term\\ tmux-nest")
 
-	-- 					local buf = vim.api.nvim_get_current_buf()
-	-- 					local window = vim.api.nvim_get_current_win()
+			-- 			local buf = vim.api.nvim_get_current_buf()
+			-- 			local window = vim.api.nvim_get_current_win()
 
-	-- 					vim.bo[buf].buflisted = false
-	-- 					vim.bo[buf].filetype = "toggleterm"
+			-- 			vim.bo[buf].buflisted = false
+			-- 			vim.bo[buf].filetype = "toggleterm"
 
-	-- 					vim.wo[window].number = false
-	-- 					vim.wo[window].relativenumber = false
-	-- 					vim.wo[window].wrap = false
-	-- 					vim.wo[window].list = false
-	-- 					vim.wo[window].signcolumn = "no"
-	-- 					vim.wo[window].statuscolumn = ""
+			-- 			vim.wo[window].number = false
+			-- 			vim.wo[window].relativenumber = false
+			-- 			vim.wo[window].wrap = false
+			-- 			vim.wo[window].list = false
+			-- 			vim.wo[window].signcolumn = "no"
+			-- 			vim.wo[window].statuscolumn = ""
 
-	-- 					vim.cmd("startinsert")
+			-- 			vim.cmd("startinsert")
 
-	-- 					vim.api.nvim_create_augroup(
-	-- 						"EdgyToggleTerm",
-	-- 						{ clear = true }
-	-- 					)
-	-- 					vim.api.nvim_create_autocmd(
-	-- 						{ "TermEnter", "WinEnter" },
-	-- 						{
-	-- 							group = "EdgyToggleTerm",
-	-- 							callback = function(ev)
-	-- 								vim.defer_fn(function()
-	-- 									if
-	-- 										vim.bo[ev.buf].filetype
-	-- 										== "toggleterm"
-	-- 									then
-	-- 										vim.cmd("startinsert")
-	-- 									end
-	-- 								end, 10)
-	-- 							end,
-	-- 						}
-	-- 					)
-	-- 				end,
-	-- 				wo = {
-	-- 					winbar = true,
-	-- 					winhighlight = "Normal:EdgyTermNormal",
-	-- 				},
-	-- 			},
-	-- 		},
-	-- 		-- 	{
-	-- 		-- 		ft = "Trouble",
-	-- 		-- 		title = "Problems",
-	-- 		-- 		pinned = true,
-	-- 		-- 		open = "Trouble",
-	-- 		-- 		size = { width = 10 },
-	-- 		-- 		wo = {
-	-- 		-- 			winbar = true,
-	-- 		-- 			winhighlight = "Normal:EdgyTermNormal",
-	-- 		-- 			statuscolumn = "",
-	-- 		-- 		},
-	-- 		-- 	},
-	-- 		-- 	{
-	-- 		-- 		ft = "qf",
-	-- 		-- 		title = "QuickFix",
-	-- 		-- 		pinned = true,
-	-- 		-- 		open = ":copen",
-	-- 		-- 		size = { width = 10 },
-	-- 		-- 		wo = {
-	-- 		-- 			winbar = true,
-	-- 		-- 			winhighlight = "Normal:EdgyQuickfixNormal",
-	-- 		-- 		},
-	-- 		-- 	},
-	-- 		-- },
-	-- 		left = {
-	-- 			{
-	-- 				title = "Buffers",
-	-- 				ft = "neo-tree",
-	-- 				size = { height = 0.25 },
-	-- 				filter = function(buf)
-	-- 					return vim.b[buf].neo_tree_source == "buffers"
-	-- 				end,
-	-- 				pinned = true,
-	-- 				open = "Neotree position=top buffers",
-	-- 				wo = {
-	-- 					winbar = true,
-	-- 				},
-	-- 			},
-	-- 			{
-	-- 				title = "Files",
-	-- 				ft = "neo-tree",
-	-- 				filter = function(buf)
-	-- 					return vim.b[buf].neo_tree_source == "filesystem"
-	-- 				end,
-	-- 				open = "Neotree",
-	-- 				pinned = true,
-	-- 				size = { height = 0.75 },
-	-- 				wo = {
-	-- 					winbar = true,
-	-- 				},
-	-- 			},
-	-- 		},
-	-- 		right = {
-	-- 			{
-	-- 				ft = "Outline",
-	-- 				visible = false,
-	-- 				size = { height = 0.25 },
-	-- 				pinned = true,
-	-- 				open = "SymbolsOutlineOpen",
-	-- 				wo = {
-	-- 					winbar = true,
-	-- 				},
-	-- 			},
-	-- 			-- {
-	-- 			-- 	ft = "help",
-	-- 			-- 	size = { width = 79 },
-	-- 			-- 	filter = function(buf)
-	-- 			-- 		return vim.bo[buf].buftype == "help"
-	-- 			-- 	end,
-	-- 			-- 	wo = {
-	-- 			-- 		winbar = true,
-	-- 			-- 		winhighlight = "Normal:EdgyHelpNormal",
-	-- 			-- 	},
-	-- 			-- },
-	-- 			{
-	-- 				title = "Tests",
-	-- 				ft = "neotest-summary",
-	-- 				pinned = true,
-	-- 				open = "Neotest summary",
-	-- 				size = { width = 30 },
-	-- 				wo = {
-	-- 					winbar = true,
-	-- 					wrap = false,
-	-- 				},
-	-- 			},
-	-- 		},
-	-- 		fix_win_height = vim.fn.has("nvim-0.10.0") == 0,
-	-- 	},
-	-- },
+			-- 			vim.api.nvim_create_augroup(
+			-- 				"EdgyToggleTerm",
+			-- 				{ clear = true }
+			-- 			)
+			-- 			vim.api.nvim_create_autocmd(
+			-- 				{ "TermEnter", "WinEnter" },
+			-- 				{
+			-- 					group = "EdgyToggleTerm",
+			-- 					callback = function(ev)
+			-- 						vim.defer_fn(function()
+			-- 							if
+			-- 								vim.bo[ev.buf].filetype
+			-- 								== "toggleterm"
+			-- 							then
+			-- 								vim.cmd("startinsert")
+			-- 							end
+			-- 						end, 10)
+			-- 					end,
+			-- 				}
+			-- 			)
+			-- 		end,
+			-- 		wo = {
+			-- 			winbar = true,
+			-- 			winhighlight = "Normal:EdgyTermNormal",
+			-- 		},
+			-- 	},
+			-- },
+			-- 	{
+			-- 		ft = "Trouble",
+			-- 		title = "Problems",
+			-- 		pinned = true,
+			-- 		open = "Trouble",
+			-- 		size = { width = 10 },
+			-- 		wo = {
+			-- 			winbar = true,
+			-- 			winhighlight = "Normal:EdgyTermNormal",
+			-- 			statuscolumn = "",
+			-- 		},
+			-- 	},
+			-- 	{
+			-- 		ft = "qf",
+			-- 		title = "QuickFix",
+			-- 		pinned = true,
+			-- 		open = ":copen",
+			-- 		size = { width = 10 },
+			-- 		wo = {
+			-- 			winbar = true,
+			-- 			winhighlight = "Normal:EdgyQuickfixNormal",
+			-- 		},
+			-- 	},
+			-- },
+			left = {
+				{
+					title = "Buffers",
+					ft = "neo-tree",
+					size = { height = 0.25 },
+					filter = function(buf)
+						return vim.b[buf].neo_tree_source == "buffers"
+					end,
+					pinned = true,
+					open = "Neotree position=top buffers",
+					wo = {
+						winbar = true,
+					},
+				},
+				{
+					title = "Files",
+					ft = "neo-tree",
+					filter = function(buf)
+						return vim.b[buf].neo_tree_source == "filesystem"
+					end,
+					open = "Neotree",
+					pinned = true,
+					size = { height = 0.75 },
+					wo = {
+						winbar = true,
+					},
+				},
+			},
+			right = {
+				{
+					ft = "Outline",
+					visible = false,
+					size = { height = 0.25 },
+					pinned = true,
+					open = "SymbolsOutlineOpen",
+					wo = {
+						winbar = true,
+					},
+				},
+				-- {
+				-- 	ft = "help",
+				-- 	size = { width = 79 },
+				-- 	filter = function(buf)
+				-- 		return vim.bo[buf].buftype == "help"
+				-- 	end,
+				-- 	wo = {
+				-- 		winbar = true,
+				-- 		winhighlight = "Normal:EdgyHelpNormal",
+				-- 	},
+				-- },
+				{
+					title = "Tests",
+					ft = "neotest-summary",
+					pinned = true,
+					open = "Neotest summary",
+					size = { width = 30 },
+					wo = {
+						winbar = true,
+						wrap = false,
+					},
+				},
+			},
+			fix_win_height = vim.fn.has("nvim-0.10.0") == 0,
+		},
+	},
 	{
 		"s1n7ax/nvim-window-picker",
 		name = "window-picker",
