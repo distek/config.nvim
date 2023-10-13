@@ -340,6 +340,7 @@ end
 Util.reopenBuffer = function()
 	local pickers = require("telescope.pickers")
 	local finders = require("telescope.finders")
+	local telescopeConfig = require("telescope.config").values
 
 	local opts = {}
 
@@ -347,10 +348,35 @@ Util.reopenBuffer = function()
 		.new(opts, {
 			prompt_title = "Reopen buffer",
 			finder = finders.new_table({
-				results = BufStack,
+				results = Util.reverseTable(BufStack),
 			}),
 			previewer = nil,
+			sorter = telescopeConfig.generic_sorter(opts),
 			create_layout = TelescopeLayoutGen("select"),
 		})
 		:find()
+end
+
+---@param f function some function
+---@param delay number delay in ms
+function Util.defer(f, delay)
+	vim.schedule(function()
+		vim.defer_fn(f, delay)
+	end)
+end
+
+function Util.reverseTable(t)
+	local len = #t
+	if len == 0 and next(t) ~= nil then
+		vim.notify("Table is not array")
+		return
+	end
+
+	local ret = {}
+
+	for i = len, 1, -1 do
+		table.insert(ret, t[i])
+	end
+
+	return ret
 end
