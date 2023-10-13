@@ -118,11 +118,11 @@ map("v", "<C-J>", "xp`[V`]")
 
 -- Edgy
 map("n", "<leader>as", function()
-	require("edgy").toggle("bottom")
+	Panel.toggle("bottom")
 end, { desc = "Bottom panel" })
 
 map("t", "<localleader>as", function()
-	require("edgy").toggle("bottom")
+	Panel.toggle("bottom")
 end, { desc = "Bottom panel" })
 
 map("n", "<leader>ad", function()
@@ -132,38 +132,6 @@ end, { desc = "Left panel" })
 map("n", "<leader>af", function()
 	require("edgy").toggle("right")
 end, { desc = "Right panel" })
-
-Util.ttFocused = function()
-	local buf = vim.api.nvim_win_get_buf(0)
-
-	return vim.bo[buf].filetype == "toggleterm"
-end
-
-Util.moveTmux = function(dir)
-	if Util.ttFocused() then
-		local r, c = unpack(vim.api.nvim_win_get_cursor(0))
-	end
-end
--- -- Toggleterm
--- map("t", "<A-Tab>", function()
--- 	require("tt.terminal"):FocusNext()
--- end, { desc = "Focus next terminal" })
-
--- map("t", "<A-S-Tab>", function()
--- 	require("tt.terminal"):FocusPrevious()
--- end, { desc = "Focus previous terminal" })
-
--- map("n", "<A-Tab>", function()
--- 	if require("tt"):IsOpen() then
--- 		require("tt.terminal"):FocusNext()
--- 	end
--- end, { desc = "Focus next terminal" })
-
--- map("n", "<A-S-Tab>", function()
--- 	if require("tt"):IsOpen() then
--- 		require("tt.terminal"):FocusPrevious()
--- 	end
--- end, { desc = "Focus previous terminal" })
 
 map("t", "<A-z>", "<C-\\><C-n>")
 
