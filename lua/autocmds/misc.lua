@@ -12,13 +12,13 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 
 vim.api.nvim_create_augroup("qf", { clear = true })
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "qf" },
-	callback = function()
-		vim.o.buflisted = false
-	end,
-	group = "qf",
-})
+-- vim.api.nvim_create_autocmd("FileType", {
+-- 	pattern = { "qf" },
+-- 	callback = function()
+-- 		vim.o.buflisted = false
+-- 	end,
+-- 	group = "qf",
+-- })
 
 -- Remove cursorline in insert mode
 vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {

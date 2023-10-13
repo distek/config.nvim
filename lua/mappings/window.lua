@@ -99,11 +99,11 @@ map("t", "<A-C-h>", function()
 end)
 
 map({ "t", "n" }, "<A-[>", function()
-	Edge.panelPrevious()
+	Panel.panelPrevious()
 end)
 
 map({ "t", "n" }, "<A-]>", function()
-	Edge.panelNext()
+	Panel.panelNext()
 end)
 
 map("n", "<leader>z", ":ZenMode<cr>", { desc = "Zen mode" })

@@ -1,5 +1,5 @@
 Util.win_resize = function(dir)
-	Edge.winResized = true
+	Panel.winResized = true
 	-- local bt = vim.bo[vim.api.nvim_win_get_buf(0)].filetype
 	-- if bt == "toggleterm" or bt == "neo-tree" or bt == "Outline" or bt == "help" or bt == "qf" then
 	-- 	return
@@ -9,7 +9,7 @@ Util.win_resize = function(dir)
 
 	-- I wish lua had a switch case
 	if dir == "top" then
-		Edge.winResizeV = true
+		Panel.winResizeV = true
 		-- middle split
 		if n.top and n.bottom then
 			vim.cmd("res +1")
@@ -35,7 +35,7 @@ Util.win_resize = function(dir)
 	end
 
 	if dir == "bottom" then
-		Edge.winResizeV = true
+		Panel.winResizeV = true
 		-- middle split
 		if n.top and n.bottom then
 			vim.cmd(vim.fn.winnr("k") .. "res +1")
@@ -62,7 +62,7 @@ Util.win_resize = function(dir)
 	end
 
 	if dir == "left" then
-		Edge.winResizeH = true
+		Panel.winResizeH = true
 		if not n.left and n.right or n.left and n.right then
 			vim.cmd("vert res -1")
 			return
@@ -82,7 +82,7 @@ Util.win_resize = function(dir)
 	end
 
 	if dir == "right" then
-		Edge.winResizeH = true
+		Panel.winResizeH = true
 		-- middle
 		if n.left and n.right then
 			vim.cmd("vert res +1")
