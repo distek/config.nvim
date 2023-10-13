@@ -99,11 +99,11 @@ map("t", "<A-C-h>", function()
 end)
 
 map({ "t", "n" }, "<A-[>", function()
-	Panel.panelPrevious()
+	Panel.previous()
 end)
 
 map({ "t", "n" }, "<A-]>", function()
-	Panel.panelNext()
+	Panel.next()
 end)
 
 map("n", "<leader>z", ":ZenMode<cr>", { desc = "Zen mode" })

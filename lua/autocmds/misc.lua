@@ -12,14 +12,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 
 vim.api.nvim_create_augroup("qf", { clear = true })
 
--- vim.api.nvim_create_autocmd("FileType", {
--- 	pattern = { "qf" },
--- 	callback = function()
--- 		vim.o.buflisted = false
--- 	end,
--- 	group = "qf",
--- })
-
 -- Remove cursorline in insert mode
 vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
 	pattern = { "*" },
@@ -49,88 +41,8 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
 	end,
 })
 
--- vim.api.nvim_create_autocmd({ "WinClosed" }, {
--- 	pattern = { "*" },
--- 	callback = function()
--- 		vim.defer_fn(function()
--- 			require("tint").refresh()
--- 		end, 1)
--- 	end,
--- })
-
--- vim.api.nvim_create_autocmd("WinClosed", {
--- 	pattern = { "*" },
--- 	callback = function(ev)
--- 		local f = tonumber(ev.file)
-
--- 		if type(f) ~= "number" then
--- 			return
--- 		end
-
--- 		local edgyList = {}
-
--- 		local edgyWins = require("edgy.editor").list_wins()
--- 		for _, v in pairs(edgyWins.edgy) do
--- 			if v == f then
--- 				-- is an edgy window, it's fine if it closes
--- 				return
--- 			end
--- 		end
-
--- 		if vim.api.nvim_win_is_valid(f) and vim.api.nvim_win_get_config(f).relative ~= "" then
--- 			return
--- 		end
-
--- 		local count = 0
-
--- 		for _ in pairs(edgyWins.main) do
--- 			count = count + 1
--- 		end
-
--- 		print(count)
-
--- 		if count > 1 then
--- 			return
--- 		end
-
--- 		for _, v in ipairs(edgyWins.edgy) do
--- 			local w = require("edgy").get_win(v)
-
--- 			if w.visible then
--- 				table.insert(edgyList, w.view.edgebar.pos)
-
--- 				require("edgy").close(w.view.edgebar.pos)
--- 			end
--- 		end
-
--- 		local foundABuf = false
--- 		for _, v in ipairs(vim.api.nvim_list_bufs()) do
--- 			if vim.bo[v].buflisted then
--- 				foundABuf = true
--- 				vim.cmd("vsplit #" .. v)
--- 				break
--- 			end
--- 		end
-
--- 		if not foundABuf then
--- 			vim.cmd("vsplit +enew")
--- 		end
-
--- 		vim.defer_fn(function()
--- 			for _, w in pairs(edgyList) do
--- 				local bar = w.view.edgebar
-
--- 				if w.visible then
--- 					require("edgy").open(bar.pos)
--- 				end
--- 			end
-
--- 			vim.cmd("set cmdheight=1")
--- 		end, 1)
--- 	end,
--- })
-
 vim.api.nvim_create_autocmd("FileType", {
+	pattern = "neo-tree",
 	callback = function(tbl)
 		local set_offset = require("bufferline.api").set_offset
 
@@ -161,51 +73,5 @@ vim.api.nvim_create_autocmd("FileType", {
 			end,
 			once = true,
 		})
-	end,
-	pattern = "neo-tree", -- or any other filetree's `ft`
-})
-
-BufStack = {}
-
-vim.api.nvim_create_autocmd({ "BufDelete" }, {
-	pattern = "*",
-	callback = function(ev)
-		local name = vim.api.nvim_buf_get_name(ev.buf)
-
-		if name == "" then
-			return
-		end
-
-		for i, v in ipairs(BufStack) do
-			if name == v then
-				table.remove(BufStack, i)
-				break
-			end
-		end
-
-		table.insert(BufStack, name)
-		if #BufStack > 10 then
-			table.remove(BufStack, 1)
-		end
-	end,
-})
-
-WinStack = {}
-
-vim.api.nvim_create_autocmd({ "WinLeave" }, {
-	pattern = "*",
-	callback = function(ev)
-		local winid = tonumber(ev.id)
-		for i, v in ipairs(WinStack) do
-			if winid == v then
-				table.remove(WinStack, i)
-				break
-			end
-		end
-
-		table.insert(WinStack, winid)
-		if #WinStack > 10 then
-			table.remove(WinStack, 1)
-		end
 	end,
 })

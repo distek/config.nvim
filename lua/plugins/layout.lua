@@ -845,116 +845,11 @@ return {
 				["<A-C-l>"] = function(win)
 					win:resize("width", -2)
 				end,
-				-- ["<A-[>"] = function(win)
-				-- 	local width = vim.api.nvim_win_get_width(win.win)
-				-- 	local next = win:prev({ focus = true })
-				-- 	if next ~= nil then
-				-- 		if win.view.edgebar.pos == "bottom" then
-				-- 			vim.api.nvim_win_set_width(win.win, 9)
-				-- 			vim.w[win.win].edgy_width = 9
-
-				-- 			vim.api.nvim_win_set_width(next.win, width - 9)
-				-- 			vim.w[next.win].edgy_width = width - 9
-
-				-- 			require("edgy.layout").update()
-				-- 		end
-				-- 	end
-				-- end,
-				-- ["<A-]>"] = function(win)
-				-- 	local width = vim.api.nvim_win_get_width(win.win)
-				-- 	local next = win:next({ focus = true })
-				-- 	if next ~= nil then
-				-- 		if win.view.edgebar.pos == "bottom" then
-				-- 			vim.api.nvim_win_set_width(win.win, 9)
-				-- 			vim.w[win.win].edgy_width = 9
-
-				-- 			vim.api.nvim_win_set_width(next.win, width - 9)
-				-- 			vim.w[next.win].edgy_width = width - 9
-
-				-- 			require("edgy.layout").update()
-				-- 		end
-				-- 	end
-				-- end,
 			},
 			animate = {
 				enabled = false,
 			},
 			top = {},
-			-- bottom = {
-			-- 	{
-			-- 		ft = "toggleterm",
-			-- 		title = "Terminal",
-			-- 		size = { height = 0.15 },
-			-- 		pinned = true,
-			-- 		open = function()
-			-- 			vim.cmd("vsplit +term\\ tmux-nest")
-
-			-- 			local buf = vim.api.nvim_get_current_buf()
-			-- 			local window = vim.api.nvim_get_current_win()
-
-			-- 			vim.bo[buf].buflisted = false
-			-- 			vim.bo[buf].filetype = "toggleterm"
-
-			-- 			vim.wo[window].number = false
-			-- 			vim.wo[window].relativenumber = false
-			-- 			vim.wo[window].wrap = false
-			-- 			vim.wo[window].list = false
-			-- 			vim.wo[window].signcolumn = "no"
-			-- 			vim.wo[window].statuscolumn = ""
-
-			-- 			vim.cmd("startinsert")
-
-			-- 			vim.api.nvim_create_augroup(
-			-- 				"EdgyToggleTerm",
-			-- 				{ clear = true }
-			-- 			)
-			-- 			vim.api.nvim_create_autocmd(
-			-- 				{ "TermEnter", "WinEnter" },
-			-- 				{
-			-- 					group = "EdgyToggleTerm",
-			-- 					callback = function(ev)
-			-- 						vim.defer_fn(function()
-			-- 							if
-			-- 								vim.bo[ev.buf].filetype
-			-- 								== "toggleterm"
-			-- 							then
-			-- 								vim.cmd("startinsert")
-			-- 							end
-			-- 						end, 10)
-			-- 					end,
-			-- 				}
-			-- 			)
-			-- 		end,
-			-- 		wo = {
-			-- 			winbar = true,
-			-- 			winhighlight = "Normal:EdgyTermNormal",
-			-- 		},
-			-- 	},
-			-- },
-			-- 	{
-			-- 		ft = "Trouble",
-			-- 		title = "Problems",
-			-- 		pinned = true,
-			-- 		open = "Trouble",
-			-- 		size = { width = 10 },
-			-- 		wo = {
-			-- 			winbar = true,
-			-- 			winhighlight = "Normal:EdgyTermNormal",
-			-- 			statuscolumn = "",
-			-- 		},
-			-- 	},
-			-- 	{
-			-- 		ft = "qf",
-			-- 		title = "QuickFix",
-			-- 		pinned = true,
-			-- 		open = ":copen",
-			-- 		size = { width = 10 },
-			-- 		wo = {
-			-- 			winbar = true,
-			-- 			winhighlight = "Normal:EdgyQuickfixNormal",
-			-- 		},
-			-- 	},
-			-- },
 			left = {
 				{
 					title = "Buffers",

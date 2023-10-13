@@ -1,4 +1,5 @@
 require("autocmds.filetype")
+require("autocmds.global")
 require("autocmds.lsp")
 require("autocmds.misc")
 require("autocmds.terminal")

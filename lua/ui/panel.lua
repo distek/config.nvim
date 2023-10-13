@@ -36,7 +36,7 @@ end
 ---@class view
 ---@field ft string
 ---@field open fun(): bufid|nil
----@field reopen boolean if the command relies on a window id, reopen a new instance when navigating to it
+---@field close function|boolean|nil if the command relies on a window id, use this function to close it upon navigating away
 ---@field wo table<string, any>
 
 ---@class edge
@@ -73,7 +73,7 @@ local M = {
 				["Terminal"] = {
 					ft = "toggleterm",
 					open = openToggleTerm,
-					reopen = false,
+					close = false,
 					wo = {
 						winhighlight = "Normal:EdgyTermNormal",
 						number = false,
@@ -95,7 +95,11 @@ local M = {
 
 						return bufid
 					end,
-					reopen = true,
+					close = function()
+						Panel.winClosing = true
+						require("trouble").close()
+						Panel.winClosing = false
+					end,
 					wo = {
 						winhighlight = "Normal:EdgyTermNormal",
 					},
@@ -107,7 +111,7 @@ local M = {
 
 						return vim.api.nvim_get_current_buf()
 					end,
-					reopen = false,
+					close = false,
 					wo = {
 						winhighlight = "Normal:EdgyTermNormal",
 					},
@@ -116,6 +120,25 @@ local M = {
 		},
 	},
 }
+
+local debounceNewClosed = false
+local debounceResize = false
+
+local function setDebounceNewClosed()
+	debounceNewClosed = true
+
+	Util.defer(function()
+		debounceNewClosed = false
+	end, 100)
+end
+
+local function setDebounceResize()
+	debounceResize = true
+
+	Util.defer(function()
+		debounceResize = false
+	end, 100)
+end
 
 local function saveDefaultWinOpts(winid)
 	for _, v in pairs(M.config.panel.views) do
@@ -146,22 +169,29 @@ local function createWindow(size)
 	vim.o.lazyredraw = true
 	local panelWin = 0
 
-	vim.cmd("horizontal botright split")
+	local group = vim.api.nvim_create_augroup("PanelWin", { clear = true })
+
+	vim.cmd("noautocmd horizontal botright split")
 	panelWin = vim.api.nvim_get_current_win()
 
 	saveDefaultWinOpts(panelWin)
 
 	vim.api.nvim_win_set_height(panelWin, size or 15)
 
-	local group = vim.api.nvim_create_augroup("PanelResize", { clear = true })
 	vim.api.nvim_create_autocmd({ "WinResized" }, {
 		group = group,
 		callback = function()
-			if Panel.winResized then
-				Panel.config.panel.size = vim.api.nvim_win_get_height(Panel.win)
+			vim.o.eventignore = "WinResized"
+			if not debounceResize and not debounceNewClosed then
+				if Panel.winResized then
+					Panel.config.panel.size =
+						vim.api.nvim_win_get_height(Panel.win)
 
-				Panel.winResized = false
+					Panel.winResized = false
+					setDebounceResize()
+				end
 			end
+			vim.o.eventignore = ""
 		end,
 	})
 
@@ -169,13 +199,8 @@ local function createWindow(size)
 		group = group,
 		callback = function()
 			if not Panel.winResized then
-				if
-					Panel.win ~= nil and vim.api.nvim_win_is_valid(Panel.win)
-				then
-					vim.api.nvim_win_set_height(
-						Panel.win,
-						Panel.config.panel.size
-					)
+				if Panel.isOpen() then
+					Panel.resize()
 				end
 			end
 		end,
@@ -235,6 +260,8 @@ local function createWindow(size)
 			end, 10)
 		end,
 	})
+
+	setDebounceNewClosed()
 
 	vim.o.lazyredraw = false
 	return panelWin
@@ -301,7 +328,7 @@ local function setupAutocmds()
 						end
 					end
 
-					M.openPanel()
+					M.open(true)
 					vim.o.eventignore = temp or ""
 				end, 1)
 			end,
@@ -311,15 +338,19 @@ local function setupAutocmds()
 	-- Create a new win if whatever command we had running closed it
 	vim.api.nvim_create_autocmd({ "WinClosed" }, {
 		callback = function(ev)
-			Util.defer(function()
-				if tonumber(ev.match) == M.win then
-					if M.winClosing then
-						return
-					end
+			vim.o.eventignore = "WinClosed"
+			if not debounceNewClosed then
+				Util.defer(function()
+					if tonumber(ev.match) == M.win then
+						if M.winClosing then
+							return
+						end
 
-					M.openPanel()
-				end
-			end, 10)
+						M.open(true)
+						vim.o.eventignore = ""
+					end
+				end, 10)
+			end
 		end,
 	})
 end
@@ -327,11 +358,6 @@ end
 local function initPanel()
 	-- set the panelCurrent to the first entry
 	M.panelCurrent = M.config.panel.order[1]
-
-	local bufid =
-		handleOpen(M.panelCurrent, M.config.panel.views[M.panelCurrent])
-
-	M.bufs[M.panelCurrent] = bufid
 end
 
 ---@return boolean
@@ -349,6 +375,12 @@ local function hasBufs()
 	end
 
 	return false
+end
+
+M.resize = function()
+	vim.o.eventignore = "WinResized"
+	vim.api.nvim_win_set_height(Panel.win, Panel.config.panel.size)
+	vim.o.eventignore = ""
 end
 
 ---@return boolean
@@ -377,9 +409,11 @@ end
 
 local function cleanBufs()
 	for _, v in ipairs(vim.api.nvim_list_bufs()) do
-		if #vim.fn.getbufinfo(v)[1].windows == 0 then
-			vim.bo[v].bufhidden = "hide"
-			vim.bo[v].buflisted = false
+		if vim.api.nvim_buf_get_name(v) == "" then
+			if #vim.fn.getbufinfo(v)[1].windows == 0 then
+				vim.bo[v].bufhidden = "hide"
+				vim.bo[v].buflisted = false
+			end
 		end
 	end
 end
@@ -414,17 +448,20 @@ end
 ---@param name string
 M.setView = function(name)
 	vim.o.lazyredraw = true
-	if
-		M.config.panel.views[name].reopen
-		or M.bufs[name] == nil
-		or not vim.api.nvim_buf_is_valid(M.bufs[name])
-	then
+
+	if M.bufs[name] == nil or not vim.api.nvim_buf_is_valid(M.bufs[name]) then
 		M.bufs[name] = handleOpen(name, M.config.panel.views[name])
 	end
 
-	if not vim.api.nvim_win_is_valid(M.win) then
+	if M.win == nil or not vim.api.nvim_win_is_valid(M.win) then
 		M.win = createWindow(M.config.panel.size)
 	end
+
+	debounceResize = true
+	debounceNewClosed = true
+	vim.api.nvim_win_set_height(M.win, M.config.panel.size)
+	debounceResize = false
+	debounceNewClosed = false
 
 	restoreWinOpts(M.win)
 
@@ -435,8 +472,6 @@ M.setView = function(name)
 	vim.api.nvim_win_set_buf(M.win, M.bufs[name])
 
 	renderWinbar(M.win)
-
-	vim.api.nvim_win_set_height(M.win, M.config.panel.size)
 
 	setWinOpts(M.win, M.config.panel.views[name].wo)
 	cleanBufs()
@@ -450,10 +485,19 @@ M.handleClickTab = function(minwid, clicks, btn, mods)
 	M.setView(M.panelCurrent)
 end
 
-M.openPanel = function()
+---@param focus boolean
+M.open = function(focus)
+	local curWin = 0
+	if not focus then
+		curWin = vim.api.nvim_get_current_win()
+	end
+
 	M.win = createWindow(M.config.panel.size)
 
-	if not vim.api.nvim_buf_is_valid(M.bufs[M.panelCurrent]) then
+	if
+		M.bufs[M.panelCurrent] == nil
+		or not vim.api.nvim_buf_is_valid(M.bufs[M.panelCurrent])
+	then
 		for _, v in pairs(M.config.panel.order) do
 			if M.bufs[v] ~= nil and vim.api.nvim_buf_is_valid(M.bufs[v]) then
 				M.panelCurrent = v
@@ -464,11 +508,14 @@ M.openPanel = function()
 	-- if not vim.api.nvim_buf_is_valid(M.bufs[M.panelCurrent]) then
 	-- 	M.bufs[M.panelCurrent] = nil
 	-- end
-
 	M.setView(M.panelCurrent)
+
+	if not focus then
+		vim.api.nvim_set_current_win(curWin)
+	end
 end
 
-M.panelNext = function()
+M.next = function()
 	local current = 0
 	for i, v in ipairs(M.config.panel.order) do
 		if v == M.panelCurrent then
@@ -476,8 +523,9 @@ M.panelNext = function()
 			break
 		end
 	end
-	if M.config.panel.views[M.panelCurrent].reopen then
-		vim.api.nvim_buf_delete(M.bufs[M.panelCurrent], {})
+
+	if M.config.panel.views[M.panelCurrent].close then
+		M.config.panel.views[M.panelCurrent].close()
 	end
 
 	if current == #M.config.panel.order then
@@ -491,13 +539,17 @@ M.panelNext = function()
 	M.setView(M.panelCurrent)
 end
 
-M.panelPrevious = function()
+M.previous = function()
 	local current = 0
 	for i, v in ipairs(M.config.panel.order) do
 		if v == M.panelCurrent then
 			current = i
 			break
 		end
+	end
+
+	if M.config.panel.views[M.panelCurrent].close then
+		M.config.panel.views[M.panelCurrent].close()
 	end
 
 	current = current - 1
@@ -526,7 +578,7 @@ M.toggle = function()
 		initPanel()
 	end
 
-	M.openPanel()
+	M.open(true)
 
 	vim.api.nvim_set_current_win(M.win)
 	vim.o.lazyredraw = false

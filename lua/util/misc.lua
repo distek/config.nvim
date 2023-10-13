@@ -366,15 +366,13 @@ function Util.defer(f, delay)
 end
 
 function Util.reverseTable(t)
-	local len = #t
-	if len == 0 and next(t) ~= nil then
-		vim.notify("Table is not array")
-		return
+	if t == nil and next(t) ~= nil and #t == 0 then
+		return {}
 	end
 
 	local ret = {}
 
-	for i = len, 1, -1 do
+	for i = #t, 1, -1 do
 		table.insert(ret, t[i])
 	end
 
