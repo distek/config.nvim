@@ -1,0 +1,1 @@
+require("autocmds.plugin.barbar")

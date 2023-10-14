@@ -1,5 +1,6 @@
 -- Bootstrap
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
@@ -10,9 +11,10 @@ if not vim.loop.fs_stat(lazypath) then
 		lazypath,
 	})
 end
+
 vim.opt.rtp:prepend(lazypath)
 
-local function insert(group, plugins)
+local function insert(plugins, group)
 	for _, v in ipairs(group) do
 		table.insert(plugins, v)
 	end
@@ -23,13 +25,13 @@ end
 local function getPlugins()
 	local plugins = {}
 
-	plugins = insert(require("plugins.deps"), plugins)
-	plugins = insert(require("plugins.filetypes"), plugins)
-	plugins = insert(require("plugins.treesitter"), plugins)
-	plugins = insert(require("plugins.lsp"), plugins)
-	plugins = insert(require("plugins.dap"), plugins)
-	plugins = insert(require("plugins.layout"), plugins)
-	plugins = insert(require("plugins.misc"), plugins)
+	plugins = insert(plugins, require("plugins.deps"))
+	plugins = insert(plugins, require("plugins.filetype"))
+	plugins = insert(plugins, require("plugins.treesitter"))
+	plugins = insert(plugins, require("plugins.lsp"))
+	plugins = insert(plugins, require("plugins.dap"))
+	plugins = insert(plugins, require("plugins.ui"))
+	plugins = insert(plugins, require("plugins.misc"))
 
 	return plugins
 end
