@@ -1,0 +1,6 @@
+return {
+	"jakewvincent/mkdnflow.nvim",
+	ft = { "markdown" },
+	lazy = true,
+	config = require("configs.filetype.md"),
+}
