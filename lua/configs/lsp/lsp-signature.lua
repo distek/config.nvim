@@ -4,5 +4,6 @@ return function()
 		handler_opts = {
 			border = "shadow",
 		},
+		hint_enable = false,
 	})
 end

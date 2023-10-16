@@ -1,9 +1,6 @@
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = {
-		"help",
 		"fugitive",
-		"toggleterm",
-		"termlist",
 		"gitcommit",
 		"scratch",
 		"starter",

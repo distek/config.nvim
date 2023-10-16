@@ -168,15 +168,25 @@ Util.compVsWinCount = function()
 	local winCount = 0
 	local compCount = 0
 
+	local compFts = {
+		"neo-tree",
+		"toggleterm",
+		"Outline",
+		"Trouble",
+		"qf",
+		"help",
+	}
+
 	for _, v in ipairs(vim.api.nvim_list_wins()) do
 		if vim.api.nvim_win_get_config(v).relative == "" then
 			local ft = vim.api.nvim_win_call(v, function()
 				return vim.bo.filetype
 			end)
 
-			if ft == "neo-tree" or ft == "toggleterm" or ft == "Outline" then
+			if vim.tbl_get(compFts, ft) then
 				compCount = compCount + 1
 			end
+
 			winCount = winCount + 1
 		end
 	end

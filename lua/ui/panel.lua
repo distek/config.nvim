@@ -35,7 +35,7 @@ end
 
 ---@class view
 ---@field ft string
----@field open fun(): bufid|nil
+---@field open fun(): bufid | nil
 ---@field close function|boolean|nil if the command relies on a window id, use this function to close it upon navigating away
 ---@field wo table<string, any>
 
@@ -68,6 +68,7 @@ local M = {
 				"Terminal",
 				"Problems",
 				"Quickfix",
+				"Help",
 			},
 			views = {
 				["Terminal"] = {
@@ -114,6 +115,37 @@ local M = {
 					close = false,
 					wo = {
 						winhighlight = "Normal:EdgyTermNormal",
+					},
+				},
+				["Help"] = {
+					ft = "help",
+					open = function()
+						-- for _, v in ipairs(vim.api.nvim_list_bufs()) do
+						-- 	if vim.bo[v].filetype == "help" then
+						-- 		return v
+						-- 	end
+						-- end
+
+						vim.api.nvim_create_autocmd({ "FileType" }, {
+							pattern = "help",
+							callback = function(ev)
+								vim.print(vim.bo[ev.buf].name)
+							end,
+						})
+					end,
+					close = function()
+						-- for _, v in ipairs(vim.api.nvim_list_bufs()) do
+						-- 	if vim.bo[v].filetype == "help" then
+						-- 		vim.api.nvim_buf_delete(v, { force = true })
+						-- 	end
+						-- end
+					end,
+					wo = {
+						number = false,
+						relativenumber = false,
+						list = false,
+						signcolumn = "no",
+						statuscolumn = "",
 					},
 				},
 			},
@@ -183,11 +215,10 @@ local function createWindow(size)
 		callback = function()
 			vim.o.eventignore = "WinResized"
 			if not debounceResize and not debounceNewClosed then
-				if Panel.winResized then
-					Panel.config.panel.size =
-						vim.api.nvim_win_get_height(Panel.win)
+				if M.winResized then
+					M.config.panel.size = vim.api.nvim_win_get_height(M.win)
 
-					Panel.winResized = false
+					M.winResized = false
 					setDebounceResize()
 				end
 			end
@@ -198,9 +229,9 @@ local function createWindow(size)
 	vim.api.nvim_create_autocmd({ "WinResized", "WinNew", "WinClosed" }, {
 		group = group,
 		callback = function()
-			if not Panel.winResized then
-				if Panel.isOpen() then
-					Panel.resize()
+			if not M.winResized then
+				if M.isOpen() then
+					M.resize()
 				end
 			end
 		end,
@@ -210,19 +241,16 @@ local function createWindow(size)
 		group = group,
 		callback = function(ev)
 			Util.defer(function()
-				if vim.api.nvim_get_current_win() == Panel.win then
-					for _, v in pairs(Panel.bufs) do
+				if vim.api.nvim_get_current_win() == M.win then
+					for _, v in pairs(M.bufs) do
 						if ev.buf == v then
 							return
 						end
 					end
 
-					local buf = vim.api.nvim_win_get_buf(Panel.win)
+					local buf = vim.api.nvim_win_get_buf(M.win)
 
-					vim.api.nvim_win_set_buf(
-						Panel.win,
-						Panel.bufs[M.panelCurrent]
-					)
+					vim.api.nvim_win_set_buf(M.win, M.bufs[M.panelCurrent])
 
 					-- get all non edgy or floating windows
 					local mainWins = require("edgy.editor").list_wins().main
@@ -277,11 +305,12 @@ local function handleOpen(panelName, view)
 		vim.api.nvim_win_hide(vim.api.nvim_get_current_win())
 	end
 
-	M.bufs[panelName] = bufid
-
 	if bufid == nil then
+		M.bufs[panelName] = nil
 		return nil
 	end
+
+	M.bufs[panelName] = bufid
 
 	vim.bo[bufid].bufhidden = "hide"
 	vim.bo[bufid].buflisted = false
@@ -300,25 +329,14 @@ local function setupAutocmds()
 			group = group,
 			pattern = v.ft,
 			callback = function(ev)
-				if vim.api.nvim_get_current_win() == M.win then
-					return
-				end
-
 				Util.defer(function()
 					local temp = vim.o.eventignore
 					vim.o.eventignore = "FileType"
-					if not M.isOpen() then
-						M.panelCurrent = k
 
-						M.bufs[M.panelCurrent] = ev.buf
-					else
-						if M.panelCurrent == k then
-							vim.o.eventignore = temp or ""
-							return
-						end
+					M.panelCurrent = k
+					M.bufs[M.panelCurrent] = ev.buf
 
-						M.setView(k)
-					end
+					M.setView(k)
 
 					for _, win in ipairs(vim.api.nvim_list_wins()) do
 						if vim.api.nvim_win_get_buf(win) == ev.buf then
@@ -329,6 +347,7 @@ local function setupAutocmds()
 					end
 
 					M.open(true)
+
 					vim.o.eventignore = temp or ""
 				end, 1)
 			end,
@@ -379,7 +398,7 @@ end
 
 M.resize = function()
 	vim.o.eventignore = "WinResized"
-	vim.api.nvim_win_set_height(Panel.win, Panel.config.panel.size)
+	vim.api.nvim_win_set_height(M.win, M.config.panel.size)
 	vim.o.eventignore = ""
 end
 
@@ -450,7 +469,7 @@ M.setView = function(name)
 	vim.o.lazyredraw = true
 
 	if M.bufs[name] == nil or not vim.api.nvim_buf_is_valid(M.bufs[name]) then
-		M.bufs[name] = handleOpen(name, M.config.panel.views[name])
+		handleOpen(name, M.config.panel.views[name])
 	end
 
 	if M.win == nil or not vim.api.nvim_win_is_valid(M.win) then
@@ -474,6 +493,7 @@ M.setView = function(name)
 	renderWinbar(M.win)
 
 	setWinOpts(M.win, M.config.panel.views[name].wo)
+
 	cleanBufs()
 
 	vim.o.lazyredraw = false
