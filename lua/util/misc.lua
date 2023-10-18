@@ -183,8 +183,12 @@ Util.compVsWinCount = function()
 				return vim.bo.filetype
 			end)
 
-			if vim.tbl_get(compFts, ft) then
-				compCount = compCount + 1
+			for _, v in ipairs(compFts) do
+				if v == ft then
+					compCount = compCount + 1
+
+					break
+				end
 			end
 
 			winCount = winCount + 1

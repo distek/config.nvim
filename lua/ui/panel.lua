@@ -1,6 +1,9 @@
+TroublePos = { 1, 0 }
+
 ---@return bufid
 local function openToggleTerm()
 	vim.cmd("vsplit +term\\ tmux-nest")
+	local hideMe = vim.api.nvim_get_current_win()
 
 	local buf = vim.api.nvim_get_current_buf()
 
@@ -9,9 +12,18 @@ local function openToggleTerm()
 
 	vim.api.nvim_buf_set_name(buf, "terminal")
 
-	vim.api.nvim_create_augroup("EdgyToggleTerm", { clear = true })
+	vim.o.mousemoveevent = true
+
+	vim.keymap.set("i", "<MouseMove>", function()
+		buf = vim.api.nvim_get_current_buf()
+		if vim.bo[buf].filetype == "toggleterm" then
+			vim.cmd("stopinsert")
+		end
+	end, { silent = true })
+
+	vim.api.nvim_create_augroup("PanelToggleTerm", { clear = true })
 	vim.api.nvim_create_autocmd({ "TermEnter", "WinEnter", "BufEnter" }, {
-		group = "EdgyToggleTerm",
+		group = "PanelToggleTerm",
 		callback = function()
 			Util.defer(function()
 				buf = vim.api.nvim_get_current_buf()
@@ -21,6 +33,8 @@ local function openToggleTerm()
 			end, 10)
 		end,
 	})
+
+	vim.api.nvim_win_hide(hideMe)
 
 	return buf
 end
@@ -94,9 +108,20 @@ local M = {
 
 						vim.bo[bufid].buflisted = false
 
+						vim.api.nvim_win_set_cursor(
+							Panel.win,
+							TroublePos or { 0, 0 }
+						)
+
 						return bufid
 					end,
 					close = function()
+						if
+							vim.api.nvim_get_current_buf()
+							== Panel.bufs["Problems"]
+						then
+							TroublePos = vim.api.nvim_win_get_cursor(Panel.win)
+						end
 						Panel.winClosing = true
 						require("trouble").close()
 						Panel.winClosing = false
@@ -109,8 +134,11 @@ local M = {
 					ft = "qf",
 					open = function()
 						vim.cmd(":copen")
+						local bufid = vim.api.nvim_get_current_buf()
 
-						return vim.api.nvim_get_current_buf()
+						vim.api.nvim_win_hide(vim.api.nvim_get_current_win())
+
+						return bufid
 					end,
 					close = false,
 					wo = {
@@ -120,26 +148,27 @@ local M = {
 				["Help"] = {
 					ft = "help",
 					open = function()
-						-- for _, v in ipairs(vim.api.nvim_list_bufs()) do
-						-- 	if vim.bo[v].filetype == "help" then
-						-- 		return v
-						-- 	end
-						-- end
+						local bufid = 0
+						for _, v in ipairs(vim.api.nvim_list_bufs()) do
+							if vim.bo[v].filetype == "help" then
+								bufid = v
+							end
+						end
 
-						vim.api.nvim_create_autocmd({ "FileType" }, {
-							pattern = "help",
-							callback = function(ev)
-								vim.print(vim.bo[ev.buf].name)
-							end,
-						})
+						if bufid == 0 then
+							vim.cmd("help help")
+							bufid = vim.api.nvim_get_current_buf()
+						end
+
+						if bufid ~= 0 then
+							vim.api.nvim_win_hide(
+								vim.api.nvim_get_current_win()
+							)
+						end
+
+						return bufid
 					end,
-					close = function()
-						-- for _, v in ipairs(vim.api.nvim_list_bufs()) do
-						-- 	if vim.bo[v].filetype == "help" then
-						-- 		vim.api.nvim_buf_delete(v, { force = true })
-						-- 	end
-						-- end
-					end,
+					close = false,
 					wo = {
 						number = false,
 						relativenumber = false,
@@ -268,7 +297,7 @@ local function createWindow(size)
 						return
 					end
 
-					-- Finally, check our global winstack and if one of them is
+					-- check our global winstack and if one of them is
 					-- in mainWins, use it
 					local revWins = Util.reverseTable(WinStack)
 
@@ -297,25 +326,19 @@ end
 
 ---@param panelName string
 ---@param view view
----@return bufid|nil
 local function handleOpen(panelName, view)
-	local bufid = view.open()
+	vim.api.nvim_set_current_win(M.win)
 
-	if vim.api.nvim_get_current_win() ~= M.win then
-		vim.api.nvim_win_hide(vim.api.nvim_get_current_win())
-	end
+	M.ignoreFTAutocmd = true
+	M.bufs[panelName] = view.open()
+	M.ignoreFTAutocmd = false
 
-	if bufid == nil then
+	if M.bufs[panelName] == nil then
 		M.bufs[panelName] = nil
-		return nil
+	else
+		vim.bo[M.bufs[panelName]].bufhidden = "hide"
+		vim.bo[M.bufs[panelName]].buflisted = false
 	end
-
-	M.bufs[panelName] = bufid
-
-	vim.bo[bufid].bufhidden = "hide"
-	vim.bo[bufid].buflisted = false
-
-	return bufid
 end
 
 local function setupAutocmds()
@@ -329,27 +352,30 @@ local function setupAutocmds()
 			group = group,
 			pattern = v.ft,
 			callback = function(ev)
-				Util.defer(function()
-					local temp = vim.o.eventignore
-					vim.o.eventignore = "FileType"
+				if not M.ignoreFTAutocmd then
+					Util.defer(function()
+						local temp = vim.o.eventignore
+						vim.o.eventignore = "FileType"
 
-					M.panelCurrent = k
-					M.bufs[M.panelCurrent] = ev.buf
+						M.panelCurrent = k
+						M.bufs[M.panelCurrent] = ev.buf
 
-					M.setView(k)
+						M.setView(k)
 
-					for _, win in ipairs(vim.api.nvim_list_wins()) do
-						if vim.api.nvim_win_get_buf(win) == ev.buf then
-							if v ~= M.win then
-								vim.api.nvim_win_close(win, true)
+						for _, win in ipairs(vim.api.nvim_list_wins()) do
+							if vim.api.nvim_win_get_buf(win) == ev.buf then
+								if v ~= M.win then
+									vim.print("here")
+									vim.api.nvim_win_close(win, true)
+								end
 							end
 						end
-					end
 
-					M.open(true)
+						M.open(true)
 
-					vim.o.eventignore = temp or ""
-				end, 1)
+						vim.o.eventignore = temp or ""
+					end, 1)
+				end
 			end,
 		})
 	end
@@ -468,12 +494,12 @@ end
 M.setView = function(name)
 	vim.o.lazyredraw = true
 
-	if M.bufs[name] == nil or not vim.api.nvim_buf_is_valid(M.bufs[name]) then
-		handleOpen(name, M.config.panel.views[name])
-	end
-
 	if M.win == nil or not vim.api.nvim_win_is_valid(M.win) then
 		M.win = createWindow(M.config.panel.size)
+	end
+
+	if M.bufs[name] == nil or not vim.api.nvim_buf_is_valid(M.bufs[name]) then
+		handleOpen(name, M.config.panel.views[name])
 	end
 
 	debounceResize = true
@@ -544,6 +570,7 @@ M.next = function()
 		end
 	end
 
+	-- close the current panel window if
 	if M.config.panel.views[M.panelCurrent].close then
 		M.config.panel.views[M.panelCurrent].close()
 	end
@@ -574,7 +601,7 @@ M.previous = function()
 
 	current = current - 1
 
-	if current == 0 then
+	if current <= 0 then
 		current = #M.config.panel.order
 	end
 
