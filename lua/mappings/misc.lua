@@ -118,11 +118,11 @@ map("v", "<C-J>", "xp`[V`]")
 
 -- Edgy
 map("n", "<leader>as", function()
-	Panel.toggle()
+	require("panel").toggle()
 end, { desc = "Bottom panel" })
 
 map("t", "<localleader>as", function()
-	Panel.toggle()
+	require("panel").toggle()
 end, { desc = "Bottom panel" })
 
 map("n", "<leader>ad", function()

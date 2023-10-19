@@ -1,1 +1,1 @@
-return { "folke/trouble.nvim" }
+return { "folke/trouble.nvim", config = require("configs.ui.trouble") }

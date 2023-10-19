@@ -380,7 +380,7 @@ function Util.defer(f, delay)
 end
 
 function Util.reverseTable(t)
-	if t == nil and next(t) ~= nil and #t == 0 then
+	if t == nil or next(t) ~= nil and #t == 0 then
 		return {}
 	end
 
