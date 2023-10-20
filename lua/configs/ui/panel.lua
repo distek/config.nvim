@@ -1,6 +1,4 @@
 return function()
-	TroublePos = { 1, 0 }
-
 	local function openToggleTerm()
 		vim.cmd("vsplit +term\\ tmux-nest")
 		local hideMe = vim.api.nvim_get_current_win()
@@ -14,7 +12,7 @@ return function()
 
 		vim.o.mousemoveevent = true
 
-		-- Strictly if we want to click on a panel tab (can't click in insert mode apparently)
+		-- Strictly for if we want to click on a panel tab (can't click in insert mode apparently)
 		vim.keymap.set("i", "<MouseMove>", function()
 			buf = vim.api.nvim_get_current_buf()
 			if vim.bo[buf].filetype == "toggleterm" then
@@ -43,12 +41,6 @@ return function()
 	require("panel").setup({
 		panel = {
 			size = 15,
-			order = {
-				"Terminal",
-				"Problems",
-				"Quickfix",
-				"Help",
-			},
 			views = {
 				{
 					name = "Terminal",
@@ -82,7 +74,7 @@ return function()
 						-- save it to a global so we can recall it later
 						vim.api.nvim_win_set_cursor(
 							require("panel").win,
-							TroublePos or { 0, 0 }
+							TroublePos or { 1, 0 }
 						)
 
 						return bufid
