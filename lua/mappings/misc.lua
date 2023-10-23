@@ -110,36 +110,30 @@ map(
 	{ desc = "Extract block to file" }
 )
 
-map("n", "<A-n>", require("fnote").toggle)
+NotesLastView = ""
+
+local function toggleNotes()
+	local panel = require("panel")
+	if panel.isOpen() then
+		if panel.currentView == "Notes" then
+			if NotesLastView ~= "" then
+				panel.open({ name = NotesLastView, focus = true })
+			end
+		else
+			NotesLastView = panel.currentView
+			panel.open({ name = "Notes", focus = true })
+		end
+	else
+		panel.open({ name = "Notes", focus = true })
+	end
+end
+
+map("n", "<A-n>", toggleNotes)
+map("t", "<A-n>", toggleNotes)
 
 -- Shift block
 map("v", "<C-K>", "xkP`[V`]")
 map("v", "<C-J>", "xp`[V`]")
-
--- Edgy
-map("n", "<leader>as", function()
-	require("panel").toggle()
-end, { desc = "Bottom panel" })
-
-map("t", "<localleader>as", function()
-	require("panel").toggle()
-end, { desc = "Bottom panel" })
-
-map("n", "<leader>ad", function()
-	require("edgy").toggle("left")
-end, { desc = "Left panel" })
-
-map("n", "<leader>af", function()
-	require("edgy").toggle("right")
-end, { desc = "Right panel" })
-
-map("t", "<localleader>ad", function()
-	require("edgy").toggle("left")
-end, { desc = "Left panel" })
-
-map("t", "<localleader>af", function()
-	require("edgy").toggle("right")
-end, { desc = "Right panel" })
 
 map("t", "<A-z>", "<C-\\><C-n>")
 

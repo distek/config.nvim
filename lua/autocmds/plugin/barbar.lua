@@ -17,7 +17,7 @@ vim.api.nvim_create_autocmd("FileType", {
 				local width = vim.api.nvim_win_get_width(bufwinid)
 
 				if last_width ~= width then
-					set_offset(width, "Neovim")
+					set_offset(width + 1, "Neovim")
 				end
 			end,
 		})

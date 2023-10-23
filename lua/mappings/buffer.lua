@@ -16,7 +16,7 @@ map("n", "<A-<>", function()
 	vim.cmd("BufferMovePrevious")
 end)
 
--- Delete buffer
+-- Close split
 map("n", "<A-S-q>", function()
 	local compCount, winCount = Util.compVsWinCount()
 
@@ -27,3 +27,6 @@ map("n", "<A-S-q>", function()
 
 	vim.cmd("wincmd c")
 end)
+
+-- Delete buffer
+map("n", "<A-q>", "<cmd>bn|bd #<cr>")

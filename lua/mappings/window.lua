@@ -4,9 +4,6 @@ local map = vim.keymap.set
 map("n", "<leader>ss", "<cmd>split<cr>", { desc = "Split horizontal" })
 map("n", "<leader>sv", "<cmd>vsplit<cr>", { desc = "Split Vertical" })
 
--- Close window(split)
-map("n", "<A-q>", "<cmd>bn|bd #<cr>")
-
 -- Window movement
 map("n", "<A-S-h>", "<cmd>WinShift left<cr>")
 map("n", "<A-S-j>", "<cmd>WinShift down<cr>")
@@ -97,46 +94,3 @@ end)
 map("t", "<A-C-h>", function()
 	Util.win_resize("left")
 end)
-
-map({ "t", "n" }, "<A-[>", function()
-	require("panel").previous()
-end)
-
-map({ "t", "n" }, "<A-]>", function()
-	require("panel").next()
-end)
-
-map("n", "<leader>z", ":ZenMode<cr>", { desc = "Zen mode" })
-
-map("n", "<A-f>", function()
-	require("zen-mode").toggle({
-		window = {
-			width = 1.0,
-		},
-	})
-end, { desc = "Fullscreen window" })
-
-map("t", "<A-f>", function()
-	-- Esc to tell error to close
-	vim.api.nvim_feedkeys(
-		vim.api.nvim_replace_termcodes("<Esc>", true, false, true),
-		"t",
-		false
-	)
-
-	-- _THEN_ exit terminal mode
-	vim.api.nvim_feedkeys(
-		vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true),
-		"t",
-		false
-	)
-
-	-- _Then_ toggle zen mode?
-	require("zen-mode").toggle({
-		window = {
-			width = 1.0,
-		},
-	})
-
-	-- And everything works magically idk why
-end, { desc = "Fullscreen window" })
