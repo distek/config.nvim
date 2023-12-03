@@ -96,14 +96,5 @@ return function()
 				},
 			},
 		},
-		context_commentstring = {
-			enable = true,
-			commentary_integration = {
-				-- change default mapping
-				Commentary = false,
-				-- disable default mapping
-				CommentaryLine = false,
-			},
-		},
 	})
 end
