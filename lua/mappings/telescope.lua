@@ -53,4 +53,11 @@ map(
 	{ desc = "Resume last" }
 )
 
+map(
+	"n",
+	"<leader>aa",
+	"<cmd>Telescope file_browser path=%:p:h hidden=true<CR>",
+	{ desc = "File browser" }
+)
+
 map("n", "<leader>bo", Util.reopenBuffer, { desc = "Resume last" })

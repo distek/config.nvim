@@ -58,14 +58,6 @@ map("n", "<leader><S-Tab>", ":tabprevious<cr>", { desc = "Previous Tab" })
 map("n", "<leader>cm", "<Plug>ContextCommentary", { desc = "Comment line" })
 map("v", "<leader>cm", "<Plug>ContextCommentary", { desc = "Comment line(s)" })
 
--- Telescope file browser
-map(
-	"n",
-	"<leader>aa",
-	"<cmd>Telescope file_browser path=%:p:h hidden=true<CR>",
-	{ desc = "File browser" }
-)
-
 -- refactoring.nvim
 map(
 	"v",
