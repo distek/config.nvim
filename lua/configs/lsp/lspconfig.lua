@@ -58,14 +58,15 @@ return function()
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 			capabilities.offsetEncoding = { "utf-16" }
-			capabilities.textDocument.formatting = false
-			capabilities.textDocument.rangeFormatting = false
-			capabilities.textDocument.range_formatting = false
+			capabilities.textDocument.formatting.dynamicRegistration = false
+			capabilities.textDocument.rangeFormatting.dynamicRegistration =
+				false
 
 			lspconfig.clangd.setup({
 				cmd = {
 					vim.fn.expand("~/.local/share/nvim/mason/bin/clangd"),
 					"--cross-file-rename",
+					"--fallback-style=NONE",
 				},
 				filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
 				capabilities = capabilities,
