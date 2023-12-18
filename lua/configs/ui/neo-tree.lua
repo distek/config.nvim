@@ -8,6 +8,23 @@ return function()
 			winbar = false,
 			statusline = false,
 		},
+		default_component_configs = {
+			git_status = {
+				symbols = {
+					-- Change type
+					added = "+",
+					deleted = "-",
+					modified = "m",
+					renamed = "r",
+					-- Status type
+					untracked = "?",
+					ignored = ".",
+					unstaged = "u",
+					staged = "s",
+					conflict = "!",
+				},
+			},
+		},
 		filesystem = {
 			follow_current_file = {
 				enabled = true,
