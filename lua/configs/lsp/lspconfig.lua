@@ -178,7 +178,7 @@ return function()
 		b.formatting.clang_format.with({
 			extra_args = {
 				"--style",
-				"{UseTab: Always, IndentWidth: 8, TabWidth: 8}",
+				"{UseTab: Always, IndentWidth: 8, TabWidth: 8, ColumnLimit: 90}",
 			},
 		}),
 		b.formatting.prettierd.with({
