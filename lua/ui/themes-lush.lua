@@ -348,10 +348,6 @@ local theme = lush(function(injected_functions)
 		-- NeoTreeFilterTerm({}),
 		-- NeoTreeFloatBorder({}),
 		-- NeoTreeFloatTitle({}),
-		-- NeoTreeGitConflict({}),
-		-- NeoTreeGitIgnored({}),
-		NeoTreeGitUnstaged({ fg = blue }),
-		NeoTreeGitUntracked({ fg = yellow }),
 		NeoTreeHiddenByName({ NeoTreeDotfile }),
 		-- NeoTreeIndentMarker({}),
 		-- NeoTreeMessage({}),
@@ -373,6 +369,20 @@ local theme = lush(function(injected_functions)
 		-- NeoTreeVertSplit({}),
 		-- NeoTreeWinSeparator({}),
 		-- NeoTreeWindowsHidden({}),
+		NeoTreeGitAdded({ fg = git_green, bg = norm_bg.lighten(5) }),
+		NeoTreeGitConflict({ fg = yellow, bg = norm_bg.lighten(5) }),
+		NeoTreeGitDeleted({ fg = git_red, bg = norm_bg.lighten(5) }),
+		NeoTreeGitIgnored({ fg = gray, bg = norm_bg.lighten(5) }),
+		NeoTreeGitModified({
+			fg = git_blue.darken(10),
+			bg = norm_bg.lighten(5),
+		}),
+		NeoTreeGitUnstaged({
+			fg = git_green.darken(10),
+			bg = norm_bg.lighten(5),
+		}),
+		NeoTreeGitUntracked({ fg = yellow, bg = norm_bg.lighten(5) }),
+		NeoTreeGitStaged({ bg = norm_bg.lighten(5) }),
 
 		WindowPickerStatusLine({ bg = norm_bg.lighten(10), fg = yellow }),
 		WindowPickerStatusLineNC({ bg = norm_bg.lighten(10), fg = yellow }),
@@ -408,6 +418,8 @@ local theme = lush(function(injected_functions)
 		DapStopped({ fg = blue, bg = statusColBG }),
 		HLChunkIndicator({ fg = blue.darken(20) }),
 		HideCursor({ blend = 100 }),
+
+		PanelNormal({ bg = norm_bg.darken(30) }),
 	}
 
 	return ret
