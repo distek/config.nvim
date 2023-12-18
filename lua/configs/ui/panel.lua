@@ -40,6 +40,11 @@ return function()
 
 	require("panel").setup({
 		size = 15,
+		extPanels = {
+			"neo-tree",
+			"Outline",
+			"neotest-summary",
+		},
 		views = {
 			{
 				name = "Terminal",
@@ -47,7 +52,7 @@ return function()
 				open = openToggleTerm,
 				close = false,
 				wo = {
-					winhighlight = "Normal:EdgyTermNormal",
+					winhighlight = "Normal:PanelNormal",
 					number = false,
 					relativenumber = false,
 					wrap = false,
@@ -80,9 +85,16 @@ return function()
 
 					return bufid
 				end,
-				close = false,
+				close = function()
+					vim.cmd("vsplit")
+					local hideMe = vim.api.nvim_get_current_win()
+
+					require("trouble").set_win(hideMe)
+
+					require("trouble").close(false)
+				end,
 				wo = {
-					winhighlight = "Normal:EdgyTermNormal",
+					winhighlight = "Normal:PanelNormal",
 				},
 			},
 			{
@@ -98,32 +110,17 @@ return function()
 				end,
 				close = false,
 				wo = {
-					winhighlight = "Normal:EdgyTermNormal",
+					winhighlight = "Normal:PanelNormal",
 				},
 			},
 			{
 				name = "Help",
 				ft = "help",
 				open = function()
-					local bufid = 0
-					for _, v in ipairs(vim.api.nvim_list_bufs()) do
-						if vim.bo[v].filetype == "help" then
-							bufid = v
-							for _, win in vim.api.nvim_list_wins() do
-								if vim.api.nvim_win_get_buf(win) == bufid then
-									vim.api.nvim_win_hide(win)
-									break
-								end
-							end
-							break
-						end
-					end
-
-					if bufid == 0 then
-						vim.cmd("help help")
-						bufid = vim.api.nvim_get_current_buf()
-						vim.api.nvim_win_hide(vim.api.nvim_get_current_win())
-					end
+					-- just open `:help help` by default
+					vim.cmd("help help")
+					local bufid = vim.api.nvim_get_current_buf()
+					vim.api.nvim_win_hide(vim.api.nvim_get_current_win())
 
 					return bufid
 				end,
@@ -134,20 +131,20 @@ return function()
 					list = false,
 					signcolumn = "no",
 					statuscolumn = "",
-					winhighlight = "Normal:EdgyTermNormal",
+					winhighlight = "Normal:PanelNormal",
 				},
 			},
 			{
 				name = "Notes",
-				ft = "notes",
+				ft = "fnote",
 				open = function()
-					require("fnote").new()
+					require("fnote").open(false)
 
 					return require("fnote").bufid
 				end,
 				close = false,
 				wo = {
-					winhighlight = "Normal:EdgyTermNormal",
+					winhighlight = "Normal:PanelNormal",
 				},
 			},
 		},

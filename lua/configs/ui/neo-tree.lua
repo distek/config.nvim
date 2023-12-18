@@ -1,7 +1,4 @@
 return function()
-	-- if os.getenv("VIDESOCK") ~= nil then
-	-- 	return
-	-- end
 	require("neo-tree").setup({
 		sources = {
 			"buffers",

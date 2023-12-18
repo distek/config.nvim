@@ -95,17 +95,6 @@ return {
 					winbar = true,
 				},
 			},
-			-- {
-			-- 	ft = "help",
-			-- 	size = { width = 79 },
-			-- 	filter = function(buf)
-			-- 		return vim.bo[buf].buftype == "help"
-			-- 	end,
-			-- 	wo = {
-			-- 		winbar = true,
-			-- 		winhighlight = "Normal:EdgyHelpNormal",
-			-- 	},
-			-- },
 			{
 				title = "Tests",
 				ft = "neotest-summary",

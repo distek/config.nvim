@@ -1,5 +1,5 @@
 return {
 	"distek/fnote.nvim",
-	dir = "~/Programming/neovim-plugs/fnote",
+	-- dir = "~/git-clones/fnote.nvim",
 	config = require("configs.misc.fnote"),
 }
