@@ -3,5 +3,12 @@ return function()
 		action_keys = {
 			close = {},
 		},
+		ignored_filetypes = {
+			"terminal",
+			"fnote",
+			"toggleterm",
+			"qf",
+			"help",
+		},
 	})
 end
