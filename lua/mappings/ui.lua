@@ -1,5 +1,13 @@
 local map = vim.keymap.set
 
+vim.keymap.set("n", "<leader>tn", function()
+	require("sidebar").applyConfig("normal")
+end)
+
+vim.keymap.set("n", "<leader>ts", function()
+	require("sidebar").applyConfig("second")
+end)
+
 map("n", "<leader>as", function()
 	require("panel").toggle()
 end, { desc = "Bottom panel" })

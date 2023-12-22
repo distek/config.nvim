@@ -86,11 +86,6 @@ return function()
 					return bufid
 				end,
 				close = function()
-					vim.cmd("vsplit")
-					local hideMe = vim.api.nvim_get_current_win()
-
-					require("trouble").set_win(hideMe)
-
 					require("trouble").close(false)
 				end,
 				wo = {
