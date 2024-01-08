@@ -1,6 +1,7 @@
 local plugins = {}
 
-table.insert(plugins, require("plugins.ui.barbar"))
+-- table.insert(plugins, require("plugins.ui.barbar"))
+table.insert(plugins, require("plugins.ui.tabline-framework"))
 table.insert(plugins, require("plugins.ui.bufresize"))
 -- table.insert(plugins, require("plugins.misc.colorful-winsep"))
 table.insert(plugins, require("plugins.ui.edgy"))
@@ -15,7 +16,7 @@ table.insert(plugins, require("plugins.ui.panel"))
 -- table.insert(plugins, require("plugins.ui.sidebar"))
 -- table.insert(plugins, require("plugins.ui.noice"))
 table.insert(plugins, require("plugins.ui.telescope"))
--- table.insert(plugins, require("plugins.ui.tint"))
+table.insert(plugins, require("plugins.ui.tint"))
 table.insert(plugins, require("plugins.ui.trouble"))
 table.insert(plugins, require("plugins.ui.twighlight"))
 table.insert(plugins, require("plugins.ui.which-key"))

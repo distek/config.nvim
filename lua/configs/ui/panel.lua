@@ -8,7 +8,10 @@ return function()
 		vim.bo[buf].buflisted = false
 		vim.bo[buf].filetype = "toggleterm"
 
-		vim.api.nvim_buf_set_name(buf, "terminal")
+		vim.api.nvim_buf_set_name(
+			buf,
+			"terminal" .. vim.api.nvim_get_current_tabpage()
+		)
 
 		vim.o.mousemoveevent = true
 
@@ -40,6 +43,7 @@ return function()
 
 	require("panel").setup({
 		size = 15,
+		tabScoped = true,
 		extPanels = {
 			"neo-tree",
 			"Outline",
@@ -66,22 +70,12 @@ return function()
 				ft = "Trouble",
 				open = function()
 					require("trouble").open({
-						win = require("panel").win,
+						win = require("panel").getWin(),
 					})
 
 					local bufid = vim.api.nvim_get_current_buf()
 
 					vim.bo[bufid].buflisted = false
-
-					vim.api.nvim_create_autocmd({
-						"BufEnter",
-					}, {
-						callback = function(ev)
-							if string.match(ev.match, "Trouble") then
-								require("trouble").set_win(require("panel").win)
-							end
-						end,
-					})
 
 					return bufid
 				end,

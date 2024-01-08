@@ -7,38 +7,6 @@ Util.line_return = function()
 	end
 end
 
--- Skips over quickfix buf when tabbing through buffers
--- Reason: QF appears to overwrite the <Tab> mappings
-Util.skipUnwantedBuffers = function(dir)
-	-- Util.bufFocus(dir)
-	if dir == "next" then
-		-- require('tabline').buffer_next()
-		-- require("bufferline").cycle(1)
-		vim.cmd("BufferNext")
-	else
-		-- require('tabline').buffer_previous()
-		-- require("bufferline").cycle(-1)
-		vim.cmd("BufferPrevious")
-	end
-
-	-- local buftype = vim.api.nvim_buf_get_option(0, "buftype")
-
-	-- if buftype == "quickfix" or buftype == "terminal" then
-	-- 	if buftype == "terminal" then
-	-- 		-- if the terminal is not open elsewhere
-	-- 		if #vim.fn.win_findbuf(vim.fn.bufnr("%")) == 1 then
-	-- 			return
-	-- 		end
-
-	-- 		vim.cmd([[stopinsert]])
-
-	-- 		return
-	-- 	end
-
-	-- 	Util.skipUnwantedBuffers(dir)
-	-- end
-end
-
 Util.dapStart = function()
 	local dapui = require("dapui")
 	dapui.open({})
@@ -391,4 +359,31 @@ function Util.reverseTable(t)
 	end
 
 	return ret
+end
+
+function Util.bufClose(minwid, _, _, _)
+	vim.api.nvim_buf_delete(minwid, { force = false })
+end
+
+function Util.bufSelect(minwid, _, _, _)
+	if vim.api.nvim_buf_is_valid(minwid) then
+		vim.api.nvim_win_set_buf(0, minwid)
+	else
+		vim.notify("Buffer not valid: " .. minwid, vim.log.levels.ERROR)
+	end
+end
+
+function Util.setTabName()
+	vim.ui.input({ prompt = "Tab name: " }, function(input)
+		if input == "" then
+			return
+		end
+
+		vim.api.nvim_tabpage_set_var(0, "name", input)
+	end)
+end
+
+function Util.getTabName(idx)
+	local ok, name = pcall(vim.api.nvim_tabpage_get_var, idx, "name")
+	return ok and name or nil
 end

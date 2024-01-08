@@ -180,3 +180,17 @@ map("n", "<leader>Sd", function()
 end, { desc = "save session" })
 
 map("n", "<leader>so", ":so %<cr>", { desc = "Give it the ol' shout out!" })
+
+vim.keymap.set("n", "<leader>tr", function()
+	Util.setTabName()
+end)
+
+vim.keymap.set("n", "<leader>tn", function()
+	vim.cmd("tabnew")
+
+	Util.setTabName()
+end)
+
+vim.keymap.set("n", "<leader>tq", function()
+	vim.cmd("tabclose")
+end)

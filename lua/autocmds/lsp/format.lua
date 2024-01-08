@@ -2,6 +2,8 @@
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = { "*" },
 	callback = function()
-		vim.lsp.buf.format()
+		local view = vim.fn.winsaveview()
+		vim.lsp.buf.format({ async = false })
+		vim.fn.winrestview(view)
 	end,
 })

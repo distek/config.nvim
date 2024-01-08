@@ -1,0 +1,1 @@
+/home/distek/.config/nvim/after/ftplugin/c.lua

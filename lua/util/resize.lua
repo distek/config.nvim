@@ -27,6 +27,8 @@ Util.win_resize = function(dir)
 		if not n.top and not n.bottom then
 			vim.cmd("silent !tmux resize-pane -U 1")
 		end
+
+		goto ret
 	end
 
 	if dir == "bottom" then
@@ -53,6 +55,8 @@ Util.win_resize = function(dir)
 		if not n.top and not n.bottom then
 			vim.cmd("silent !tmux resize-pane -D 1")
 		end
+
+		goto ret
 	end
 
 	if dir == "left" then
@@ -72,6 +76,8 @@ Util.win_resize = function(dir)
 		end
 
 		vim.cmd("silent !tmux resize-pane -L 1")
+
+		goto ret
 	end
 
 	if dir == "right" then
