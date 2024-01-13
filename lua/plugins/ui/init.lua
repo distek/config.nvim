@@ -1,7 +1,6 @@
 local plugins = {}
 
--- table.insert(plugins, require("plugins.ui.barbar"))
-table.insert(plugins, require("plugins.ui.tabline-framework"))
+table.insert(plugins, require("plugins.ui.bufferline"))
 table.insert(plugins, require("plugins.ui.bufresize"))
 -- table.insert(plugins, require("plugins.misc.colorful-winsep"))
 table.insert(plugins, require("plugins.ui.edgy"))
