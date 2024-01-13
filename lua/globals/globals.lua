@@ -1,6 +1,9 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+vim.o.background = "dark"
+vim.cmd.colorscheme("default")
+
 vim.o.autoread = true
 vim.backspace = { "indent", "eol", "start" }
 vim.o.breakindent = true

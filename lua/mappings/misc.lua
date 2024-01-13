@@ -161,23 +161,11 @@ map("n", "<leader>qo", function()
 	vim.cmd("copen")
 end, { desc = "Open quickfix list" })
 
-map("n", "<leader>Sw", function()
-	vim.ui.input({ prompt = "Session name: " }, function(input)
-		if input == "" then
-			return
-		end
+-- map("n", "<leader>Ss", require("resession").save_tab, { desc = "save session" })
 
-		MiniSessions.write(input)
-	end)
-end, { desc = "save session" })
+-- map("n", "<leader>Sl", require("resession").load, { desc = "select session" })
 
-map("n", "<leader>Ss", function()
-	MiniSessions.select()
-end, { desc = "select session" })
-
-map("n", "<leader>Sd", function()
-	MiniSessions.select("delete", { force = true })
-end, { desc = "save session" })
+-- map("n", "<leader>Sd", require("resession").delete, { desc = "save session" })
 
 map("n", "<leader>so", ":so %<cr>", { desc = "Give it the ol' shout out!" })
 

@@ -3,7 +3,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		"fugitive",
 		"gitcommit",
 		"scratch",
-		"starter",
 	},
 	callback = function(ev)
 		vim.opt_local.number = false

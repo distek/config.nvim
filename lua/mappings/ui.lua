@@ -68,3 +68,31 @@ map("t", "<A-f>", function()
 
 	-- And everything works magically idk why
 end, { desc = "Fullscreen window" })
+
+for i = 1, 9, 1 do
+	map({ "t", "v", "n" }, "<leader>" .. i, function()
+		vim.api.nvim_set_current_tabpage(i)
+	end, { desc = "Switch to tab index " .. i })
+end
+
+ColorSchemeIdx = 1
+ColorSchemes = vim.fn.getcompletion("", "color")
+map("n", "<leader>Tn", function()
+	ColorSchemeIdx = ColorSchemeIdx + 1
+	if ColorSchemeIdx == #ColorSchemes then
+		ColorSchemeIdx = 1
+	end
+
+	vim.cmd("colorscheme " .. ColorSchemes[ColorSchemeIdx])
+	print(ColorSchemes[ColorSchemeIdx])
+end)
+
+map("n", "<leader>Tp", function()
+	ColorSchemeIdx = ColorSchemeIdx - 1
+	if ColorSchemeIdx == 0 then
+		ColorSchemeIdx = #ColorSchemes
+	end
+
+	vim.cmd("colorscheme " .. ColorSchemes[ColorSchemeIdx])
+	print(ColorSchemes[ColorSchemeIdx])
+end)

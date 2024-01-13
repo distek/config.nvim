@@ -1,16 +1,20 @@
 local map = vim.keymap.set
 
 -- focus buffers
-map("n", "<Tab>", "<cmd>bn<cr>")
-map("n", "<S-Tab>", "<cmd>bp<cr>")
+map("n", "<Tab>", function()
+	vim.cmd("BufferLineCycleNext")
+end)
+map("n", "<S-Tab>", function()
+	vim.cmd("BufferLineCyclePrev")
+end)
 
--- -- move buffers
--- map("n", "<A->>", function()
--- 	vim.cmd("BufferMoveNext")
--- end)
--- map("n", "<A-<>", function()
--- 	vim.cmd("BufferMovePrevious")
--- end)
+-- move buffers
+map("n", "<A->>", function()
+	vim.cmd("BufferLineMoveNext")
+end)
+map("n", "<A-<>", function()
+	vim.cmd("BufferLineMovePrev")
+end)
 
 -- Close split
 map("n", "<A-S-q>", function()
@@ -25,4 +29,6 @@ map("n", "<A-S-q>", function()
 end)
 
 -- Delete buffer
-map("n", "<A-q>", "<cmd>bn|bd #<cr>")
+map("n", "<A-q>", function()
+	require("bufdelete").bufwipeout(0, false)
+end)

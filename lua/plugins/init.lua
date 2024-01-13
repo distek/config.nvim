@@ -1,6 +1,8 @@
 -- Bootstrap
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
+local doBootstrap = false
+
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
@@ -10,6 +12,8 @@ if not vim.loop.fs_stat(lazypath) then
 		"--branch=stable", -- latest stable release
 		lazypath,
 	})
+
+	doBootstrap = true
 end
 
 vim.opt.rtp:prepend(lazypath)
@@ -42,7 +46,7 @@ function Update()
 end
 
 local function bootstrap()
-	if os.getenv("DEVTAINER_BUILD") ~= nil then
+	if os.getenv("DEVTAINER_BUILD") ~= nil or doBootstrap then
 		return true
 	end
 
@@ -56,12 +60,15 @@ if bootstrap() then
 		"bash-language-server",
 		"clang-format",
 		"clangd",
+		"csharp-language-server",
 		"css-lsp",
+		"goimports",
 		"golangci-lint",
 		"gopls",
 		"jq",
 		"json-lsp",
 		"lua-language-server",
+		"openscad-lsp",
 		"prettierd",
 		"rust-analyzer",
 		"shfmt",

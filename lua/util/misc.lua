@@ -151,8 +151,8 @@ Util.compVsWinCount = function()
 				return vim.bo.filetype
 			end)
 
-			for _, v in ipairs(compFts) do
-				if v == ft then
+			for _, c in ipairs(compFts) do
+				if c == ft then
 					compCount = compCount + 1
 
 					break
