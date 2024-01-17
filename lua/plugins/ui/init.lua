@@ -1,5 +1,7 @@
 local plugins = {}
 
+table.insert(plugins, require("plugins.ui.theme"))
+
 table.insert(plugins, require("plugins.ui.bufferline"))
 table.insert(plugins, require("plugins.ui.bufresize"))
 table.insert(plugins, require("plugins.ui.edgy"))

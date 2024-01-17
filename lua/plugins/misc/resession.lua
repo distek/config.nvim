@@ -28,13 +28,24 @@ return {
 			-- Custom logic for determining if the buffer should be included
 			-- override default filter
 			buf_filter = function(bufnr)
-				local buftype = vim.bo[bufnr].buftype
-				if buftype == "help" then
-					return true
+				local buftype = vim.bo[bufnr].filetype
+
+				local compFts = {
+					"neo-tree",
+					"toggleterm",
+					"Outline",
+					"Trouble",
+					"qf",
+					"help",
+					"fnote",
+				}
+
+				for _, v in ipairs(compFts) do
+					if buftype == v then
+						return true
+					end
 				end
-				if buftype ~= "" and buftype ~= "acwrite" then
-					return false
-				end
+
 				if vim.api.nvim_buf_get_name(bufnr) == "" then
 					return false
 				end
@@ -76,6 +87,7 @@ return {
 				end
 			end,
 		})
+
 		vim.api.nvim_create_autocmd("VimLeavePre", {
 			callback = function()
 				require("resession").save(

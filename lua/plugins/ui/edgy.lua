@@ -151,12 +151,16 @@ return {
 				},
 			},
 			bottom = {
-
 				{
-					title = "Terminal",
-					ft = "toggleterm",
+					title = "Panel",
+					ft = "whatever",
 					pinned = true,
-					open = openToggleTerm,
+					open = function()
+						require("panel").open({
+							name = "Terminal",
+							focus = false,
+						})
+					end,
 					wo = {
 						winhighlight = "Normal:PanelNormal",
 						number = false,
@@ -165,6 +169,9 @@ return {
 						list = false,
 						signcolumn = "no",
 						statuscolumn = "",
+						wo = {
+							winbar = false,
+						},
 					},
 				},
 			},
