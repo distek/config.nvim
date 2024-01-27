@@ -216,4 +216,6 @@ return function()
 		debug = true,
 		sources = sources,
 	})
+
+	null_ls.deregister(null_ls.builtins.formatting.codespell)
 end
