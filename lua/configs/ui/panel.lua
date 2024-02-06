@@ -1,6 +1,8 @@
 return function()
 	local function openToggleTerm()
-		vim.cmd("vsplit +term\\ tmux-nest")
+		vim.cmd(
+			"vsplit +term\\ tmux-tools\\ nest\\ --tmux-config\\ ~/.config/tmux/nested.conf"
+		)
 		local hideMe = vim.api.nvim_get_current_win()
 
 		local buf = vim.api.nvim_get_current_buf()

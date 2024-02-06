@@ -15,6 +15,7 @@ return {
 		local red = vim.api.nvim_get_hl(0, { name = "Todo" })
 		local yellow = vim.api.nvim_get_hl(0, { name = "Directory" })
 		local green = vim.api.nvim_get_hl(0, { name = "String" })
+		local popup = vim.api.nvim_get_hl(0, { name = "PMenu" })
 
 		vim.api.nvim_set_hl(0, "StatusColSep", {
 			fg = curLineNrHi.fg,
@@ -34,6 +35,10 @@ return {
 		vim.api.nvim_set_hl(0, "LineNr", {
 			fg = tabLineHi.fg,
 			bg = tabLineHi.bg,
+		})
+
+		vim.api.nvim_set_hl(0, "NormalFloat", {
+			bg = popup.bg,
 		})
 
 		vim.api.nvim_set_hl(

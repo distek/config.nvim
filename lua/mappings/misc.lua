@@ -39,16 +39,16 @@ map("n", "<Esc><Esc>", function()
 end, { silent = true })
 
 -- Better incsearch
-map(
-	"n",
-	"n",
-	"<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>"
-)
-map(
-	"n",
-	"N",
-	"<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>"
-)
+-- map(
+-- 	"n",
+-- 	"n",
+-- 	"<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>"
+-- )
+-- map(
+-- 	"n",
+-- 	"N",
+-- 	"<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>"
+-- )
 
 -- focus tabpages
 map("n", "<leader><Tab>", ":tabnext<cr>", { desc = "Next Tab" })
