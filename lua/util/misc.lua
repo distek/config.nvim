@@ -387,3 +387,112 @@ function Util.getTabName(idx)
 	local ok, name = pcall(vim.api.nvim_tabpage_get_var, idx, "name")
 	return ok and name or nil
 end
+
+local pagerDefaultKeymaps = {
+	{ "n", "q", "<cmd>q!<cr>", { buffer = true } },
+	{ "n", "u", "<C-u>", { buffer = true } },
+	{ "n", "d", "<C-d>", { buffer = true } },
+	{ "n", "J", "<C-u>", { buffer = true } },
+	{ "n", "K", "<C-d>", { buffer = true } },
+}
+
+function Util.pagerize(ft)
+	local buf = vim.api.nvim_get_current_buf()
+	vim.bo[buf].buftype = "nofile"
+	vim.bo[buf].modifiable = false
+	vim.bo[buf].bufhidden = "hide"
+	vim.bo[buf].buflisted = false
+	vim.bo[buf].modified = false
+	vim.bo[buf].filetype = ft
+
+	vim.o.showtabline = 0
+
+	for _, v in ipairs(pagerDefaultKeymaps) do
+		vim.keymap.set(v[1], v[2], v[3], v[4])
+	end
+end
+
+local function createTerm(cmd)
+	cmd = string.gsub(cmd, " ", "\\ ")
+	vim.cmd("vsplit +term\\ " .. cmd)
+	local hideMe = vim.api.nvim_get_current_win()
+
+	local bufid = vim.api.nvim_get_current_buf()
+
+	vim.bo[bufid].buflisted = false
+	vim.bo[bufid].filetype = "floatterm"
+
+	vim.api.nvim_win_hide(hideMe)
+
+	return bufid
+end
+
+local function vsplit()
+	vim.cmd("vsplit")
+
+	return vim.api.nvim_get_current_win()
+end
+
+local function split()
+	vim.cmd("split")
+
+	return vim.api.nvim_get_current_win()
+end
+
+-- Stolen form a spudtastic potato
+local function float(winid, width, height)
+	-- Allow it to fail if the window can't be floated
+	local api = vim.api
+	if (#api.nvim_list_wins()) < 2 then
+		print("Float() can only be used if there is more than one window")
+		return -1
+	end
+
+	local ui = api.nvim_list_uis()[1]
+
+	local quadBufHeight = api.nvim_buf_line_count(api.nvim_get_current_buf())
+		* 4
+
+	-- Ensure the window is not ridiculously large for the content
+	if quadBufHeight < height then
+		height = quadBufHeight
+	end
+
+	local opts = {
+		relative = "editor",
+		width = width,
+		height = height,
+		col = math.floor(ui.width / 2) - math.floor(width / 2),
+		row = math.floor(ui.height / 2) - math.floor(height / 2),
+		anchor = "NW",
+		style = "minimal",
+		border = "shadow",
+	}
+
+	api.nvim_win_set_config(winid, opts)
+end
+
+function Util.lazygit()
+	local buf = createTerm("lazygit")
+
+	vim.bo[buf].buflisted = false
+
+	local winid = split()
+
+	vim.api.nvim_win_set_buf(winid, buf)
+
+	float(
+		winid,
+		math.floor(vim.api.nvim_list_uis()[1].width * 0.75),
+		math.floor(vim.api.nvim_list_uis()[1].height * 0.75)
+	)
+
+	vim.cmd("startinsert")
+
+	vim.api.nvim_create_autocmd("TermClose", {
+		buffer = buf,
+		callback = function()
+			vim.cmd("close")
+		end,
+	})
+end

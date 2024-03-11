@@ -3,15 +3,12 @@ return {
 	event = "VeryLazy",
 	config = function()
 		local function openToggleTerm()
-			vim.cmd("vsplit +term\\ tmux-nest")
-			local hideMe = vim.api.nvim_get_current_win()
+			vim.cmd("vsplit +term\\ tmux-tools nest")
 
 			local buf = vim.api.nvim_get_current_buf()
 
 			vim.bo[buf].buflisted = false
 			vim.bo[buf].filetype = "toggleterm"
-
-			-- vim.api.nvim_buf_set_name(buf, "terminal")
 
 			vim.o.mousemoveevent = true
 
@@ -38,11 +35,8 @@ return {
 					end,
 				}
 			)
-
-			-- vim.api.nvim_win_hide(hideMe)
-
-			-- 			return buf
 		end
+
 		require("edgy").setup({
 			options = {
 				left = { size = 35 },

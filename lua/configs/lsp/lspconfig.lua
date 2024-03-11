@@ -1,6 +1,8 @@
 return function()
 	local lspconfig = require("lspconfig")
 
+	vim.filetype.add({ extension = { templ = "templ" } })
+
 	-- Aesthetics
 	local signs = {
 		Error = " ",
@@ -28,10 +30,10 @@ return function()
 
 	vim.diagnostic.config({
 		virtual_text = {
-			source = "always", -- Or "if_many"
+			source = true, -- Or "if_many"
 		},
 		float = {
-			source = "always", -- Or "if_many"
+			source = true, -- Or "if_many"
 		},
 	})
 
@@ -84,12 +86,27 @@ return function()
 		end,
 		["gopls"] = function()
 			lspconfig.gopls.setup({
+				cmd = {
+					vim.fn.expand("~/.local/share/nvim/mason/bin/gopls"),
+					"-logfile",
+					vim.fn.expand("/tmp/goplslog"),
+				},
 				root_dir = lspconfig.util.root_pattern(
 					"go.mod",
 					".git",
 					"main.go"
 				),
 				handlers = handlers,
+			})
+		end,
+		["htmx"] = function()
+			lspconfig.htmx.setup({
+				filetypes = { "templ", "html", "htmx", "js", "go" },
+			})
+		end,
+		["tailwindCSS"] = function()
+			lspconfig.htmx.setup({
+				filetypes = { "css", "jsx", "tsx", "templ", "html", "htmx" },
 			})
 		end,
 		["lua_ls"] = function()
@@ -135,8 +152,6 @@ return function()
 			})
 		end,
 		["tsserver"] = function()
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-
 			local capabilitiesWithoutFomatting =
 				vim.lsp.protocol.make_client_capabilities()
 			capabilitiesWithoutFomatting.textDocument.formatting = false

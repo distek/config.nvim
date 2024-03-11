@@ -7,6 +7,7 @@ map(
 	"<cmd> lua require('telescope.builtin').live_grep()<cr>",
 	{ desc = "Live grep" }
 )
+
 map(
 	"n",
 	"<leader>kw",
@@ -15,14 +16,21 @@ map(
 )
 
 map(
+	"v",
+	"<leader>kw",
+	"<cmd> lua require('telescope.builtin').grep_string()<cr>",
+	{ desc = "Grep string under cursor" }
+)
+
+map(
 	"n",
-	"<leader>kF",
+	"<leader>kf",
 	"<cmd> lua require('telescope.builtin').find_files()<cr>",
 	{ desc = "Find files" }
 )
 map(
 	"n",
-	"<leader>kf",
+	"<leader>kF",
 	"<cmd> lua require('telescope.builtin').buffers()<cr>",
 	{ desc = "Find buffers" }
 )

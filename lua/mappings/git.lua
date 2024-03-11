@@ -37,3 +37,7 @@ map(
 map("n", "<leader>go", function()
 	GitPopupThing.open()
 end, {})
+
+map("n", "<leader>lg", function()
+	Util.lazygit()
+end, {})
