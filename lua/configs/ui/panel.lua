@@ -104,27 +104,27 @@ return function()
 					winhighlight = "Normal:PanelNormal",
 				},
 			},
-			{
-				name = "Help",
-				ft = "help",
-				open = function()
-					-- just open `:help help` by default
-					vim.cmd("help help")
-					local bufid = vim.api.nvim_get_current_buf()
-					vim.api.nvim_win_hide(vim.api.nvim_get_current_win())
+			-- {
+			-- 	name = "Help",
+			-- 	ft = "help",
+			-- 	open = function()
+			-- 		-- just open `:help help` by default
+			-- 		vim.cmd("help help")
+			-- 		local bufid = vim.api.nvim_get_current_buf()
+			-- 		vim.api.nvim_win_hide(vim.api.nvim_get_current_win())
 
-					return bufid
-				end,
-				close = false,
-				wo = {
-					number = false,
-					relativenumber = false,
-					list = false,
-					signcolumn = "no",
-					statuscolumn = "",
-					winhighlight = "Normal:PanelNormal",
-				},
-			},
+			-- 		return bufid
+			-- 	end,
+			-- 	close = false,
+			-- 	wo = {
+			-- 		number = false,
+			-- 		relativenumber = false,
+			-- 		list = false,
+			-- 		signcolumn = "no",
+			-- 		statuscolumn = "",
+			-- 		winhighlight = "Normal:PanelNormal",
+			-- 	},
+			-- },
 			{
 				name = "Notes",
 				ft = "fnote",

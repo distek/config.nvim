@@ -51,7 +51,7 @@ return function()
 			-- end,
 			offsets = {
 				{
-					filetype = "neo-tree",
+					filetype = "netrw",
 					text = "Neovim",
 					text_align = "center",
 					separator = "┃",

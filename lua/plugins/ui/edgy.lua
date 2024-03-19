@@ -94,27 +94,10 @@ return {
 			top = {},
 			left = {
 				{
-					title = "Buffers",
-					ft = "neo-tree",
-					size = { height = 0.25 },
-					filter = function(buf)
-						return vim.b[buf].neo_tree_source == "buffers"
-					end,
-					pinned = true,
-					open = "Neotree position=top buffers",
-					wo = {
-						winbar = true,
-					},
-				},
-				{
 					title = "Files",
-					ft = "neo-tree",
-					filter = function(buf)
-						return vim.b[buf].neo_tree_source == "filesystem"
-					end,
-					open = "Neotree",
+					ft = "netrw",
+					open = "Lexplore",
 					pinned = true,
-					size = { height = 0.75 },
 					wo = {
 						winbar = true,
 					},

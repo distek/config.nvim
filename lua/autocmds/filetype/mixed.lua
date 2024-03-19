@@ -1,7 +1,6 @@
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = {
 		"fugitive",
-		"gitcommit",
 		"scratch",
 	},
 	callback = function(ev)
@@ -16,6 +15,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = {
 		"fugitive",
+		"help",
 		"scratch",
 	},
 	callback = function()
