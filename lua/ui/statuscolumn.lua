@@ -152,16 +152,16 @@ _G.get_statuscol = function(order)
 	return table.concat(str_table)
 end
 
-vim.o.signcolumn = "no"
+-- vim.o.signcolumn = "no"
 
-vim.o.statuscolumn = _G.get_statuscol({
-	"gitsigns",
-	"diagnostics",
-	"sep",
-	"breakpoints",
-	"sep",
-	"num",
-	"space",
-	"lastSep",
-	"clear",
-})
+-- vim.o.statuscolumn = _G.get_statuscol({
+-- 	"gitsigns",
+-- 	"diagnostics",
+-- 	"sep",
+-- 	"breakpoints",
+-- 	"sep",
+-- 	"num",
+-- 	"space",
+-- 	"lastSep",
+-- 	"clear",
+-- })

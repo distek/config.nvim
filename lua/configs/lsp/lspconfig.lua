@@ -54,6 +54,11 @@ return function()
 			lspconfig[server_name].setup({ handlers = handlers })
 			require("lsp_signature").on_attach()
 		end,
+		["bufls"] = function()
+			lspconfig.bufls.setup({
+				filetypes = { "proto" },
+			})
+		end,
 		["clangd"] = function()
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 
@@ -218,4 +223,6 @@ return function()
 	})
 
 	null_ls.deregister(null_ls.builtins.formatting.codespell)
+
+	null_ls.disable("proto")
 end

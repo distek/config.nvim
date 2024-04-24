@@ -1,0 +1,32 @@
+{
+    "workspace.library": [
+        "/Users/jacob_fralick/.config/nvim",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/lazy.nvim",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/mason-lspconfig.nvim",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/mason.nvim",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/nvim-lspconfig",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/barbar.nvim",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/lush.nvim",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/fnote.nvim",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/nvim-treesitter",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/nvim-ts-context-commentstring",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/nui.nvim",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/nvim-web-devicons",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/neo-tree.nvim",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/vim-plugin-AnsiEsc",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/git-worktree.nvim",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/telescope-termfinder.nvim",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/telescope-dap.nvim",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/telescope-ui-select.nvim",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/telescope-file-browser.nvim",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/plenary.nvim",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/telescope.nvim",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/auto-session",
+        "/Users/jacob_fralick/.local/share/nvim/lazy/vim-commentary",
+        "/opt/brew/Cellar/neovim/0.9.0/share/nvim/runtime",
+        "/opt/brew/Cellar/neovim/0.9.0/lib/nvim",
+        "/Users/jacob_fralick/.config/nvim/after",
+        "/Users/jacob_fralick/.local/state/nvim/lazy/readme",
+        "/Users/jacob_fralick/.local/share/nvim/mason/packages/lua-language-server/libexec/meta/48149178"
+    ]
+}

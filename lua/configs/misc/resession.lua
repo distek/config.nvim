@@ -37,7 +37,7 @@ return function()
 			-- How often to save (in seconds)
 			interval = 60,
 			-- Notify when autosaved
-			notify = true,
+			notify = false,
 		},
 		-- Save and restore these options
 		options = {

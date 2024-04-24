@@ -250,7 +250,7 @@ function GoInstallBinaries()
 end
 
 function GoFillStruct()
-	Util.codeAction("gopls", "fill_struct", false)
+	Util.codeAction("gopls", "source.fillStruct", false)
 end
 
 function GoAddTags()
