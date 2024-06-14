@@ -11,5 +11,6 @@ table.insert(plugins, require("plugins.misc.neotest"))
 table.insert(plugins, require("plugins.misc.scope"))
 table.insert(plugins, require("plugins.misc.resession"))
 table.insert(plugins, require("plugins.misc.refactoring"))
+table.insert(plugins, require("plugins.misc.undotree"))
 
 return plugins

@@ -1,6 +1,6 @@
 return {
 	"distek/panel.nvim",
 	branch = "tab-scoped",
-	dir = "~/git-clones/panel.nvim",
+	dir = "~/dev/panel.nvim",
 	config = require("configs.ui.panel"),
 }

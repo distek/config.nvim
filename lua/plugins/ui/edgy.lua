@@ -60,10 +60,11 @@ return {
 				winfixheight = true,
 				winhighlight = "WinBar:EdgyWinBar",
 				spell = false,
-				signcolumn = "no",
-				statuscolumn = "",
-				number = false,
-				relativenumber = false,
+				-- statuscolumn = "",
+				-- signcolumn = "number",
+				-- number = true,
+				-- numberwidth = 4,
+				-- relativenumber = true,
 			},
 			keys = {
 				["q"] = function(win)
@@ -99,31 +100,33 @@ return {
 			},
 			top = {},
 			left = {
-				{
-					title = "Buffers",
-					ft = "neo-tree",
-					size = { height = 0.25 },
-					filter = function(buf)
-						return vim.b[buf].neo_tree_source == "buffers"
-					end,
-					pinned = true,
-					open = "Neotree position=top buffers",
-					wo = {
-						winbar = true,
-					},
-				},
+				-- {
+				-- 	title = "Buffers",
+				-- 	ft = "neo-tree",
+				-- 	size = { height = 0.25 },
+				-- 	filter = function(buf)
+				-- 		return vim.b[buf].neo_tree_source == "buffers"
+				-- 	end,
+				-- 	pinned = true,
+				-- 	open = "Neotree position=top buffers",
+				-- 	wo = {
+				-- 		winbar = true,
+				-- 	},
+				-- },
 				{
 					title = "Files",
 					ft = "neo-tree",
 					filter = function(buf)
 						return vim.b[buf].neo_tree_source == "filesystem"
 					end,
-					open = "Neotree",
+					open = function()
+						require("neo-tree.command").execute({
+							action = "show",
+							source = "filesystem",
+						})
+					end,
 					pinned = true,
 					size = { height = 0.75 },
-					wo = {
-						winbar = true,
-					},
 				},
 			},
 			right = {

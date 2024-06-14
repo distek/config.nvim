@@ -107,13 +107,11 @@ NotesLastView = ""
 local function toggleNotes()
 	local panel = require("panel")
 	if panel.isOpen() then
-		if panel.currentView == "Notes" then
-			if NotesLastView ~= "" then
-				panel.open({ name = NotesLastView, focus = true })
-			end
-		else
-			NotesLastView = panel.currentView
-			panel.open({ name = "Notes", focus = true })
+		if
+			panel.tabScopes[vim.api.nvim_get_current_tabpage()].currentView
+			== "Notes"
+		then
+			panel.close()
 		end
 	else
 		panel.open({ name = "Notes", focus = true })
@@ -161,11 +159,23 @@ map("n", "<leader>qo", function()
 	vim.cmd("copen")
 end, { desc = "Open quickfix list" })
 
--- map("n", "<leader>Ss", require("resession").save_tab, { desc = "save session" })
+map("n", "<leader>Ss", function()
+	local name = ""
+	vim.ui.input({ prompt = "Session name: " }, function(input)
+		name = input
+	end)
 
--- map("n", "<leader>Sl", require("resession").load, { desc = "select session" })
+	if name == "" then
+		return
+	end
 
--- map("n", "<leader>Sd", require("resession").delete, { desc = "save session" })
+	require("resession").save(name, {})
+end, { desc = "save session" })
+map("n", "<leader>Sa", require("resession").save_all, { desc = "save session" })
+
+map("n", "<leader>Sl", require("resession").load, { desc = "select session" })
+
+map("n", "<leader>Sd", require("resession").delete, { desc = "save session" })
 
 map("n", "<leader>so", ":so %<cr>", { desc = "Give it the ol' shout out!" })
 
@@ -181,4 +191,25 @@ end)
 
 vim.keymap.set("n", "<leader>tq", function()
 	vim.cmd("tabclose")
+end)
+
+vim.keymap.set("n", "<leader>uuid", function()
+	local uuidCmd = vim.system({ "sak", "uuid" }):wait(1000)
+
+	local uuid = uuidCmd.stdout
+
+	if uuid == nil then
+		vim.notify("uuid command failed")
+		return
+	end
+
+	uuid = string.trim(uuid, "\n")
+
+	local escaped = vim.api.nvim_replace_termcodes(
+		"i" .. uuid .. "<esc>",
+		true,
+		false,
+		true
+	)
+	vim.api.nvim_feedkeys(escaped, "n", false)
 end)

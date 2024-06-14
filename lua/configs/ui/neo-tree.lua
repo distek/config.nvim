@@ -8,6 +8,19 @@ return function()
 			winbar = false,
 			statusline = false,
 		},
+		event_handlers = {
+			{
+				event = "neo_tree_buffer_enter",
+				handler = function()
+					vim.opt_local.statuscolumn = ""
+					vim.opt_local.signcolumn = "number"
+					vim.opt_local.foldcolumn = "0"
+					vim.opt_local.number = true
+					vim.opt_local.numberwidth = 4
+					vim.opt_local.relativenumber = true
+				end,
+			},
+		},
 		default_component_configs = {
 			git_status = {
 				symbols = {

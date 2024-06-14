@@ -2,6 +2,7 @@ return function()
 	local cmp = require("cmp")
 	local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 	local luasnip = require("luasnip")
+	require("configs.cmp.snippets")
 
 	cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
@@ -35,6 +36,17 @@ return function()
 				behavior = cmp.ConfirmBehavior.Replace,
 				select = false,
 			}),
+			["<C-e>"] = cmp.mapping.abort(),
+			["<C-l>"] = cmp.mapping(function()
+				if luasnip.expand_or_locally_jumpable() then
+					luasnip.expand_or_jump()
+				end
+			end, { "i", "s" }),
+			["<C-h>"] = cmp.mapping(function()
+				if luasnip.locally_jumpable(-1) then
+					luasnip.jump(-1)
+				end
+			end, { "i", "s" }),
 			["<Tab>"] = cmp.mapping(function(fallback)
 				if cmp.visible() then
 					cmp.select_next_item()
@@ -75,8 +87,7 @@ return function()
 				border = "shadow",
 			},
 			documentation = {
-				winhighlight = "Normal:NoiceCmdLine,FloatBorder:FloatBorder,CursorLine:Visual",
-				border = "shadow",
+				border = "single",
 			},
 		},
 	})
@@ -101,9 +112,10 @@ return function()
 					fallback()
 				end
 			end, { "c" }),
+			["<CR>"] = cmp.mapping.confirm({
+				behavior = cmp.ConfirmBehavior.Replace,
+				select = false,
+			}),
 		},
 	})
-
-	require("luasnip.loaders.from_vscode").lazy_load()
-	require("luasnip.loaders.from_snipmate").lazy_load()
 end

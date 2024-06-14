@@ -18,11 +18,11 @@ return function()
 	local handlers = {
 		["textDocument/hover"] = vim.lsp.with(
 			vim.lsp.handlers.hover,
-			{ border = "shadow" }
+			{ border = "single" }
 		),
 		["textDocument/signatureHelp"] = vim.lsp.with(
 			vim.lsp.handlers.signature_help,
-			{ border = "shadow" }
+			{ border = "single" }
 		),
 	}
 
@@ -49,10 +49,48 @@ return function()
 		automatic_installation = true,
 	})
 
+	local lsp_formatting = function(bufnr)
+		vim.lsp.buf.format({
+			filter = function(client)
+				local doFormat = true
+				if client.name == "tsserver" then
+					return false
+				end
+				return doFormat
+			end,
+			bufnr = bufnr,
+		})
+	end
+
+	-- if you want to set up formatting on save, you can use this as a callback
+	local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
+	-- add to your shared on_attach callback
+	local on_attach = function(client, bufnr)
+		if client.supports_method("textDocument/formatting") then
+			vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				group = augroup,
+				buffer = bufnr,
+				callback = function()
+					lsp_formatting(bufnr)
+				end,
+			})
+		end
+	end
+
 	require("mason-lspconfig").setup_handlers({
 		function(server_name)
-			lspconfig[server_name].setup({ handlers = handlers })
+			lspconfig[server_name].setup({
+				handlers = handlers,
+				on_attach = on_attach,
+			})
 			require("lsp_signature").on_attach()
+		end,
+		["bufls"] = function()
+			lspconfig.bufls.setup({
+				filetypes = { "proto" },
+			})
 		end,
 		["clangd"] = function()
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -134,25 +172,25 @@ return function()
 				handlers = handlers,
 			})
 		end,
-		["tsserver"] = function()
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
+		-- ["tsserver"] = function()
+		-- 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-			local capabilitiesWithoutFomatting =
-				vim.lsp.protocol.make_client_capabilities()
-			capabilitiesWithoutFomatting.textDocument.formatting = false
-			capabilitiesWithoutFomatting.textDocument.rangeFormatting = false
-			capabilitiesWithoutFomatting.textDocument.range_formatting = false
-			capabilitiesWithoutFomatting.documentFormattingProvider = false
-			capabilitiesWithoutFomatting.documentRangeFormattingProvider = false
+		-- 	local capabilitiesWithoutFomatting =
+		-- 		vim.lsp.protocol.make_client_capabilities()
+		-- 	capabilitiesWithoutFomatting.textDocument.formatting = false
+		-- 	capabilitiesWithoutFomatting.textDocument.rangeFormatting = false
+		-- 	capabilitiesWithoutFomatting.textDocument.range_formatting = false
+		-- 	capabilitiesWithoutFomatting.documentFormattingProvider = false
+		-- 	capabilitiesWithoutFomatting.documentRangeFormattingProvider = false
 
-			lspconfig.tsserver.setup({
-				capabilities = capabilitiesWithoutFomatting,
-				settings = {
-					documentFormatting = false,
-				},
-				handlers = handlers,
-			})
-		end,
+		-- 	lspconfig.tsserver.setup({
+		-- 		capabilities = capabilitiesWithoutFomatting,
+		-- 		settings = {
+		-- 			documentFormatting = false,
+		-- 		},
+		-- 		handlers = handlers,
+		-- 	})
+		-- end,
 		["vls"] = function()
 			local trimmedCapabilities =
 				vim.lsp.protocol.make_client_capabilities()
@@ -218,4 +256,6 @@ return function()
 	})
 
 	null_ls.deregister(null_ls.builtins.formatting.codespell)
+
+	null_ls.disable("proto")
 end

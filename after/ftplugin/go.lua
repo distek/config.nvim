@@ -16,15 +16,18 @@ map(
 	":GoAddTest<cr>",
 	{ desc = "Go: Add test for current function" }
 )
-map(
-	"n",
-	"<leader>Gt",
-	require("neotest").run.run,
-	{ desc = "Go: Run test under cursor" }
-)
-map("n", "<leader>GT", function()
-	require("neotest").run.run(vim.fn.getcwd())
-end, { desc = "Go: Run test project" })
+
+if not vim.g.vscode then
+	map(
+		"n",
+		"<leader>Gt",
+		require("neotest").run.run,
+		{ desc = "Go: Run test under cursor" }
+	)
+	map("n", "<leader>GT", function()
+		require("neotest").run.run(vim.fn.getcwd())
+	end, { desc = "Go: Run test project" })
+end
 
 local function getErrFunc()
 	local vts = vim.treesitter
@@ -250,7 +253,7 @@ function GoInstallBinaries()
 end
 
 function GoFillStruct()
-	Util.codeAction("gopls", "fill_struct", false)
+	Util.codeAction("gopls", "source.fillStruct", false)
 end
 
 function GoAddTags()

@@ -62,6 +62,7 @@ return function()
 								"#000000"
 							),
 						}
+
 						local mode_color = {
 							["n"] = colors.normal, -- 'NORMAL',
 							["no"] = colors.normal, -- 'O-PENDING',

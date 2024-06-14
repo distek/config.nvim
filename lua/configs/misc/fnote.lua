@@ -8,6 +8,6 @@ return function()
 			},
 		},
 
-		border = "shadow",
+		-- border = "shadow",
 	})
 end

@@ -37,7 +37,7 @@ return function()
 			-- How often to save (in seconds)
 			interval = 60,
 			-- Notify when autosaved
-			notify = true,
+			notify = false,
 		},
 		-- Save and restore these options
 		options = {
@@ -77,25 +77,39 @@ return function()
 		end,
 	})
 
-	vim.api.nvim_create_autocmd("VimEnter", {
-		callback = function()
-			-- Only load the session if nvim was started with no args
-			if vim.fn.argc(-1) == 0 then
-				-- Save these to a different directory, so our manual sessions don't get polluted
-				require("resession").load(
-					vim.fn.getcwd(),
-					{ dir = "dirsession", silence_errors = true }
-				)
-			end
-		end,
-	})
+	-- vim.api.nvim_create_autocmd("VimEnter", {
+	-- 	callback = function()
+	-- 		-- Only load the session if nvim was started with no args
+	-- 		if vim.fn.argc(-1) == 0 then
+	-- 			-- Save these to a different directory, so our manual sessions don't get polluted
+	-- 			require("resession").load(
+	-- 				vim.fn.getcwd(),
+	-- 				{ dir = "dirsession", silence_errors = true }
+	-- 			)
+	-- 		end
+	-- 	end,
+	-- })
 
 	vim.api.nvim_create_autocmd("VimLeavePre", {
 		callback = function()
-			require("resession").save(
-				vim.fn.getcwd(),
-				{ dir = "dirsession", notify = false }
+			local branch = vim.fn.system(
+				[[git branch 2>/dev/null | grep "^\*" | awk '{print $2}']]
 			)
+
+			branch = string.trim(branch, "\n")
+			branch = string.trim(branch, "\r")
+
+			if branch ~= "" then
+				require("resession").save(
+					vim.fn.getcwd() .. "-" .. branch,
+					{ notify = false }
+				)
+			else
+				require("resession").save(
+					vim.fn.getcwd(),
+					{ dir = "dirsession", notify = false }
+				)
+			end
 		end,
 	})
 end

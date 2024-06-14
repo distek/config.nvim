@@ -11,11 +11,11 @@ return function()
 				height = height,
 				row = row,
 				col = col,
-				border = "shadow",
+				border = "single",
 				title = title,
 			})
 
-			vim.wo[winid].winhighlight = "Normal:NormalFloat"
+			-- vim.wo[winid].winhighlight = "Normal:NormalFloat"
 
 			return Layout.Window({
 				bufnr = bufnr,
@@ -175,7 +175,7 @@ return function()
 	vim.api.nvim_create_autocmd("User", {
 		pattern = "TelescopePreviewerLoaded",
 		callback = function(args)
-			vim.wo.winhighlight = "Normal:NormalFloatDarker"
+			-- vim.wo.winhighlight = "Normal:NormalFloatDarker"
 		end,
 	})
 end

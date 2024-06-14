@@ -15,8 +15,8 @@ vim.o.encoding = "utf-8"
 vim.o.expandtab = true
 vim.o.fileformats = "unix,dos,mac"
 vim.cmd([[filetype plugin indent on]])
-vim.o.foldmethod = "marker"
-vim.o.foldcolumn = "auto"
+-- vim.o.foldmethod = "marker"
+-- vim.o.foldcolumn = "auto"
 vim.o.hidden = true
 vim.o.hlsearch = true
 vim.o.ignorecase = true
@@ -139,9 +139,9 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 	return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
-vim.diagnostic.config({
-	virtual_text = true,
-	float = { border = "shadow" },
-})
+-- vim.diagnostic.config({
+-- 	virtual_text = true,
+-- 	float = { border = "shadow" },
+-- })
 
 vim.cmd("let g:csv_default_delim=','")

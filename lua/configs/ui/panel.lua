@@ -45,7 +45,7 @@ return function()
 
 	require("panel").setup({
 		size = 15,
-		tabScoped = true,
+		tabScoped = false,
 		extPanels = {
 			"neo-tree",
 			"Outline",
@@ -71,60 +71,77 @@ return function()
 				name = "Problems",
 				ft = "Trouble",
 				open = function()
-					require("trouble").open({
-						win = require("panel").getWin(),
+					local view = require("trouble").open({
+						mode = "diagnostics",
+						warn_no_results = false,
+						open_no_results = true,
 					})
 
-					local bufid = vim.api.nvim_get_current_buf()
+					vim.wait(100, function()
+						return not view.opening or view.win.win ~= nil
+					end, 100)
 
-					vim.bo[bufid].buflisted = false
+					local count = 0
+					vim.wait(100, function()
+						vim.print(view.win.opts.win)
+						count = count + 1
+						return count >= 5
+					end, 100)
+
+					local bufid = vim.api.nvim_win_get_buf(view.win.win)
+
+					-- local winid = view.win.win
+
+					view.win.win = require("panel").getWin()
+
+					-- vim.api.nvim_win_close(winid, false)
 
 					return bufid
 				end,
 				close = function()
-					require("trouble").close(false)
+					require("trouble").close("diagnostics")
 				end,
 				wo = {
 					winhighlight = "Normal:PanelNormal",
 				},
 			},
-			{
-				name = "Quickfix",
-				ft = "qf",
-				open = function()
-					vim.cmd(":copen")
-					local bufid = vim.api.nvim_get_current_buf()
+			-- {
+			-- 	name = "Quickfix",
+			-- 	ft = "qf",
+			-- 	open = function()
+			-- 		vim.cmd(":copen")
+			-- 		local bufid = vim.api.nvim_get_current_buf()
 
-					vim.api.nvim_win_hide(vim.api.nvim_get_current_win())
+			-- 		vim.api.nvim_win_hide(vim.api.nvim_get_current_win())
 
-					return bufid
-				end,
-				close = false,
-				wo = {
-					winhighlight = "Normal:PanelNormal",
-				},
-			},
-			{
-				name = "Help",
-				ft = "help",
-				open = function()
-					-- just open `:help help` by default
-					vim.cmd("help help")
-					local bufid = vim.api.nvim_get_current_buf()
-					vim.api.nvim_win_hide(vim.api.nvim_get_current_win())
+			-- 		return bufid
+			-- 	end,
+			-- 	close = false,
+			-- 	wo = {
+			-- 		winhighlight = "Normal:PanelNormal",
+			-- 	},
+			-- },
+			-- {
+			-- 	name = "Help",
+			-- 	ft = "help",
+			-- 	open = function()
+			-- 		-- just open `:help help` by default
+			-- 		vim.cmd("help help")
+			-- 		local bufid = vim.api.nvim_get_current_buf()
+			-- 		vim.api.nvim_win_hide(vim.api.nvim_get_current_win())
 
-					return bufid
-				end,
-				close = false,
-				wo = {
-					number = false,
-					relativenumber = false,
-					list = false,
-					signcolumn = "no",
-					statuscolumn = "",
-					winhighlight = "Normal:PanelNormal",
-				},
-			},
+			-- 		return bufid
+			-- 	end,
+			-- 	close = false,
+			-- 	wo = {
+			-- 		number = false,
+			-- 		relativenumber = false,
+			-- 		list = false,
+			-- 		signcolumn = "no",
+			-- 		statuscolumn = "",
+			-- 		winhighlight = "Normal:PanelNormal",
+			-- 	},
+			-- },
 			{
 				name = "Notes",
 				ft = "fnote",

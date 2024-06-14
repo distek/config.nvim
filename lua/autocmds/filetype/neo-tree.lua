@@ -1,0 +1,14 @@
+-- vim.api.nvim_create_autocmd("BufEnter", {
+-- 	callback = function(e)
+-- 		if vim.bo[e.buf].filetype == "neo-tree" then
+-- 			Util.defer(function()
+-- 				vim.opt_local.statuscolumn = ""
+-- 				vim.opt_local.signcolumn = "number"
+-- 				vim.opt_local.foldcolumn = "0"
+-- 				vim.opt_local.number = true
+-- 				vim.opt_local.numberwidth = 4
+-- 				vim.opt_local.relativenumber = true
+-- 			end, 1)
+-- 		end
+-- 	end,
+-- })
