@@ -3,9 +3,9 @@ Util.win_focus = function(dir)
 		if d == "left" then
 			return "h", "L", "left"
 		elseif d == "down" then
-			return "j", "D", "down"
+			return "j", "D", "bottom"
 		elseif d == "up" then
-			return "k", "U", "up"
+			return "k", "U", "top"
 		else --right
 			return "l", "R", "right"
 		end
@@ -14,12 +14,12 @@ Util.win_focus = function(dir)
 	local vimLetter, tmuxLetter, word = getStuff(dir)
 
 	if vim.fn.winnr() == vim.fn.winnr(vimLetter) then
+		local current = vim.api.nvim_get_current_win()
+
+		vim.cmd("wincmd " .. vimLetter)
 		if os.getenv("TMUX") ~= nil then
-			vim.cmd(
-				"silent !~/.config/tmux/scripts/focus-pane.sh "
-					.. word
-					.. " true"
-			)
+			vim.cmd("silent !tmux-tools focus-pane " .. word)
+
 			return
 		end
 
