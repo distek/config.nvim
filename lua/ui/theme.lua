@@ -38,9 +38,9 @@ vim.api.nvim_set_hl(0, "LineNr", {
 	bg = tabLineHi.bg,
 })
 
--- vim.api.nvim_set_hl(0, "NormalFloat", {
--- 	bg = popup.bg,
--- })
+vim.api.nvim_set_hl(0, "NormalFloat", {
+	bg = popup.bg,
+})
 
 vim.api.nvim_set_hl(0, "DapBreakpoint", { fg = red.fg, bg = tabLineHi.bg })
 vim.api.nvim_set_hl(0, "DapLogPoint", { fg = yellow.fg, bg = tabLineHi.bg })
