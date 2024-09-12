@@ -97,8 +97,7 @@ return function()
 
 			capabilities.offsetEncoding = { "utf-16" }
 			capabilities.textDocument.formatting.dynamicRegistration = false
-			capabilities.textDocument.rangeFormatting.dynamicRegistration =
-				false
+			capabilities.textDocument.rangeFormatting.dynamicRegistration = true
 
 			lspconfig.clangd.setup({
 				cmd = {

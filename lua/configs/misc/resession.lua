@@ -96,8 +96,8 @@ return function()
 				[[git branch 2>/dev/null | grep "^\*" | awk '{print $2}']]
 			)
 
-			branch = string.trim(branch, "\n")
-			branch = string.trim(branch, "\r")
+			branch = branch:gsub("\n", "")
+			branch = branch:gsub("\r", "")
 
 			if branch ~= "" then
 				require("resession").save(
