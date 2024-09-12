@@ -213,12 +213,12 @@ return function()
 	local b = null_ls.builtins
 
 	local sources = {
-		b.formatting.clang_format.with({
-			extra_args = {
-				"--style",
-				"{UseTab: Always, IndentWidth: 8, TabWidth: 8, ColumnLimit: 90, NamespaceIndentation: All}",
-			},
-		}),
+		-- b.formatting.clang_format.with({
+		-- 	extra_args = {
+		-- 		"--style",
+		-- 		"{UseTab: Always, IndentWidth: 8, TabWidth: 8, ColumnLimit: 90, NamespaceIndentation: All}",
+		-- 	},
+		-- }),
 		b.formatting.prettierd.with({
 			cwd = require("null-ls.helpers").cache.by_bufnr(function(params)
 				return require("null-ls.utils").root_pattern(

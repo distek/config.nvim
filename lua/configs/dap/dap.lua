@@ -85,17 +85,47 @@ return function()
 		windows = { indent = 1 },
 	})
 
-	dap.configurations.c = {
-		{
-			name = "codelldb server",
-			type = "server",
-			port = "${port}",
-			executable = {
-				command = vim.fn.stdpath("data") .. "/mason/bin/codelldb",
-				args = { "--port", "${port}" },
-			},
+	dap.adapters.lldb = {
+		-- type = "executable",
+		-- command = vim.fn.stdpath("data") .. "/mason/bin/codelldb",
+		-- args = { "--port", "12345" },
+		--
+		-- name = "lldb",
+		-- type = "server",
+		-- host = "127.0.0.1",
+		-- port = 12345,
+		--
+		type = "server",
+		port = "${port}",
+		executable = {
+			-- CHANGE THIS to your path!
+			command = vim.fn.stdpath("data") .. "/mason/bin/codelldb",
+			args = { "--port", "${port}" },
+
+			-- On windows you may have to uncomment this:
+			-- detached = false,
 		},
 	}
+
+	dap.configurations.c = {
+		{
+			name = "Launch",
+			type = "lldb",
+			request = "launch",
+			program = function()
+				return vim.fn.input(
+					"Path to executable: ",
+					vim.fn.getcwd() .. "/",
+					"file"
+				)
+			end,
+			cwd = "${workspaceFolder}",
+			stopOnEntry = false,
+			args = {},
+		},
+	}
+
+	dap.configurations.cpp = dap.configurations.c
 
 	require("nvim-dap-virtual-text").setup({})
 end
