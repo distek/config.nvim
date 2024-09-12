@@ -1,5 +1,6 @@
 return {
-	"jakewvincent/mkdnflow.nvim",
+	"MeanderingProgrammer/render-markdown.nvim",
+	-- "jakewvincent/mkdnflow.nvim",
 	ft = { "markdown" },
 	lazy = true,
 	config = require("configs.filetype.md"),
