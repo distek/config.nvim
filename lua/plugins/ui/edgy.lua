@@ -2,47 +2,6 @@ return {
 	"folke/edgy.nvim",
 	event = "VeryLazy",
 	config = function()
-		local function openToggleTerm()
-			vim.cmd("vsplit +term\\ tmux-nest")
-			local hideMe = vim.api.nvim_get_current_win()
-
-			local buf = vim.api.nvim_get_current_buf()
-
-			vim.bo[buf].buflisted = false
-			vim.bo[buf].filetype = "toggleterm"
-
-			-- vim.api.nvim_buf_set_name(buf, "terminal")
-
-			vim.o.mousemoveevent = true
-
-			-- Strictly for if we want to click on a panel tab (can't click in insert mode apparently)
-			vim.keymap.set("i", "<MouseMove>", function()
-				buf = vim.api.nvim_get_current_buf()
-				if vim.bo[buf].filetype == "toggleterm" then
-					vim.cmd("stopinsert")
-				end
-			end, { silent = true })
-
-			vim.api.nvim_create_augroup("PanelToggleTerm", { clear = true })
-			vim.api.nvim_create_autocmd(
-				{ "TermEnter", "WinEnter", "BufEnter" },
-				{
-					group = "PanelToggleTerm",
-					callback = function()
-						Util.defer(function()
-							buf = vim.api.nvim_get_current_buf()
-							if vim.bo[buf].filetype == "toggleterm" then
-								vim.cmd("startinsert")
-							end
-						end, 10)
-					end,
-				}
-			)
-
-			-- vim.api.nvim_win_hide(hideMe)
-
-			-- 			return buf
-		end
 		require("edgy").setup({
 			options = {
 				left = { size = 35 },
@@ -155,14 +114,15 @@ return {
 			},
 			bottom = {
 				{
-					title = "Panel",
-					ft = "whatever",
+					title = "Terminal",
+					ft = "toggleterm",
 					pinned = true,
 					open = function()
-						require("panel").open({
-							name = "Terminal",
-							focus = false,
-						})
+						Util.OpenTerm()
+						-- require("panel").open({
+						-- 	name = "Terminal",
+						-- 	focus = false,
+						-- })
 					end,
 					wo = {
 						winhighlight = "Normal:PanelNormal",
@@ -172,9 +132,18 @@ return {
 						list = false,
 						signcolumn = "no",
 						statuscolumn = "",
-						wo = {
-							winbar = false,
-						},
+						-- wo = {
+						-- 	winbar = false,
+						-- },
+					},
+				},
+				{
+					title = "List",
+					ft = "termlist",
+					size = { width = 20 },
+					wo = {
+						winbar = true,
+						wrap = false,
 					},
 				},
 			},

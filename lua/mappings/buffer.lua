@@ -8,6 +8,30 @@ map("n", "<S-Tab>", function()
 	vim.cmd("BufferLineCyclePrev")
 end)
 
+map({ "t", "n" }, "<A-[>", function()
+	local cb = vim.api.nvim_get_current_buf()
+	if
+		vim.bo[cb].filetype == "toggleterm"
+		or vim.bo[cb].filetype == "termlist"
+	then
+		Util.TermPrev()
+	else
+		vim.cmd("BufferLineCyclePrev")
+	end
+end)
+
+map({ "t", "n" }, "<A-]>", function()
+	local cb = vim.api.nvim_get_current_buf()
+	if
+		vim.bo[cb].filetype == "toggleterm"
+		or vim.bo[cb].filetype == "termlist"
+	then
+		Util.TermNext()
+	else
+		vim.cmd("BufferLineCycleNext")
+	end
+end)
+
 -- move buffers
 map("n", "<A->>", function()
 	vim.cmd("BufferLineMoveNext")

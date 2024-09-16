@@ -95,31 +95,31 @@ map(
 	[[ <Cmd>lua require('refactoring').refactor('Extract Block')<CR>]],
 	{ desc = "Extract block" }
 )
-map(
-	"n",
-	"<leader>rbf",
-	[[ <Cmd>lua require('refactoring').refactor('Extract Block To File')<CR>]],
-	{ desc = "Extract block to file" }
-)
+-- map(
+-- 	"n",
+-- 	"<leader>rbf",
+-- 	[[ <Cmd>lua require('refactoring').refactor('Extract Block To File')<CR>]],
+-- 	{ desc = "Extract block to file" }
+-- )
 
 NotesLastView = ""
 
-local function toggleNotes()
-	local panel = require("panel")
-	if panel.isOpen() then
-		if
-			panel.tabScopes[vim.api.nvim_get_current_tabpage()].currentView
-			== "Notes"
-		then
-			panel.close()
-		end
-	else
-		panel.open({ name = "Notes", focus = true })
-	end
-end
+-- local function toggleNotes()
+-- 	local panel = require("panel")
+-- 	if panel.isOpen() then
+-- 		if
+-- 			panel.tabScopes[vim.api.nvim_get_current_tabpage()].currentView
+-- 			== "Notes"
+-- 		then
+-- 			panel.close()
+-- 		end
+-- 	else
+-- 		panel.open({ name = "Notes", focus = true })
+-- 	end
+-- end
 
-map("n", "<A-n>", toggleNotes)
-map("t", "<A-n>", toggleNotes)
+-- map("n", "<A-n>", toggleNotes)
+-- map("t", "<A-n>", toggleNotes)
 
 -- Shift block
 map("v", "<C-K>", "xkP`[V`]")

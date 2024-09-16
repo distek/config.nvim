@@ -1,11 +1,19 @@
 local map = vim.keymap.set
 
+-- map("n", "<leader>as", function()
+-- 	require("panel").toggle()
+-- end, { desc = "Bottom panel" })
+
+-- map("t", "<localleader>as", function()
+-- 	require("panel").toggle()
+-- end, { desc = "Bottom panel" })
+
 map("n", "<leader>as", function()
-	require("panel").toggle()
+	require("edgy").toggle("bottom")
 end, { desc = "Bottom panel" })
 
 map("t", "<localleader>as", function()
-	require("panel").toggle()
+	require("edgy").toggle("bottom")
 end, { desc = "Bottom panel" })
 
 map({ "n", "t" }, "<leader>ad", function()
@@ -16,22 +24,8 @@ map({ "n", "t" }, "<leader>af", function()
 	require("edgy").toggle("right")
 end, { desc = "Right panel" })
 
-map({ "t", "n" }, "<A-[>", function()
-	-- Ignore autos unless we're going into Terminal ("so the auto-insert auto still works")
-	-- This mitigates issues with trouble.nvim
-	if require("panel").getPrevious() == "Terminal" then
-		require("panel").previous()
-	else
-		vim.cmd("noautocmd lua require('panel').previous()")
-	end
-end)
-
-map({ "t", "n" }, "<A-]>", function()
-	if require("panel").getNext() == "Terminal" then
-		require("panel").next()
-	else
-		vim.cmd("noautocmd lua require('panel').next()")
-	end
+map({ "t", "n" }, "<A-CR>", function()
+	Util.NewTerm()
 end)
 
 map("n", "<leader>z", ":ZenMode<cr>", { desc = "Zen mode" })

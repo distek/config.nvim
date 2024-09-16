@@ -5,6 +5,8 @@ return function()
 			"starter",
 			"Outline",
 			"scratch",
+			"termlist",
+			"toggleterm",
 		}
 
 		local tb = {}
