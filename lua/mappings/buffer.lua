@@ -20,6 +20,18 @@ map({ "t", "n" }, "<A-[>", function()
 	end
 end)
 
+map({ "t", "n" }, "<A-{>", function()
+	local cb = vim.api.nvim_get_current_buf()
+	if
+		vim.bo[cb].filetype == "toggleterm"
+		or vim.bo[cb].filetype == "termlist"
+	then
+		Util.TermMovePrev()
+	else
+		vim.cmd("BufferLineMovePrev")
+	end
+end)
+
 map({ "t", "n" }, "<A-]>", function()
 	local cb = vim.api.nvim_get_current_buf()
 	if
@@ -29,6 +41,18 @@ map({ "t", "n" }, "<A-]>", function()
 		Util.TermNext()
 	else
 		vim.cmd("BufferLineCycleNext")
+	end
+end)
+
+map({ "t", "n" }, "<A-}>", function()
+	local cb = vim.api.nvim_get_current_buf()
+	if
+		vim.bo[cb].filetype == "toggleterm"
+		or vim.bo[cb].filetype == "termlist"
+	then
+		Util.TermMoveNext()
+	else
+		vim.cmd("BufferLineMoveNext")
 	end
 end)
 

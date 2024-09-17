@@ -52,6 +52,47 @@ local function newTerm(id)
 	Util.TermWin = vim.api.nvim_get_current_win()
 end
 
+local function cleanUpTerms()
+	local new = {}
+	for _, v in ipairs(Util.Terms) do
+		if vim.api.nvim_buf_is_valid(v.Buf) then
+			table.insert(new, v)
+		end
+	end
+
+	Util.Terms = new
+end
+
+local function idOrName(t)
+	if t.Name ~= nil and t.Name ~= "" then
+		return t.Name
+	end
+
+	return t.ID
+end
+
+local function getBufNames()
+	local ret = {}
+
+	-- for i, v in ipairs(Util.Terms) do
+	-- 	if v.ID == Util.CurrentTerm then
+	-- 		ret[i] = " > " .. getBufCommand(v.Buf)
+	-- 	else
+	-- 		ret[i] = "   " .. getBufCommand(v.Buf)
+	-- 	end
+	-- end
+
+	for i, v in ipairs(Util.Terms) do
+		if v.ID == Util.CurrentTerm then
+			ret[i] = " > " .. idOrName(v)
+		else
+			ret[i] = "   " .. idOrName(v)
+		end
+	end
+
+	return ret
+end
+
 ---@return Term | nil
 local function getNextPrev(nextPrev)
 	if nextPrev == "next" then
@@ -88,6 +129,81 @@ local function getNextPrev(nextPrev)
 			end
 		end
 	end
+end
+
+local function updateBufs()
+	if termListBufid == nil or not vim.api.nvim_buf_is_valid(termListBufid) then
+		Util.OpenTermList(Util.TermWin)
+	end
+
+	cleanUpTerms()
+
+	local bufs = getBufNames()
+
+	vim.api.nvim_buf_set_option(termListBufid, "readonly", false)
+	vim.api.nvim_buf_set_option(termListBufid, "modifiable", true)
+	vim.api.nvim_buf_set_lines(termListBufid, 0, -1, false, {})
+	vim.api.nvim_buf_set_lines(termListBufid, 0, #Util.Terms, false, bufs)
+	vim.api.nvim_buf_set_option(termListBufid, "readonly", true)
+	vim.api.nvim_buf_set_option(termListBufid, "modifiable", false)
+end
+
+function Util.TermMoveNext()
+	if #Util.Terms <= 1 then
+		return
+	end
+
+	if Util.GetCurrentTermIdx() == #Util.Terms then
+		return
+	end
+
+	local temp = {}
+	local oldPos = 0
+	local current
+	for i, v in ipairs(Util.Terms) do
+		if v.ID == Util.CurrentTerm then
+			oldPos = i
+			current = v
+			goto continue
+		end
+		table.insert(temp, v)
+		::continue::
+	end
+
+	table.insert(temp, oldPos + 1, current)
+
+	Util.Terms = temp
+
+	updateBufs()
+end
+
+function Util.TermMovePrev()
+	if #Util.Terms <= 1 then
+		return
+	end
+
+	if Util.GetCurrentTermIdx() == 1 then
+		return
+	end
+
+	local temp = {}
+	local oldPos = 0
+	local current
+	for i, v in ipairs(Util.Terms) do
+		if v.ID == Util.CurrentTerm then
+			oldPos = i
+			current = v
+			goto continue
+		end
+		table.insert(temp, v)
+		::continue::
+	end
+
+	table.insert(temp, oldPos - 1, current)
+
+	Util.Terms = temp
+
+	updateBufs()
 end
 
 function Util.TermNext()
@@ -168,64 +284,6 @@ local function getBufCommand(bufnr)
 	vim.print(vim.fn.system({ "ps", "-p", tostring(job_pid) }))
 
 	return vim.fn.trim(cmd)
-end
-
-local function cleanUpTerms()
-	local new = {}
-	for _, v in ipairs(Util.Terms) do
-		if vim.api.nvim_buf_is_valid(v.Buf) then
-			table.insert(new, v)
-		end
-	end
-
-	Util.Terms = new
-end
-
-local function idOrName(t)
-	if t.Name ~= nil and t.Name ~= "" then
-		return t.Name
-	end
-
-	return t.ID
-end
-
-local function getBufNames()
-	local ret = {}
-
-	-- for i, v in ipairs(Util.Terms) do
-	-- 	if v.ID == Util.CurrentTerm then
-	-- 		ret[i] = " > " .. getBufCommand(v.Buf)
-	-- 	else
-	-- 		ret[i] = "   " .. getBufCommand(v.Buf)
-	-- 	end
-	-- end
-
-	for i, v in ipairs(Util.Terms) do
-		if v.ID == Util.CurrentTerm then
-			ret[i] = " > " .. idOrName(v)
-		else
-			ret[i] = "   " .. idOrName(v)
-		end
-	end
-
-	return ret
-end
-
-local function updateBufs()
-	if termListBufid == nil or not vim.api.nvim_buf_is_valid(termListBufid) then
-		Util.OpenTermList(Util.TermWin)
-	end
-
-	cleanUpTerms()
-
-	local bufs = getBufNames()
-
-	vim.api.nvim_buf_set_option(termListBufid, "readonly", false)
-	vim.api.nvim_buf_set_option(termListBufid, "modifiable", true)
-	vim.api.nvim_buf_set_lines(termListBufid, 0, -1, false, {})
-	vim.api.nvim_buf_set_lines(termListBufid, 0, #Util.Terms, false, bufs)
-	vim.api.nvim_buf_set_option(termListBufid, "readonly", true)
-	vim.api.nvim_buf_set_option(termListBufid, "modifiable", false)
 end
 
 function Util.OpenTermList(winid)
@@ -310,7 +368,7 @@ function Util.UpdateTerm()
 	updateBufs()
 end
 
-function Util.GetCurrentTerm()
+function Util.GetCurrentTermIdx()
 	for i, v in ipairs(Util.Terms) do
 		if v.ID == Util.CurrentTerm then
 			return i
@@ -353,7 +411,7 @@ vim.api.nvim_create_autocmd({ "TermEnter", "WinEnter", "BufEnter" }, {
 				updateBufs()
 			end
 			if vim.bo[buf].filetype == "termlist" then
-				local cur = Util.GetCurrentTerm()
+				local cur = Util.GetCurrentTermIdx()
 				if cur == nil then
 					return
 				end
@@ -386,7 +444,7 @@ vim.api.nvim_create_autocmd({ "TermClose" }, {
 
 		Util.TermWin = vim.api.nvim_get_current_win()
 
-		local cur = Util.GetCurrentTerm()
+		local cur = Util.GetCurrentTermIdx()
 
 		if cur == nil then
 			return
