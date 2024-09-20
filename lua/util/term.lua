@@ -206,6 +206,16 @@ function Util.TermMovePrev()
 	updateBufs()
 end
 
+function Util.TermSet(idx)
+	if Util.Terms[idx] == nil then
+		return
+	end
+
+	vim.api.nvim_win_set_buf(Util.TermWin, Util.Terms[idx].Buf)
+
+	Util.CurrentTerm = Util.Terms[idx].ID
+end
+
 function Util.TermNext()
 	if Util.CurrentTerm == 0 then
 		newTerm(1)
@@ -315,7 +325,7 @@ function Util.OpenTermList(winid)
 
 	local bufs = getBufNames()
 
-	vim.api.nvim_buf_set_name(bufnr, "termlist")
+	vim.api.nvim_buf_set_name(bufnr, "Termlist")
 	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, {})
 	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, bufs)
 	vim.api.nvim_buf_set_option(bufnr, "modified", false)

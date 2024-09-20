@@ -1,6 +1,4 @@
 Util.win_resize = function(dir)
-	require("panel").winResized = true
-
 	local n = Util.getNeighbors()
 
 	-- I wish lua had a switch case

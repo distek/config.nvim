@@ -4,6 +4,7 @@ local function bufFilter(bufnr)
 	local compFts = {
 		"neo-tree",
 		"toggleterm",
+		"termlist",
 		"Outline",
 		"Trouble",
 		"qf",
