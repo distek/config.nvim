@@ -111,7 +111,6 @@ return function()
 				"branch",
 				"diff",
 				"diagnostics",
-				{ "filename", path = 1 },
 			},
 			lualine_c = {
 				-- {

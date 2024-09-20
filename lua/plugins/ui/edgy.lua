@@ -26,9 +26,7 @@ return {
 				-- relativenumber = true,
 			},
 			keys = {
-				["q"] = function(win)
-					win:hide()
-				end,
+				["q"] = false,
 				["<c-q>"] = false,
 				["Q"] = false,
 				["]w"] = false,
@@ -86,6 +84,9 @@ return {
 					end,
 					pinned = true,
 					size = { height = 0.75 },
+					wo = {
+						winhighlight = "Normal:NormalDark",
+					},
 				},
 			},
 			right = {
@@ -97,6 +98,7 @@ return {
 					pinned = true,
 					open = "SymbolsOutlineOpen",
 					wo = {
+						winhighlight = "Normal:NormalDark",
 						winbar = true,
 					},
 				},
@@ -107,6 +109,7 @@ return {
 					open = "Neotest summary",
 					size = { width = 30 },
 					wo = {
+						winhighlight = "Normal:NormalDark",
 						winbar = true,
 						wrap = false,
 					},
@@ -125,7 +128,7 @@ return {
 						-- })
 					end,
 					wo = {
-						winhighlight = "Normal:PanelNormal",
+						winhighlight = "Normal:NormalDarker",
 						number = false,
 						relativenumber = false,
 						wrap = false,
@@ -142,6 +145,7 @@ return {
 					ft = "termlist",
 					size = { width = 20 },
 					wo = {
+						winhighlight = "Normal:NormalDark",
 						winbar = true,
 						wrap = false,
 					},

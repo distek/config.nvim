@@ -16,11 +16,11 @@ map("t", "<localleader>as", function()
 	require("edgy").toggle("bottom")
 end, { desc = "Bottom panel" })
 
-map({ "n", "t" }, "<leader>ad", function()
+map({ "n" }, "<leader>ad", function()
 	require("edgy").toggle("left")
 end, { desc = "Left panel" })
 
-map({ "n", "t" }, "<leader>af", function()
+map({ "n" }, "<leader>af", function()
 	require("edgy").toggle("right")
 end, { desc = "Right panel" })
 
@@ -30,7 +30,22 @@ end)
 
 map("n", "<leader>z", ":ZenMode<cr>", { desc = "Zen mode" })
 
+local termZenMode = false
+local termLast = 0
 map("n", "<A-f>", function()
+	if
+		vim.api.nvim_get_current_buf()
+		== Util.Terms[Util.GetCurrentTermIdx()].Buf
+	then
+		if termZenMode then
+			vim.bo[termLast].filetype = "toggleterm"
+			termZenMode = false
+		else
+			termLast = Util.Terms[Util.GetCurrentTermIdx()].Buf
+			vim.bo[termLast].filetype = "toggletermzen"
+			termZenMode = true
+		end
+	end
 	require("zen-mode").toggle({
 		window = {
 			width = 1.0,
@@ -39,35 +54,39 @@ map("n", "<A-f>", function()
 end, { desc = "Fullscreen window" })
 
 map("t", "<A-f>", function()
-	-- Esc to tell error to close
+	-- -- Esc to tell error to close
+	if
+		vim.api.nvim_get_current_buf()
+		== Util.Terms[Util.GetCurrentTermIdx()].Buf
+	then
+		if termZenMode then
+			vim.bo[termLast].filetype = "toggleterm"
+			termZenMode = false
+		else
+			termLast = Util.Terms[Util.GetCurrentTermIdx()].Buf
+			vim.bo[termLast].filetype = "toggletermzen"
+			termZenMode = true
+		end
+	end
+
 	vim.api.nvim_feedkeys(
 		vim.api.nvim_replace_termcodes("<Esc>", true, false, true),
 		"t",
 		false
 	)
 
-	-- _THEN_ exit terminal mode
 	vim.api.nvim_feedkeys(
 		vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true),
 		"t",
 		false
 	)
 
-	-- _Then_ toggle zen mode?
 	require("zen-mode").toggle({
 		window = {
-			width = 1.0,
+			width = 1,
 		},
 	})
-
-	-- And everything works magically idk why
 end, { desc = "Fullscreen window" })
-
-for i = 1, 9, 1 do
-	map({ "t", "v", "n" }, "<leader>" .. i, function()
-		vim.api.nvim_set_current_tabpage(i)
-	end, { desc = "Switch to tab index " .. i })
-end
 
 ColorSchemeIdx = 1
 ColorSchemes = vim.fn.getcompletion("", "color")
@@ -90,3 +109,16 @@ map("n", "<leader>Tp", function()
 	vim.cmd("colorscheme " .. ColorSchemes[ColorSchemeIdx])
 	print(ColorSchemes[ColorSchemeIdx])
 end)
+
+for i = 1, 10 do
+	local n = 0
+	if i == 10 then
+		n = 0
+	else
+		n = i
+	end
+
+	map({ "t", "n" }, "<A-" .. n .. ">", function()
+		Util.TermSet(i)
+	end, { desc = "Focus terminal " .. i })
+end

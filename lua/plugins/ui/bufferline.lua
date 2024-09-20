@@ -1,4 +1,4 @@
 return {
 	"akinsho/bufferline.nvim",
-	-- config = require("configs.ui.bufferline"),
+	config = require("configs.ui.bufferline"),
 }
