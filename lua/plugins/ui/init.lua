@@ -18,6 +18,7 @@ table.insert(plugins, require("plugins.ui.trouble"))
 table.insert(plugins, require("plugins.ui.ufo"))
 table.insert(plugins, require("plugins.ui.which-key"))
 table.insert(plugins, require("plugins.ui.winshift"))
+table.insert(plugins, require("plugins.ui.window-picker"))
 table.insert(plugins, require("plugins.ui.zen-mode"))
 
 return plugins

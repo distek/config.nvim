@@ -7,7 +7,7 @@ vim.g.neovide_refresh_rate_idle = 5
 vim.g.neovide_confirm_quit = true
 vim.g.neovide_remember_window_size = false
 vim.g.neovide_input_use_logo = false
-vim.g.neovide_input_macos_alt_is_meta = true
+vim.g.neovide_input_macos_option_key_is_meta = "both"
 
 local map = vim.keymap.set
 

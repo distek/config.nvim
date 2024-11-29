@@ -38,7 +38,7 @@ return function()
 		},
 		highlight = {
 			enable = true,
-			additional_vim_regex_highlighting = true,
+			additional_vim_regex_highlighting = { "sql" },
 			-- custom_captures = {
 			--     ["variable"] = "Constant",
 		},

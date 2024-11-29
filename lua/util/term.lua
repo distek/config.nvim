@@ -63,12 +63,12 @@ local function cleanUpTerms()
 	Util.Terms = new
 end
 
-local function idOrName(t)
+local function idOrName(i, t)
 	if t.Name ~= nil and t.Name ~= "" then
-		return t.Name
+		return i .. ": " .. t.Name
 	end
 
-	return t.ID
+	return i
 end
 
 local function getBufNames()
@@ -84,9 +84,9 @@ local function getBufNames()
 
 	for i, v in ipairs(Util.Terms) do
 		if v.ID == Util.CurrentTerm then
-			ret[i] = " > " .. idOrName(v)
+			ret[i] = " > " .. idOrName(i, v)
 		else
-			ret[i] = "   " .. idOrName(v)
+			ret[i] = "   " .. idOrName(i, v)
 		end
 	end
 
@@ -214,6 +214,8 @@ function Util.TermSet(idx)
 	vim.api.nvim_win_set_buf(Util.TermWin, Util.Terms[idx].Buf)
 
 	Util.CurrentTerm = Util.Terms[idx].ID
+
+	updateBufs()
 end
 
 function Util.TermNext()
