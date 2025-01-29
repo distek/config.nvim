@@ -1,0 +1,6 @@
+require("keymaps.debug")
+require("keymaps.git")
+require("keymaps.lsp")
+require("keymaps.misc")
+require("keymaps.telescope")
+require("keymaps.ui")
