@@ -19,3 +19,13 @@ vim.api.nvim_create_autocmd("WinEnter", {
 		end
 	end,
 })
+
+-- I have no idea what the fuck changes this at random times, but I'm sick of it
+-- I literally can't see a use case of the cmdheight being anything other than 1
+vim.api.nvim_create_autocmd("WinScrolled", {
+	callback = function()
+		if vim.o.cmdheight ~= 1 then
+			vim.o.cmdheight = 1
+		end
+	end,
+})
