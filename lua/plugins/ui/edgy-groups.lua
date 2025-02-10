@@ -7,7 +7,7 @@ return {
 			groups = {
 				right = { { icon = "󰊕", titles = { "Outline", "Tests" } } },
 				left = {
-					{ icon = "", titles = { "Files" } },
+					{ icon = "", titles = { "Files", "Buffers" } },
 					{ icon = "", titles = { "Scopes", "Breakpoints", "Stacks", "Watches" } },
 				},
 				bottom = {
