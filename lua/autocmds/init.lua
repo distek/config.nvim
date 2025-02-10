@@ -1,3 +1,5 @@
+require("autocmds.filetype")
 require("autocmds.lsp")
+require("autocmds.misc")
 require("autocmds.panels")
 require("autocmds.ui")
