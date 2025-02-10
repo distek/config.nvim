@@ -8,6 +8,7 @@ return {
 			-- 	border = "shadow",
 			-- },
 			hint_enable = true,
+			hint_prefix = "> ",
 		})
 	end,
 }
