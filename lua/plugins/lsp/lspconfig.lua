@@ -1,6 +1,8 @@
 return {
 	"neovim/nvim-lspconfig",
 	config = function()
+		vim.lsp.inlay_hint.enable()
+
 		local lspconfig = require("lspconfig")
 
 		-- Aesthetics
@@ -115,9 +117,27 @@ return {
 				})
 			end,
 			["gopls"] = function()
+				local capabilities = vim.lsp.protocol.make_client_capabilities()
+
 				lspconfig.gopls.setup({
+					capabilities = capabilities,
 					root_dir = lspconfig.util.root_pattern("go.mod", ".git", "main.go"),
 					handlers = handlers,
+					settings = {
+						gopls = {
+							staticcheck = true,
+							gofumpt = true,
+							["ui.inlayhint.hints"] = {
+								assignVariableTypes = true,
+								compositeLiteralFields = true,
+								compositeLiteralTypes = true,
+								constantValues = true,
+								functionTypeParameters = true,
+								parameterNames = true,
+								rangeVariableTypes = true,
+							},
+						},
+					},
 				})
 			end,
 			["lua_ls"] = function()
@@ -189,6 +209,16 @@ return {
 					handlers = handlers,
 				})
 			end,
+		})
+
+		lspconfig.sourcekit.setup({
+			capabilities = {
+				workspace = {
+					didChangeWatchedFiles = {
+						dynamicRegistration = true,
+					},
+				},
+			},
 		})
 
 		require("mason-null-ls").setup({
