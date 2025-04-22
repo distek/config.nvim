@@ -1,3 +1,30 @@
+local function splitWithQuotes(str)
+	local result = {}
+	local currentWord = ""
+	local inQuote = false
+
+	for i = 1, #str do
+		local char = str:sub(i, i)
+		if char == " " and not inQuote then
+			if currentWord ~= "" then
+				table.insert(result, currentWord)
+				currentWord = ""
+			end
+		elseif char == '"' then
+			inQuote = not inQuote
+			currentWord = currentWord .. char
+		else
+			currentWord = currentWord .. char
+		end
+	end
+
+	if currentWord ~= "" then
+		table.insert(result, currentWord)
+	end
+
+	return result
+end
+
 return {
 	"mfussenegger/nvim-dap",
 	event = "VeryLazy",
@@ -86,24 +113,11 @@ return {
 		})
 
 		dap.adapters.lldb = {
-			-- type = "executable",
-			-- command = vim.fn.stdpath("data") .. "/mason/bin/codelldb",
-			-- args = { "--port", "12345" },
-			--
-			-- name = "lldb",
-			-- type = "server",
-			-- host = "127.0.0.1",
-			-- port = 12345,
-			--
 			type = "server",
 			port = "${port}",
 			executable = {
-				-- CHANGE THIS to your path!
 				command = vim.fn.stdpath("data") .. "/mason/bin/codelldb",
 				args = { "--port", "${port}" },
-
-				-- On windows you may have to uncomment this:
-				-- detached = false,
 			},
 		}
 
@@ -115,9 +129,12 @@ return {
 				program = function()
 					return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
 				end,
+				args = function()
+					local a = vim.fn.input("Arguments:", "")
+					return splitWithQuotes(a)
+				end,
 				cwd = "${workspaceFolder}",
 				stopOnEntry = false,
-				args = {},
 			},
 		}
 

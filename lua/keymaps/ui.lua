@@ -4,14 +4,32 @@ local map = vim.keymap.set
 map("n", "<leader>ss", "<cmd>split<cr>", { desc = "Split horizontal" })
 map("n", "<leader>sv", "<cmd>vsplit<cr>", { desc = "Split Vertical" })
 
+map("n", "<Tab>", function()
+	vim.cmd("BufferLineCycleNext")
+end)
+map("n", "<S-Tab>", function()
+	vim.cmd("BufferLineCyclePrev")
+end)
+
+map("n", "<A-]>", function()
+	vim.cmd("BufferLineCycleNext")
+end)
+map("n", "<A-[>", function()
+	vim.cmd("BufferLineCyclePrev")
+end)
+
 map("n", "<A-f>", function()
-	require("mini.misc").zoom()
+	require("mini.misc").zoom(0, {
+		height = vim.o.lines - vim.o.cmdheight - 1,
+	})
 end, { desc = "Zoom pane" })
 
 map("t", "<A-f>", function()
 	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, true, true), "n", false)
 	Util.defer(function()
-		require("mini.misc").zoom()
+		require("mini.misc").zoom(0, {
+			height = vim.o.lines - vim.o.cmdheight - 1,
+		})
 		vim.cmd("silent startinsert!")
 	end, 1)
 end, { desc = "Zoom pane" })
@@ -64,7 +82,7 @@ end)
 -- Delete buffer
 map("n", "<A-q>", function()
 	if #Util.GetNormalBuffers() > 1 then
-		vim.cmd("bn")
+		vim.cmd("bp")
 		vim.cmd("bd #")
 	else
 		if #Util.GetNormalBuffers() == 1 then

@@ -137,3 +137,65 @@ Util.win_resize = function(dir)
 
 	::ret::
 end
+
+Util.openInWindow = function(path)
+	if path == "" then
+		return
+	end
+
+	local winID = require("window-picker").pick_window({
+		hint = "statusline-winbar",
+		picker_config = {
+			-- whether should select window by clicking left mouse button on it
+			handle_mouse_click = false,
+			statusline_winbar_picker = {
+				-- You can change the display string in status bar.
+				-- It supports '%' printf style. Such as `return char .. ': %f'` to display
+				-- buffer file path. See :h 'stl' for details.
+				selection_display = function(char, windowid)
+					return "%=" .. char .. "%="
+				end,
+
+				-- whether you want to use winbar instead of the statusline
+				-- "always" means to always use winbar,
+				-- "never" means to never use winbar
+				-- "smart" means to use winbar if cmdheight=0 and statusline if cmdheight > 0
+				use_winbar = "never", -- "always" | "never" | "smart"
+			},
+		},
+		-- whether to show 'Pick window:' prompt
+		show_prompt = true,
+
+		-- prompt message to show to get the user input
+		prompt_message = "Pick window: ",
+		filter_rules = {
+			-- when there is only one window available to pick from, use that window
+			-- without prompting the user to select
+			autoselect_one = true,
+
+			-- whether you want to include the window you are currently on to window
+			-- selection or not
+			include_current_win = true,
+
+			-- whether to include windows marked as unfocusable
+			include_unfocusable_windows = false,
+
+			-- filter using buffer options
+			bo = {
+				-- if the file type is one of following, the window will be ignored
+				filetype = { "toggleterm", "Outline", "neotest-summary" },
+
+				-- if the file type is one of following, the window will be ignored
+				buftype = { "terminal" },
+			},
+		},
+	})
+
+	if winID == nil then
+		return
+	end
+
+	vim.api.nvim_set_current_win(winID)
+
+	vim.cmd("edit " .. path:gsub("%s", "\\ "))
+end

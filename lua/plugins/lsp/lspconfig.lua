@@ -26,10 +26,10 @@ return {
 
 		vim.diagnostic.config({
 			virtual_text = {
-				source = "always", -- Or "if_many"
+				source = true, -- Or "if_many"
 			},
 			float = {
-				source = "always", -- Or "if_many"
+				source = true, -- Or "if_many"
 			},
 		})
 

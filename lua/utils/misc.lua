@@ -51,3 +51,36 @@ Util.compVsWinCount = function()
 	end
 	return compCount, winCount
 end
+
+Util.getNeighbors = function()
+	local ret = {
+		top = false,
+		bottom = false,
+		left = false,
+		right = false,
+	}
+
+	if #vim.api.nvim_list_wins() == 1 then
+		return ret
+	end
+
+	local currentWin = vim.fn.winnr()
+
+	if currentWin ~= vim.fn.winnr("k") then
+		ret.top = true
+	end
+
+	if currentWin ~= vim.fn.winnr("j") then
+		ret.bottom = true
+	end
+
+	if currentWin ~= vim.fn.winnr("h") then
+		ret.left = true
+	end
+
+	if currentWin ~= vim.fn.winnr("l") then
+		ret.right = true
+	end
+
+	return ret
+end
