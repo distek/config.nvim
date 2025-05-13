@@ -29,13 +29,18 @@ end
 local function getPlugins()
 	local plugins = {}
 
-    plugins = insert(plugins, require("plugins.deps"))
+	plugins = insert(plugins, require("plugins.deps"))
 	plugins = insert(plugins, require("plugins.filetype"))
 	plugins = insert(plugins, require("plugins.treesitter"))
-    plugins = insert(plugins, require("plugins.lsp"))
+	plugins = insert(plugins, require("plugins.lsp"))
 	plugins = insert(plugins, require("plugins.dap"))
-    plugins = insert(plugins, require("plugins.ui"))
+	plugins = insert(plugins, require("plugins.ui"))
 	plugins = insert(plugins, require("plugins.misc"))
+
+	local stat = vim.loop.fs_stat(vim.fn.stdpath("config") .. "/lua/plugins/work/init.lua")
+	if stat and stat.type == "file" then
+		plugins = insert(plugins, require("plugins.work"))
+	end
 
 	return plugins
 end
