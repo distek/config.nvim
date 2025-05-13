@@ -1,6 +1,9 @@
 local map = vim.keymap.set
 
-map("n", "<leader>lD", "<cmd>Telescope lsp_definitions<CR>", { desc = "Peek definition" })
+map("n", "<leader>lD", function()
+	vim.cmd("mark D")
+	vim.cmd("Telescope lsp_definitions")
+end, { desc = "Peek definition" })
 map("n", "<leader>lsD", function()
 	vim.cmd("split")
 	vim.cmd("Telescope lsp_definitions")

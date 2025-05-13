@@ -4,26 +4,11 @@ local map = vim.keymap.set
 
 map("n", "<leader>Gfs", ":GoFillStruct<cr>", { desc = "Go: Fill struct" })
 map("n", "<leader>Gie", ":GoIfErr<cr>", { desc = "Go: Context-aware if err" })
-map(
-	"n",
-	"<leader>Gwe",
-	":GoWrapInError<cr>",
-	{ desc = "Go: Context-aware error wrapper" }
-)
-map(
-	"n",
-	"<leader>Gat",
-	":GoAddTest<cr>",
-	{ desc = "Go: Add test for current function" }
-)
+map("n", "<leader>Gwe", ":GoWrapInError<cr>", { desc = "Go: Context-aware error wrapper" })
+map("n", "<leader>Gat", ":GoAddTest<cr>", { desc = "Go: Add test for current function" })
 
 if not vim.g.vscode then
-	map(
-		"n",
-		"<leader>Gt",
-		require("neotest").run.run,
-		{ desc = "Go: Run test under cursor" }
-	)
+	map("n", "<leader>Gt", require("neotest").run.run, { desc = "Go: Run test under cursor" })
 	map("n", "<leader>GT", function()
 		require("neotest").run.run(vim.fn.getcwd())
 	end, { desc = "Go: Run test project" })
@@ -148,10 +133,7 @@ end
 --     open: bool - opens test file after function creation
 function GoAddTest(open)
 	if vim.fn.executable("gotests") == 0 then
-		vim.notify(
-			"GoAddTest: gotests not in path or not installed",
-			vim.log.levels.ERROR
-		)
+		vim.notify("GoAddTest: gotests not in path or not installed", vim.log.levels.ERROR)
 		return
 	end
 
@@ -173,19 +155,12 @@ function GoAddTest(open)
 		return
 	end
 
-	local subRoot, _ =
-		bufPath:gsub(vim.lsp.buf.list_workspace_folders()[1] .. "/", "")
+	local subRoot, _ = bufPath:gsub(vim.lsp.buf.list_workspace_folders()[1] .. "/", "")
 
 	local pathSubGo = subRoot:gsub(".go$", "")
 
 	os.execute(
-		'gotests -only "^'
-			.. funcName
-			.. '$" -w '
-			.. pathSubGo
-			.. "_test.go "
-			.. pathSubGo
-			.. ".go " -- what I have to do
+		'gotests -only "^' .. funcName .. '$" -w ' .. pathSubGo .. "_test.go " .. pathSubGo .. ".go " -- what I have to do
 	)
 
 	if open then
@@ -329,30 +304,21 @@ function GoWrapInError()
 	local sourceNode = getTSNodeUp("source_file")
 
 	if sourceNode == nil then
-		vim.notify(
-			"GoWrapErr: package: Could not find package: sourceNode == nil",
-			vim.log.levels.ERROR
-		)
+		vim.notify("GoWrapErr: package: Could not find package: sourceNode == nil", vim.log.levels.ERROR)
 		return
 	end
 
 	local packageNode = getTSNodeDown(sourceNode, "package_clause")
 
 	if packageNode == nil then
-		vim.notify(
-			"GoWrapErr: package: Could not find package: packageNode == nil",
-			vim.log.levels.ERROR
-		)
+		vim.notify("GoWrapErr: package: Could not find package: packageNode == nil", vim.log.levels.ERROR)
 		return
 	end
 
 	local packageName = vim.treesitter.get_node_text(packageNode:child(1), 0)
 
 	if not packageName then
-		vim.notify(
-			"GoWrapErr: package: Could not determine package?",
-			vim.log.levels.ERROR
-		)
+		vim.notify("GoWrapErr: package: Could not determine package?", vim.log.levels.ERROR)
 		return
 	end
 
@@ -360,20 +326,14 @@ function GoWrapInError()
 	local funcNode = getTSNodeUp("function_declaration")
 
 	if funcNode == nil then
-		vim.notify(
-			"GoWrapErr: func: Could not find parent",
-			vim.log.levels.ERROR
-		)
+		vim.notify("GoWrapErr: func: Could not find parent", vim.log.levels.ERROR)
 		return
 	end
 
 	local funcName = vim.treesitter.get_node_text(funcNode:child(1), 0)
 
 	if not funcName then
-		vim.notify(
-			"GoWrapErr: func: No function near cursor?",
-			vim.log.levels.ERROR
-		)
+		vim.notify("GoWrapErr: func: No function near cursor?", vim.log.levels.ERROR)
 		return
 	end
 
@@ -381,37 +341,29 @@ function GoWrapInError()
 	local lastMethod = getErrFunc()
 
 	if not lastMethod then
-		vim.notify(
-			"GoWrapErr: lastMethod: could not find last method",
-			vim.log.levels.ERROR
-		)
+		vim.notify("GoWrapErr: lastMethod: could not find last method", vim.log.levels.ERROR)
 		return
 	end
 
-	vim.ui.input(
-		{ prompt = 'Error string (default: "err"): ', default = nil },
-		function(input)
-			if input == nil then
-				return
-			end
-
-			local wrapped = string.format(
-				'fmt.Errorf("%s: %s: %s: %s: %%s", %s)',
-				packageName,
-				funcName,
-				lastMethod,
-				input,
-				curPosNodeText
-			)
-
-			local _, sCol, _, eCol = curPosNode:range()
-
-			local line = vim.api.nvim_get_current_line()
-			vim.api.nvim_set_current_line(
-				line:sub(0, sCol) .. wrapped .. line:sub(eCol + 1)
-			)
+	vim.ui.input({ prompt = 'Error string (default: "err"): ', default = nil }, function(input)
+		if input == nil then
+			return
 		end
-	)
+
+		local wrapped = string.format(
+			'fmt.Errorf("%s: %s: %s: %s: %%s", %s)',
+			packageName,
+			funcName,
+			lastMethod,
+			input,
+			curPosNodeText
+		)
+
+		local _, sCol, _, eCol = curPosNode:range()
+
+		local line = vim.api.nvim_get_current_line()
+		vim.api.nvim_set_current_line(line:sub(0, sCol) .. wrapped .. line:sub(eCol + 1))
+	end)
 
 	-- packageName: funcName: lastMethod: <user input>: err
 end
@@ -420,9 +372,23 @@ vim.api.nvim_create_user_command("GoAddTest", "lua GoAddTest(true)", {})
 vim.api.nvim_create_user_command("GoIfErr", "lua GoIfErr()", {})
 vim.api.nvim_create_user_command("GoWrapInError", "lua GoWrapInError()", {})
 vim.api.nvim_create_user_command("GoFillStruct", "lua GoFillStruct()", {})
-vim.api.nvim_create_user_command(
-	"GoInstallBinaries",
-	"lua GoInstallBinaries()",
-	{}
-)
+vim.api.nvim_create_user_command("GoInstallBinaries", "lua GoInstallBinaries()", {})
 vim.api.nvim_create_user_command("GoAddTags", "lua GoAddTags()", {})
+
+-- ls.add_snippets("go", {
+-- 	s("fpwd", {
+-- 		t({
+-- 			"err := filepath.WalkDir(dir, func(path string, info os.DirEntry, err error) error {",
+-- 			"\t",
+-- 		}),
+-- 		t({ "if err != nil {", "\t\t" }),
+-- 		t({ "return err", "\t" }),
+-- 		t({ "}", "\t" }),
+-- 		t({ "", "\t" }),
+-- 		i(0),
+
+-- 		t({ "", "\t" }),
+-- 		t({ "", "\t" }),
+-- 		t({ "return nil" }),
+-- 		t({ "", "})" }),
+-- 	}),
