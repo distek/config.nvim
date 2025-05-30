@@ -25,3 +25,27 @@ map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 -- Better indent (re-selects last visual)
 map("v", ">", "'>gv'", { expr = true, silent = true })
 map("v", "<", "'<gv'", { expr = true, silent = true })
+
+map("n", "<leader>ha", function()
+	require("harpoon"):list():add()
+end)
+
+map("n", "<leader>hh", function()
+	require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
+end)
+
+map("n", "<C-h>", function()
+	require("harpoon"):list():select(1)
+end)
+
+map("n", "<C-j>", function()
+	require("harpoon"):list():select(2)
+end)
+
+map("n", "<C-k>", function()
+	require("harpoon"):list():select(3)
+end)
+
+map("n", "<C-l>", function()
+	require("harpoon"):list():select(4)
+end)

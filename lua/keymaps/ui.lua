@@ -96,7 +96,12 @@ map("n", "<A-q>", function()
 	end
 end)
 
-map("n", "<Esc><Esc>", ":nohl<CR>", { silent = true })
+map("n", "<Esc><Esc>", function()
+	if vim.bo[0].filetype == "harpoon" then
+		require("harpoon").ui:close_menu()
+	end
+	vim.cmd("nohl")
+end, { silent = true })
 
 map("n", "<leader>as", function()
 	require("edgy-group").open_group_index("bottom", 1)
