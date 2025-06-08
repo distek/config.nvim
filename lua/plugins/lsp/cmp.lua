@@ -23,20 +23,20 @@ return {
 		cmp.setup({
 			snippet = {},
 			formatting = {
-				format = require("lspkind").cmp_format({
-					with_text = true,
-					maxwidth = 50,
-					menu = {
-						buffer = "[Buffer]",
-						nvim_lsp = "[LSP]",
-						nvim_lua = "[Lua]",
-						look = "[Look]",
-						spell = "[Spell]",
-						path = "[Path]",
-						calc = "[Calc]",
-					},
-				}),
-			},
+ 				format = function(entry, vim_item)
+ 					vim_item.kind = require("lspkind").symbolic(vim_item.kind, { mode = "symbol" })
+ 					vim_item.menu = ({
+ 						buffer = "[Buffer]",
+ 						nvim_lsp = "[LSP]",
+ 						nvim_lua = "[Lua]",
+ 						path = "[Path]",
+ 						calc = "[Calc]",
+ 					})[entry.source.name]
+ 					local maxwidth = 50
+ 					vim_item.abbr = string.sub(vim_item.abbr, 1, maxwidth)
+ 					return vim_item
+ 				end,
+ 			},
 			mapping = cmp.mapping.preset.insert({
 				["<C-d>"] = cmp.mapping.scroll_docs(-4),
 				["<C-f>"] = cmp.mapping.scroll_docs(4),

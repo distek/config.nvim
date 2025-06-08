@@ -1,8 +1,6 @@
 return {
 	"neovim/nvim-lspconfig",
 	config = function()
-		vim.lsp.inlay_hint.enable()
-
 		local lspconfig = require("lspconfig")
 
 		-- Aesthetics
@@ -77,27 +75,24 @@ return {
 			end
 		end
 
-		require("mason-lspconfig").setup_handlers({
-			function(server_name)
-				lspconfig[server_name].setup({
-					handlers = handlers,
-					on_attach = on_attach,
-				})
-				require("lsp_signature").on_attach()
-			end,
-			["buf_ls"] = function()
-				lspconfig.bufls.setup({
-					filetypes = { "proto" },
-				})
-			end,
-			["clangd"] = function()
-				local capabilities = vim.lsp.protocol.make_client_capabilities()
+		vim.lsp.config("*", {
+			root_markers = { ".git" },
+			on_attach = on_attach,
+		})
+		vim.lsp.config("buf_ls", {
+			filetypes = { "proto" },
+		})
+		vim.lsp.enable("buf_ls")
 
+		vim.lsp.config(
+			"clangd",
+			(function()
+				local capabilities = vim.lsp.protocol.make_client_capabilities()
 				capabilities.offsetEncoding = { "utf-16" }
 				capabilities.textDocument.formatting.dynamicRegistration = false
 				capabilities.textDocument.rangeFormatting.dynamicRegistration = true
 
-				lspconfig.clangd.setup({
+				return {
 					cmd = {
 						vim.fn.expand("~/.local/share/nvim/mason/bin/clangd"),
 						"--cross-file-rename",
@@ -106,48 +101,48 @@ return {
 					filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
 					capabilities = capabilities,
 					handlers = handlers,
-				})
-			end,
-			["cssls"] = function()
+				}
+			end)()
+		)
+		vim.lsp.enable("clangd")
+
+		vim.lsp.config(
+			"cssls",
+			(function()
 				local capabilities = vim.lsp.protocol.make_client_capabilities()
 				capabilities.textDocument.completion.completionItem.snippetSupport = true
-				lspconfig.cssls.setup({
+				return {
 					capabilities = capabilities,
 					handlers = handlers,
-				})
-			end,
-			["gopls"] = function()
-				local capabilities = vim.lsp.protocol.make_client_capabilities()
+				}
+			end)()
+		)
+		vim.lsp.enable("cssls")
 
-				lspconfig.gopls.setup({
-					capabilities = capabilities,
-					root_dir = lspconfig.util.root_pattern("go.mod", ".git", "main.go"),
-					handlers = handlers,
-					settings = {
-						gopls = {
-							staticcheck = true,
-							gofumpt = true,
-							-- ["ui.inlayhint.hints"] = {
-							-- 	assignVariableTypes = true,
-							-- 	compositeLiteralFields = true,
-							-- 	compositeLiteralTypes = true,
-							-- 	constantValues = true,
-							-- 	functionTypeParameters = true,
-							-- 	parameterNames = true,
-							-- 	rangeVariableTypes = true,
-							-- },
-						},
-					},
-				})
-			end,
-			["lua_ls"] = function()
+		vim.lsp.enable("gopls")
+		-- vim.lsp.start({
+		-- 	name = "gopls",
+		-- 	cmd = "gopls",
+		-- 	on_attach = function(client, bufnr)
+		-- 		vim.lsp.completion.enable(true, client.id, bufnr, {
+		-- 			autotrigger = true,
+		-- 			convert = function(item)
+		-- 				return { abbr = item.label:gsub("%b()", "") }
+		-- 			end,
+		-- 		})
+		-- 	end,
+		-- })
+
+		vim.lsp.config(
+			"lua_ls",
+			(function()
 				local runtime_path = vim.split(package.path, ";")
 				table.insert(runtime_path, "lua/?.lua")
 				table.insert(runtime_path, "lua/?/init.lua")
 
 				local library = vim.api.nvim_get_runtime_file("", true)
 
-				lspconfig.lua_ls.setup({
+				return {
 					settings = {
 						Lua = {
 							runtime = {
@@ -180,46 +175,59 @@ return {
 						},
 					},
 					handlers = handlers,
-				})
-			end,
-			-- ["tsserver"] = function()
-			-- 	local capabilities = vim.lsp.protocol.make_client_capabilities()
+				}
+			end)()
+		)
 
-			-- 	local capabilitiesWithoutFomatting =
-			-- 		vim.lsp.protocol.make_client_capabilities()
-			-- 	capabilitiesWithoutFomatting.textDocument.formatting = false
-			-- 	capabilitiesWithoutFomatting.textDocument.rangeFormatting = false
-			-- 	capabilitiesWithoutFomatting.textDocument.range_formatting = false
-			-- 	capabilitiesWithoutFomatting.documentFormattingProvider = false
-			-- 	capabilitiesWithoutFomatting.documentRangeFormattingProvider = false
-
-			-- 	lspconfig.tsserver.setup({
-			-- 		capabilities = capabilitiesWithoutFomatting,
-			-- 		settings = {
-			-- 			documentFormatting = false,
-			-- 		},
-			-- 		handlers = handlers,
-			-- 	})
-			-- end,
-			["vls"] = function()
-				local trimmedCapabilities = vim.lsp.protocol.make_client_capabilities()
-
-				lspconfig.vls.setup({
-					capabilities = trimmedCapabilities,
-					handlers = handlers,
-				})
-			end,
-		})
-
-		lspconfig.sourcekit.setup({
-			capabilities = {
-				workspace = {
-					didChangeWatchedFiles = {
-						dynamicRegistration = true,
+		vim.lsp.config(
+			"vtsls",
+			(function()
+				return {
+					settings = {
+						typescript = {
+							format = {
+								enable = false, -- Disable vtsls formatting
+							},
+						},
+						javascript = {
+							format = {
+								enable = false, -- Disable vtsls formatting
+							},
+						},
 					},
-				},
-			},
-		})
+				}
+			end)()
+		)
+
+		-- ["tsserver", {
+		-- 	local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+		-- 	local capabilitiesWithoutFomatting =
+		-- 		vim.lsp.protocol.make_client_capabilities()
+		-- 	capabilitiesWithoutFomatting.textDocument.formatting = false
+		-- 	capabilitiesWithoutFomatting.textDocument.rangeFormatting = false
+		-- 	capabilitiesWithoutFomatting.textDocument.range_formatting = false
+		-- 	capabilitiesWithoutFomatting.documentFormattingProvider = false
+		-- 	capabilitiesWithoutFomatting.documentRangeFormattingProvider = false
+
+		-- 	lspconfig.tsserver.setup({
+		-- 		capabilities = capabilitiesWithoutFomatting,
+		-- 		settings = {
+		-- 			documentFormatting = false,
+		-- 		},
+		-- 		handlers = handlers,
+		-- 	})
+		-- end,
+
+		-- lspconfig.sourcekit.setup({
+		--     capabilities = {
+		--         workspace = {
+		--             didChangeWatchedFiles = {
+		--                 dynamicRegistration = true,
+		--             },
+		--         },
+		--     },
+		-- })
 
 		require("mason-null-ls").setup({
 			automatic_installation = false,

@@ -17,4 +17,10 @@ map("v", "<leader>gu", ":Gitsigns reset_hunk<cr>", { desc = "Reset hunk" })
 map("n", "<leader>gj", ":diffget //3<cr>", { silent = true })
 map("n", "<leader>gf", ":diffget //2<cr>", { silent = true })
 
-map("n", "<leader>gwt", "<cmd>Telescope git_worktree create_git_worktree<cr>", { desc = "Git work trees" })
+map("n", "<leader>gwts", function()
+	require("telescope").extensions.git_worktree.git_worktree()
+end, { desc = "Git work trees" })
+
+map("n", "<leader>gwtc", function()
+	require("telescope").extensions.git_worktree.create_git_worktree()
+end, { desc = "Git work trees" })

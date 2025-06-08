@@ -108,7 +108,7 @@ return {
 					ft = "Outline",
 					visible = false,
 					size = { height = 0.75 },
-					open = "SymbolsOutlineOpen",
+					open = "OutlineOpen",
 					wo = {
 						winhighlight = "Normal:NormalDark",
 						winbar = true,

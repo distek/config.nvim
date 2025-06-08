@@ -3,6 +3,9 @@ if vim.g.vscode then
 else
 	require("globals")
 	require("plugins")
+	if vim.g.neovide then
+		require("neovide")
+	end
 	require("utils")
 	require("keymaps")
 	require("autocmds")
