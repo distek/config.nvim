@@ -11,7 +11,7 @@ table.insert(plugins, require("plugins.ui.statuscol"))
 table.insert(plugins, require("plugins.ui.statusline"))
 table.insert(plugins, require("plugins.ui.tabline"))
 table.insert(plugins, require("plugins.ui.telescope"))
--- table.insert(plugins, require("plugins.ui.trouble"))
+table.insert(plugins, require("plugins.ui.trouble"))
 table.insert(plugins, require("plugins.ui.which-key"))
 table.insert(plugins, require("plugins.ui.window-picker"))
 

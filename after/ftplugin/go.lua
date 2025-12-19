@@ -196,6 +196,7 @@ end
 
 local goTools = {
 	gomodifytags = "github.com/fatih/gomodifytags",
+	goimports = "golang.org/x/tools/cmd/goimports",
 	gopls = "golang.org/x/tools/gopls",
 	gotests = "github.com/cweill/gotests/...",
 	iferr = "github.com/koron/iferr",

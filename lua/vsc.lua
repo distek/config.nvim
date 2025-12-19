@@ -1,5 +1,47 @@
-vim.cmd([[filetype off]])
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
+local doBootstrap = false
+
+if not vim.loop.fs_stat(lazypath) then
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
+    })
+
+    doBootstrap = true
+end
+
+vim.opt.rtp:prepend(lazypath)
+
+local function insert(plugins, group)
+    for _, v in ipairs(group) do
+        table.insert(plugins, v)
+    end
+
+    return plugins
+end
+
+local function getPlugins()
+    local plugins = {}
+
+    plugins = insert(plugins, require("plugins.treesitter"))
+
+    table.insert(plugins, require("plugins.treesitter.context"))
+    table.insert(plugins, require("plugins.treesitter.textobjects"))
+    table.insert(plugins, require("plugins.treesitter.treesitter"))
+    table.insert(plugins, require("plugins.misc.fugitive"))
+    table.insert(plugins, require("plugins.misc.obsidian"))
+
+    return plugins
+end
+
+require("lazy").setup(getPlugins())
+
+vim.cmd([[filetype off]])
 vim.backspace = { "indent", "eol", "start" }
 vim.o.clipboard = "unnamedplus"
 vim.cmd([[filetype plugin indent on]])
@@ -7,7 +49,6 @@ vim.o.ignorecase = true
 vim.o.inccommand = "nosplit"
 vim.o.smartcase = true
 vim.o.startofline = false
-
 vim.o.swapfile = false
 vim.o.undodir = os.getenv("HOME") .. "/.cache/nvim/undodir"
 vim.o.undofile = true
@@ -15,12 +56,7 @@ vim.o.undofile = true
 local map = vim.keymap.set
 
 local exmap = function(mode, keys, command)
-	vim.api.nvim_set_keymap(
-		mode,
-		keys,
-		command,
-		{ noremap = true, expr = true, silent = true }
-	)
+    vim.api.nvim_set_keymap(mode, keys, command, { noremap = true, expr = true, silent = true })
 end
 
 exmap("n", "k", "v:count == 0 ? 'gk' : 'k'")
@@ -37,6 +73,3 @@ map("n", "<Esc><Esc>", ":nohl<CR>", { silent = true })
 map("n", "<Space>", "<cmd>call VSCodeNotify('whichkey.show')<cr>")
 map("v", "<Space>", "<cmd>call VSCodeNotify('whichkey.show')<cr>")
 map("x", "<Space>", "<cmd>call VSCodeNotify('whichkey.show')<cr>")
-
--- map("v", "<leader>cm", "<Plug>VSCodeCommentarygv<Esc>")
--- map("n", "<leader>cm", "<Plug>VSCodeCommentaryLine<Esc>")

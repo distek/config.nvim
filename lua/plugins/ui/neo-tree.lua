@@ -1,7 +1,6 @@
 return {
 	"nvim-neo-tree/neo-tree.nvim",
 	branch = "v3.x",
-	event = "VimEnter",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
@@ -57,6 +56,7 @@ return {
 				use_libuv_file_watcher = true,
 				hide_dotfiles = false,
 				hide_gitignore = false,
+				group_empty_dirs = true,
 				never_show = {
 					".DS_Store",
 					".vscode",

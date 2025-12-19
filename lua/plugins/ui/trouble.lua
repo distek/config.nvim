@@ -2,6 +2,7 @@ return {
 	"folke/trouble.nvim",
 	-- branch = "set-win",
 	-- dir = "~/git-clones/trouble.nvim",
+	cmd = "Trouble",
 	config = function()
 		require("trouble").setup({
 			action_keys = {

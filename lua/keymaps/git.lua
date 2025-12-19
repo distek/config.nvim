@@ -19,8 +19,8 @@ map("n", "<leader>gf", ":diffget //2<cr>", { silent = true })
 
 map("n", "<leader>gwts", function()
 	require("telescope").extensions.git_worktree.git_worktree()
-end, { desc = "Git work trees" })
+end, { desc = "Git work trees switch" })
 
 map("n", "<leader>gwtc", function()
 	require("telescope").extensions.git_worktree.create_git_worktree()
-end, { desc = "Git work trees" })
+end, { desc = "Git work trees create" })

@@ -27,3 +27,7 @@ map("n", "<leader>Li", "<cmd>Mason<CR>", { desc = "Mason" })
 map("n", "<leader>Lr", "<cmd>LspRestart<CR>", { desc = "Restart LSP" })
 map("n", "<leader>Ls", "<cmd>LspStart<CR>", { desc = "Start LSP" })
 map("n", "<leader>LS", "<cmd>LspStop<CR>", { desc = "Stop LSP" })
+
+map("n", "<leader>at", function()
+	require("trouble").open({ mode = "diagnostics" })
+end, { desc = "Trouble" })

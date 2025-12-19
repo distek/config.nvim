@@ -98,6 +98,21 @@ return {
 					},
 				},
 			},
+			disable = function(lang, bufnr)
+				local max_filesize_kb = 500 -- Set your desired maximum file size in KB
+				local max_filesize_bytes = max_filesize_kb * 1024
+
+				local filename = vim.api.nvim_buf_get_name(bufnr)
+				if filename == "" then
+					return false
+				end -- Don't disable for unnamed buffers
+
+				local ok, stats = pcall(vim.loop.fs_stat, filename)
+				if ok and stats and stats.size > max_filesize_bytes then
+					return true -- Disable if file size exceeds the limit
+				end
+				return false -- Otherwise, keep Tree-sitter enabled
+			end,
 		})
 	end,
 }

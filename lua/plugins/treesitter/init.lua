@@ -1,5 +1,6 @@
 local plugins = {}
 
+table.insert(plugins, require("plugins.treesitter.swap"))
 table.insert(plugins, require("plugins.treesitter.autotag"))
 table.insert(plugins, require("plugins.treesitter.commentstring"))
 table.insert(plugins, require("plugins.treesitter.context"))

@@ -82,7 +82,7 @@ end)
 -- Delete buffer
 map("n", "<A-q>", function()
 	if #Util.GetNormalBuffers() > 1 then
-		vim.cmd("bp")
+		vim.cmd("bn")
 		vim.cmd("bd #")
 	else
 		if #Util.GetNormalBuffers() == 1 then
