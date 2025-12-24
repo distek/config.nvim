@@ -104,6 +104,10 @@ map("n", "<Esc><Esc>", function()
 end, { silent = true })
 
 map("n", "<leader>as", function()
+	if Util.TermSessionID == 0 then
+		Util.TermInit()
+	end
+
 	require("edgy-group").open_group_index("bottom", 1)
 end, { desc = "Bottom panel" })
 

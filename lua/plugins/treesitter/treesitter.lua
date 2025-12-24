@@ -1,7 +1,7 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
-	config = function()
-		require("nvim-treesitter.configs").setup({
+	branch = 'main',
+	opts = {
 			sync_install = true,
 			ensure_installed = {
 				"bash",
@@ -113,6 +113,5 @@ return {
 				end
 				return false -- Otherwise, keep Tree-sitter enabled
 			end,
-		})
-	end,
+	}
 }

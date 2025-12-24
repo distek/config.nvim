@@ -12,9 +12,12 @@ Util.TermWin = 0
 
 local termListBufid = nil
 
-Util.TermSessionID = os.time(os.date("!*t"))
+Util.TermSessionID = 0
 
-vim.cmd("silent exec '!" .. vim.fn.expand("~") .. "/.config/tmux/minimal.sh " .. Util.TermSessionID .. "'")
+function Util.TermInit()
+	Util.TermSessionID = os.time(os.date("!*t"))
+	vim.cmd("silent exec '!" .. vim.fn.expand("~") .. "/.config/tmux/minimal.sh " .. Util.TermSessionID .. "'")
+end
 
 local function newTerm(id)
 	if Util.TermWin > 0 and vim.api.nvim_win_is_valid(Util.TermWin) then

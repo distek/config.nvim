@@ -9,4 +9,5 @@ else
 	require("utils")
 	require("keymaps")
 	require("autocmds")
+	require("filetypes")
 end

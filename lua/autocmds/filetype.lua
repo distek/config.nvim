@@ -27,3 +27,11 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 	group = ftAutos,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = {"gdscript"},
+	callback = function()
+		require("filetypes.gdscript"):StartGodotLSP()
+	end,
+	group = ftAutos
+})

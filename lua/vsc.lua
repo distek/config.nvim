@@ -1,45 +1,45 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+-- local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
-local doBootstrap = false
+-- local doBootstrap = false
 
-if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system({
-        "git",
-        "clone",
-        "--filter=blob:none",
-        "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable", -- latest stable release
-        lazypath,
-    })
+-- if not vim.loop.fs_stat(lazypath) then
+--     vim.fn.system({
+--         "git",
+--         "clone",
+--         "--filter=blob:none",
+--         "https://github.com/folke/lazy.nvim.git",
+--         "--branch=stable", -- latest stable release
+--         lazypath,
+--     })
 
-    doBootstrap = true
-end
+--     doBootstrap = true
+-- end
 
-vim.opt.rtp:prepend(lazypath)
+-- vim.opt.rtp:prepend(lazypath)
 
-local function insert(plugins, group)
-    for _, v in ipairs(group) do
-        table.insert(plugins, v)
-    end
+-- local function insert(plugins, group)
+--     for _, v in ipairs(group) do
+--         table.insert(plugins, v)
+--     end
 
-    return plugins
-end
+--     return plugins
+-- end
 
-local function getPlugins()
-    local plugins = {}
+-- local function getPlugins()
+--     local plugins = {}
 
-    plugins = insert(plugins, require("plugins.treesitter"))
+--     plugins = insert(plugins, require("plugins.treesitter"))
 
-    table.insert(plugins, require("plugins.treesitter.context"))
-    table.insert(plugins, require("plugins.treesitter.textobjects"))
-    table.insert(plugins, require("plugins.treesitter.treesitter"))
-    table.insert(plugins, require("plugins.misc.fugitive"))
-    table.insert(plugins, require("plugins.misc.obsidian"))
+--     table.insert(plugins, require("plugins.treesitter.context"))
+--     table.insert(plugins, require("plugins.treesitter.textobjects"))
+--     table.insert(plugins, require("plugins.treesitter.treesitter"))
+--     table.insert(plugins, require("plugins.misc.fugitive"))
+--     table.insert(plugins, require("plugins.misc.obsidian"))
 
-    return plugins
-end
+--     return plugins
+-- end
 
-require("lazy").setup(getPlugins())
+-- require("lazy").setup(getPlugins())
 
 vim.cmd([[filetype off]])
 vim.backspace = { "indent", "eol", "start" }
