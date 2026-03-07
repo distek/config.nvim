@@ -387,17 +387,21 @@ vim.api.nvim_create_autocmd({ "TermEnter", "WinEnter", "BufEnter" }, {
 	group = "PanelToggleTerm",
 	callback = function()
 		Util.defer(function()
-			-- vim.opt_local.mouse = ""
 			local buf = vim.api.nvim_get_current_buf()
+
 			if vim.bo[buf].filetype == "toggleterm" then
+				vim.api.nvim_win_set_option(0, "cursorline", false)
 				vim.cmd("startinsert")
 				updateBufs()
 			end
+
 			if vim.bo[buf].filetype == "termlist" then
 				local cur = Util.GetCurrentTermIdx()
+
 				if cur == nil then
 					return
 				end
+
 				vim.api.nvim_win_set_cursor(0, { cur, 0 })
 			end
 		end, 10)

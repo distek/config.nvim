@@ -86,3 +86,9 @@ map("n", "<leader>sj", require("sibling-swap").swap_with_right, { desc = "Swap p
 map("n", "<leader>sf", require("sibling-swap").swap_with_left, { desc = "Swap parameter under cursor with previous" })
 
 map("v", "<leader>qa", Util.AddVisualSelectionToQuickfix, { desc = "Add visual selection to Quickfix List" })
+
+map("n", "<leader>al", function()
+	vim.print("Running make lint...")
+	vim.cmd('cgetexpr system("make lint") | copen')
+	vim.print("")
+end, { desc = "run 'make lint' and add output to quickfix" })

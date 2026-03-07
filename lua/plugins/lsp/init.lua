@@ -2,6 +2,7 @@ local plugins = {}
 
 -- table.insert(plugins, require("plugins.lsp.ai"))
 table.insert(plugins, require("plugins.lsp.autopairs"))
+table.insert(plugins, require("plugins.lsp.vsnip"))
 table.insert(plugins, require("plugins.lsp.cmp"))
 table.insert(plugins, require("plugins.lsp.java")) -- before lspconfig
 table.insert(plugins, require("plugins.lsp.lspconfig"))

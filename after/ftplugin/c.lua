@@ -1,5 +1,7 @@
 vim.opt_local.keywordprg = ":vert Man"
 
+
+
 -- vim.api.nvim_create_autocmd({ "FileType" }, {
 -- 	pattern = { "*.c", "*.h", "*.cpp", "*.hpp" },
 -- 	callback = function()

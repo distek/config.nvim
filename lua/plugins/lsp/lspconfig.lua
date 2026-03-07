@@ -106,6 +106,7 @@ return {
 					filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
 					capabilities = capabilities,
 					handlers = handlers,
+					on_attach = on_attach,
 				}
 			end)()
 		)
@@ -119,6 +120,7 @@ return {
 				return {
 					capabilities = capabilities,
 					handlers = handlers,
+					on_attach = on_attach,
 				}
 			end)()
 		)
@@ -200,6 +202,7 @@ return {
 							},
 						},
 					},
+					on_attach = on_attach,
 				}
 			end)()
 		)
@@ -253,7 +256,7 @@ return {
 			b.formatting.prettierd.with({
 				cwd = require("null-ls.helpers").cache.by_bufnr(function(params)
 					return require("null-ls.utils").root_pattern(
-					-- https://prettier.io/docs/en/configuration.html
+						-- https://prettier.io/docs/en/configuration.html
 						"*/.prettierrc",
 						"*/.prettierrc.json",
 						"*/.prettierrc.yml",

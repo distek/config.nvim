@@ -56,7 +56,7 @@ return {
 				use_libuv_file_watcher = true,
 				hide_dotfiles = false,
 				hide_gitignore = false,
-				group_empty_dirs = true,
+				group_empty_dirs = false,
 				never_show = {
 					".DS_Store",
 					".vscode",
@@ -120,6 +120,7 @@ return {
 				"qf",
 				"Outline",
 				"edgy",
+				"help",
 			},
 		})
 	end,

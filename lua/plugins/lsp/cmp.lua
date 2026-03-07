@@ -9,6 +9,7 @@ return {
 		"hrsh7th/cmp-calc",
 		"hrsh7th/cmp-nvim-lua",
 		"uga-rosa/cmp-dictionary",
+		"hrsh7th/cmp-vsnip",
 		"hrsh7th/vim-vsnip",
 		"rafamadriz/friendly-snippets",
 		"honza/vim-snippets",
@@ -21,22 +22,27 @@ return {
 		cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
 		cmp.setup({
-			snippet = {},
+			snippet = {
+				expand = function(args)
+					vim.fn["vsnip#anonymous"](args.body)
+				end
+			},
 			formatting = {
- 				format = function(entry, vim_item)
- 					vim_item.kind = require("lspkind").symbolic(vim_item.kind, { mode = "symbol" })
- 					vim_item.menu = ({
- 						buffer = "[Buffer]",
- 						nvim_lsp = "[LSP]",
- 						nvim_lua = "[Lua]",
- 						path = "[Path]",
- 						calc = "[Calc]",
- 					})[entry.source.name]
- 					local maxwidth = 50
- 					vim_item.abbr = string.sub(vim_item.abbr, 1, maxwidth)
- 					return vim_item
- 				end,
- 			},
+				format = function(entry, vim_item)
+					vim_item.kind = require("lspkind").symbolic(vim_item.kind, { mode = "symbol" })
+					vim_item.menu = ({
+						buffer = "[Buffer]",
+						vsnip = "[Vsnip]",
+						nvim_lsp = "[LSP]",
+						nvim_lua = "[Lua]",
+						path = "[Path]",
+						calc = "[Calc]",
+					})[entry.source.name]
+					local maxwidth = 50
+					vim_item.abbr = string.sub(vim_item.abbr, 1, maxwidth)
+					return vim_item
+				end,
+			},
 			mapping = cmp.mapping.preset.insert({
 				["<C-d>"] = cmp.mapping.scroll_docs(-4),
 				["<C-f>"] = cmp.mapping.scroll_docs(4),
@@ -71,6 +77,7 @@ return {
 					keyword_length = 2,
 					options = { convert_case = true, loud = true },
 				},
+				{ name = "vsnip" },
 				{ name = "path" },
 				{ name = "calc" },
 				{ name = "dictionary" },

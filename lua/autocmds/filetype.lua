@@ -5,6 +5,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		"fugitive",
 		"scratch",
 		"help",
+		"qf",
 	},
 	callback = function()
 		vim.keymap.set("n", "q", ":close<cr>", { buffer = true, silent = true })
@@ -21,6 +22,17 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
+	pattern = {
+		"qf",
+		"fugitive",
+	},
+	callback = function(file)
+		vim.bo[file.buf].buflisted = false
+	end,
+	group = ftAutos,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "help" },
 	callback = function()
 		vim.keymap.set("n", "<CR>", "<C-]>", { silent = true, buffer = true })
@@ -29,9 +41,19 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = {"gdscript"},
+	pattern = { "gdscript" },
 	callback = function()
 		require("filetypes.gdscript"):StartGodotLSP()
 	end,
-	group = ftAutos
+	group = ftAutos,
+})
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	pattern = { "yaml" },
+	callback = function()
+		vim.opt_local.expandtab = true
+		vim.opt_local.tabstop = 2
+		vim.opt_local.shiftwidth = 2
+		vim.opt_local.softtabstop = 0
+	end,
 })
