@@ -13,6 +13,17 @@ vim.api.nvim_create_autocmd("FileType", {
 	group = ftAutos,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = {
+		"oil",
+	},
+	callback = function()
+		vim.keymap.set("n", "q", ":bd<cr>", { buffer = true, silent = true })
+		vim.api.nvim_win_set_width(0, math.floor(vim.o.columns * 0.75))
+	end,
+	group = ftAutos,
+})
+
 vim.api.nvim_create_autocmd("BufEnter", {
 	pattern = { "*.md" },
 	callback = function()

@@ -1,43 +1,10 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
-	branch = 'main',
-	opts = {
+	branch = "main",
+	config = function()
+		require("nvim-treesitter").setup({
 			sync_install = true,
-			ensure_installed = {
-				"bash",
-				"c",
-				"cpp",
-				"css",
-				"diff",
-				"git_rebase",
-				"gitattributes",
-				"gitcommit",
-				"gitignore",
-				"go",
-				"gomod",
-				"html",
-				"ini",
-				"javascript",
-				"jq",
-				"jsonc",
-				"lua",
-				"make",
-				"markdown",
-				"markdown_inline",
-				"python",
-				"regex",
-				"rust",
-				"scss",
-				"sql",
-				"svelte",
-				"swift",
-				"terraform",
-				"todotxt",
-				"tsx",
-				"typescript",
-				"vim",
-				"yaml",
-			},
+			install_dir = vim.fn.stdpath("data") .. "/site",
 			highlight = {
 				enable = true,
 				additional_vim_regex_highlighting = { "sql" },
@@ -53,7 +20,6 @@ return {
 			textobjects = {
 				-- syntax-aware textobjects
 				select = {
-
 					enable = true,
 					keymaps = {
 						-- or you use the queries from supported languages with textobjects.scm
@@ -113,5 +79,41 @@ return {
 				end
 				return false -- Otherwise, keep Tree-sitter enabled
 			end,
-	}
+		})
+
+		require("nvim-treesitter").install({
+			"bash",
+			"c",
+			"cpp",
+			"css",
+			"diff",
+			"git_rebase",
+			"gitattributes",
+			"gitcommit",
+			"gitignore",
+			"go",
+			"gomod",
+			"html",
+			"ini",
+			"javascript",
+			"jq",
+			"lua",
+			"make",
+			"markdown",
+			"markdown_inline",
+			"python",
+			"regex",
+			"rust",
+			"scss",
+			"sql",
+			"svelte",
+			"swift",
+			"terraform",
+			"todotxt",
+			"tsx",
+			"typescript",
+			"vim",
+			"yaml",
+		})
+	end,
 }

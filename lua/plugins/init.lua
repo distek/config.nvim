@@ -4,8 +4,8 @@ local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 local doBootstrap = false
 
 if vim.loop.fs_stat(lazypath) == nil then
-    vim.print("Boostrapping lazy")
-    vim.system({"mkdir", "-p", lazypath}):wait()
+	vim.print("Boostrapping lazy")
+	vim.system({ "mkdir", "-p", lazypath }):wait()
 	vim.system({
 		"git",
 		"clone",
@@ -13,9 +13,9 @@ if vim.loop.fs_stat(lazypath) == nil then
 		"https://github.com/folke/lazy.nvim.git",
 		"--branch=stable", -- latest stable release
 		lazypath,
-	}, {text = true}, function(obj)
-        vim.print(obj)
-    end):wait()
+	}, { text = true }, function(obj)
+		vim.print(obj)
+	end):wait()
 
 	doBootstrap = true
 end
@@ -57,7 +57,14 @@ local function bootstrap()
 	return false
 end
 
-require("lazy").setup(getPlugins())
+require("lazy").setup({
+	readme = {
+		enabled = false,
+	},
+	spec = {
+		getPlugins(),
+	},
+})
 
 if bootstrap() then
 	local ensure_installed = {

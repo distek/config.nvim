@@ -92,3 +92,6 @@ map("n", "<leader>al", function()
 	vim.cmd('cgetexpr system("make lint") | copen')
 	vim.print("")
 end, { desc = "run 'make lint' and add output to quickfix" })
+
+map("n", "<C-I>", "<C-I>", { noremap = true })
+map("n", "<C-M>", "<C-M>", { noremap = true })

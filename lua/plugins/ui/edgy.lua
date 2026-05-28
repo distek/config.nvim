@@ -44,19 +44,29 @@ return {
 			},
 			top = {},
 			left = {
-				{
-					title = "Files",
-					ft = "neo-tree",
-					filter = function(buf)
-						return vim.b[buf].neo_tree_source == "filesystem"
-					end,
-					size = { height = 0.75 },
-					open = "Neotree position=left filesystem",
-					wo = {
-						winhighlight = "Normal:NormalDark",
-						winbar = " Files",
-					},
-				},
+				-- {
+				-- 	title = "Files",
+				-- 	ft = "oil",
+				-- 	size = { height = 0.75 },
+				-- 	open = "Oil",
+				-- 	wo = {
+				-- 		winhighlight = "Normal:NormalDark",
+				-- 		winbar = " Files",
+				-- 	},
+				-- },
+				-- {
+				-- 	title = "Files",
+				-- 	ft = "neo-tree",
+				-- 	filter = function(buf)
+				-- 		return vim.b[buf].neo_tree_source == "filesystem"
+				-- 	end,
+				-- 	size = { height = 0.75 },
+				-- 	open = "Neotree position=left filesystem",
+				-- 	wo = {
+				-- 		winhighlight = "Normal:NormalDark",
+				-- 		winbar = " Files",
+				-- 	},
+				-- },
 				{
 					ft = "dapui_scopes",
 					title = "Scopes",

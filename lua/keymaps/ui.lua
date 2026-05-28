@@ -20,7 +20,11 @@ end)
 
 map("n", "<A-f>", function()
 	require("mini.misc").zoom(0, {
+		row = 0,
+		col = math.floor(vim.o.columns * 0.15),
+
 		height = vim.o.lines - vim.o.cmdheight - 1,
+		width = math.floor(vim.o.columns * 0.70),
 	})
 end, { desc = "Zoom pane" })
 
@@ -28,7 +32,11 @@ map("t", "<A-f>", function()
 	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, true, true), "n", false)
 	Util.defer(function()
 		require("mini.misc").zoom(0, {
+			row = 0,
+			col = math.floor(vim.o.columns * 0.15),
+
 			height = vim.o.lines - vim.o.cmdheight - 1,
+			width = math.floor(vim.o.columns * 0.70),
 		})
 		vim.cmd("silent startinsert!")
 	end, 1)
@@ -81,6 +89,11 @@ end)
 
 -- Delete buffer
 map("n", "<A-q>", function()
+	if vim.bo[0].filetype == "oil" then
+		require("oil").close()
+		return
+	end
+
 	if #Util.GetNormalBuffers() > 1 then
 		vim.cmd("bn")
 		vim.cmd("bd #")
@@ -116,7 +129,8 @@ map("t", "<localleader>as", function()
 end, { desc = "Bottom panel" })
 
 map({ "n" }, "<leader>ad", function()
-	require("edgy-group").open_group_index("left", 1)
+	require("oil").open(nil, { preview = {} })
+	-- require("edgy-group").open_group_index("left", 1)
 end, { desc = "Left panel" })
 
 map({ "n" }, "<leader>af", function()

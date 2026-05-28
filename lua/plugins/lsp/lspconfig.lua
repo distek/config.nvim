@@ -17,10 +17,10 @@ return {
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 		end
 
-		local handlers = {
-			["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "single" }),
-			["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "single" }),
-		}
+		--		local handlers = {
+		--			["textDocument/hover"] = vim.lsp.buf.with(vim.lsp.handlers.hover, { border = "single" }),
+		--			["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "single" }),
+		--		}
 
 		vim.diagnostic.config({
 			virtual_text = {
@@ -63,7 +63,7 @@ return {
 
 		-- add to your shared on_attach callback
 		local on_attach = function(client, bufnr)
-			if client.supports_method("textDocument/formatting") then
+			if client:supports_method("textDocument/formatting") then
 				vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
 				vim.api.nvim_create_autocmd("BufWritePre", {
 					group = augroup,
@@ -76,12 +76,14 @@ return {
 		end
 
 		vim.lsp.config("*", {
-			root_markers = { ".git" },
+			root_markers = { ".git", "main.*", "go.mod" },
 			on_attach = on_attach,
 		})
+
 		vim.lsp.config("buf_ls", {
 			filetypes = { "proto" },
 		})
+
 		vim.lsp.enable("buf_ls")
 		-- vim.lsp.enable("llm-ls")
 
@@ -105,7 +107,7 @@ return {
 					},
 					filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
 					capabilities = capabilities,
-					handlers = handlers,
+					-- handlers = handlers,
 					on_attach = on_attach,
 				}
 			end)()
@@ -119,7 +121,7 @@ return {
 				capabilities.textDocument.completion.completionItem.snippetSupport = true
 				return {
 					capabilities = capabilities,
-					handlers = handlers,
+					-- handlers = handlers,
 					on_attach = on_attach,
 				}
 			end)()
@@ -181,7 +183,7 @@ return {
 							},
 						},
 					},
-					handlers = handlers,
+					-- handlers = handlers,
 				}
 			end)()
 		)
@@ -223,7 +225,7 @@ return {
 		-- 		settings = {
 		-- 			documentFormatting = false,
 		-- 		},
-		-- 		handlers = handlers,
+		-- 		-- handlers = handlers,
 		-- 	})
 		-- end,
 
@@ -240,7 +242,7 @@ return {
 		require("mason-null-ls").setup({
 			automatic_installation = false,
 			automatic_setup = true, -- Recommended, but optional
-			handlers = handlers,
+			-- handlers = handlers,
 		})
 		local null_ls = require("null-ls")
 

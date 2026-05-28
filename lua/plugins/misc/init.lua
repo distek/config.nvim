@@ -9,7 +9,7 @@ table.insert(plugins, require("plugins.misc.harpoon"))
 table.insert(plugins, require("plugins.misc.mini-misc"))
 table.insert(plugins, require("plugins.misc.neotest"))
 -- table.insert(plugins, require("plugins.misc.obsidian"))
-table.insert(plugins, require("plugins.misc.refactoring"))
+-- table.insert(plugins, require("plugins.misc.refactoring"))
 table.insert(plugins, require("plugins.misc.undotree"))
 
 return plugins

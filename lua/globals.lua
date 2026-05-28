@@ -62,7 +62,6 @@ vim.o.splitright = true
 vim.o.splitbelow = true
 vim.o.startofline = false
 vim.o.swapfile = false
-vim.o.syntax = "off"
 vim.o.tabstop = 4
 vim.o.termguicolors = true
 vim.o.timeoutlen = 250

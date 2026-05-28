@@ -4,12 +4,10 @@ local lspAutos = vim.api.nvim_create_augroup("lspAutos", { clear = true })
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = { "*" },
 	callback = function()
-		local ft = vim.bo[0].filetype
-		if ft == "typescript" or ft == "typescriptreact" or ft == "java" then
-			return
-		end
 		local view = vim.fn.winsaveview()
-		vim.lsp.buf.format({ async = false })
+		vim.lsp.buf.format({
+			async = false,
+		})
 		vim.fn.winrestview(view)
 	end,
 	group = lspAutos,
