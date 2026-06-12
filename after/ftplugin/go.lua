@@ -34,6 +34,22 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 	group = goGroup,
 })
 
+vim.api.nvim_create_autocmd("BufWritePre", {
+	pattern = "*.go",
+	callback = function()
+		local filepath = vim.fn.expand("%:p")
+		vim.fn.jobstart({ "goimports", "-local", "local", "-w", filepath }, {
+			on_exit = function(_, exit_code)
+				if exit_code == 0 then
+					vim.schedule(function()
+						vim.cmd("checktime")
+					end)
+				end
+			end,
+		})
+	end,
+})
+
 local function getGoBin()
 	return vim.fn.systemlist("go env GOBIN")[1]
 end

@@ -89,10 +89,10 @@ end)
 
 -- Delete buffer
 map("n", "<A-q>", function()
-	if vim.bo[0].filetype == "oil" then
-		require("oil").close()
-		return
-	end
+	-- if vim.bo[0].filetype == "oil" then
+	-- 	require("oil").close()
+	-- 	return
+	-- end
 
 	if #Util.GetNormalBuffers() > 1 then
 		vim.cmd("bn")
@@ -129,8 +129,8 @@ map("t", "<localleader>as", function()
 end, { desc = "Bottom panel" })
 
 map({ "n" }, "<leader>ad", function()
-	require("oil").open(nil, { preview = {} })
-	-- require("edgy-group").open_group_index("left", 1)
+	-- require("oil").open(nil, { preview = {} })
+	require("edgy-group").open_group_index("left", 1)
 end, { desc = "Left panel" })
 
 map({ "n" }, "<leader>af", function()

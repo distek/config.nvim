@@ -22,7 +22,7 @@ return {
 	name = "catppuccin",
 	config = function()
 		require("catppuccin").setup({
-			flavour = "frappe",
+			flavour = "mocha",
 			term_colors = true,
 			auto_integrations = false,
 			integrations = {
